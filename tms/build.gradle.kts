@@ -23,12 +23,7 @@ repositories {
 }
 
 loom {
-    splitEnvironmentSourceSets()
-    mods {
-        create("too-many-shortcuts") {
-            sourceSet("main")
-        }
-    }
+    accessWidenerPath.set(file("src/main/resources/too-many-shortcuts.accesswidener"))
 }
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
@@ -37,7 +32,9 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
-    modImplementation(project(":tms-api"))
+    modImplementation(project(":tms-api")) {
+        exclude(group="net.fabricmc.fabric-api")
+    }
 }
 
 tasks {
