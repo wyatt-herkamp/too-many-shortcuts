@@ -10,8 +10,8 @@
 	],
 	"contributors": [],
 	"contact": {
-		"issues": "https://github.com/wyatt-herkamp/too-many-shortcuts/issues",
-		"sources": "https://github.com/wyatt-herkamp/too-many-shortcuts"
+		"issues": "${source_url}/issues",
+		"sources": "${source_url}"
 	},
 	"license": "Apache-2.0",
 	"icon": "assets/amecsapi/icon.png",

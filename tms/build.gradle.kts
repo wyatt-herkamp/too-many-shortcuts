@@ -32,7 +32,7 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
-    modImplementation(project(":tms-api")) {
+    compileOnly(project(":tms-api")) {
         exclude(group="net.fabricmc.fabric-api")
     }
 
