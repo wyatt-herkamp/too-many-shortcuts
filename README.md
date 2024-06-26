@@ -1,4 +1,7 @@
 # Too Many Shortcuts
+[![](https://dcbadge.limes.pink/api/server/sVfVTh4wTc)](https://discord.gg/sVfVTh4wTc)
+
+
 A Fork of [Amecs](https://github.com/Siphalor/amecs), [Amecs-API](https://github.com/Siphalor/amecs-api), and [Nmuk](https://github.com/Siphalor/nmuk)
 
 ## Requirements
