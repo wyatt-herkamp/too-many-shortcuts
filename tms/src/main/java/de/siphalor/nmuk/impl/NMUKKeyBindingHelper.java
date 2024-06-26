@@ -22,6 +22,7 @@ import com.google.common.collect.Multimaps;
 import de.siphalor.amecs.mixin.EntryListWidgetAccessor;
 import de.siphalor.amecs.mixin.GameOptionsAccessor;
 import de.siphalor.amecs.mixin.KeybindsScreenAccessor;
+import dev.kingtux.tms.TooManyShortcuts;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -31,6 +32,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.lang.reflect.Constructor;
@@ -43,7 +45,6 @@ import java.util.List;
 @ApiStatus.Internal
 public class NMUKKeyBindingHelper {
 	public static final Multimap<KeyBinding, KeyBinding> defaultAlternatives = Multimaps.newSetMultimap(new HashMap<>(), HashSet::new);
-	private static final boolean isAmecsLoaded = FabricLoader.getInstance().isModLoaded("amecsapi");
 
 	public static void removeKeyBinding(KeyBinding binding) {
 		GameOptionsAccessor options = (GameOptionsAccessor) MinecraftClient.getInstance().options;
@@ -84,7 +85,7 @@ public class NMUKKeyBindingHelper {
 
 	public static void resetSingleKeyBinding(KeyBinding keyBinding) {
 		keyBinding.setBoundKey(keyBinding.getDefaultKey());
-		if (isAmecsLoaded) {
+		if (TooManyShortcuts.INSTANCE.isAPIInstalled()) {
 			AmecsProxy.resetKeyModifiers(keyBinding);
 		}
 	}
@@ -121,7 +122,7 @@ public class NMUKKeyBindingHelper {
 			constructor.setAccessible(true);
 			return constructor.newInstance(listWidget, binding, text);
 		} catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
-			e.printStackTrace();
+			TooManyShortcuts.INSTANCE.log(Level.ERROR, "Failed to create keybinding entry: "+ binding.getTranslationKey() +"Error: " +e.getMessage());
 		}
 		return null;
 	}

@@ -5,15 +5,15 @@
 	"name": "Too Many Shortcuts",
 	"description": "A lot of keybind utilities",
 	"authors": [
-		"Siphalor"
+		"Siphalor",
+		"KingTux"
 	],
 	"contributors": [],
 	"contact": {
-		"homepage": "https://www.curseforge.com/minecraft/mc-mods/amecs",
-		"issues": "https://github.com/Siphalor/amecs/issues",
-		"sources": "https://github.com/Siphalor/amecs"
+		"issues": "${source_url}/issues",
+		"sources": "${source_url}"
 	},
-	"license": "CC0-1.0",
+	"license": "Apache-2.0",
 	"icon": "assets/amecs/logo.png",
 	"environment": "client",
 	"entrypoints": {
@@ -31,8 +31,9 @@
 	],
 	"accessWidener" : "too-many-shortcuts.accesswidener",
 	"depends": {
-		"fabricloader": ">=0.4.0",
-		"fabric": "*"
+		"fabricloader": ">=0.15.0",
+		"fabric": "*",
+		"too-many-shortcuts-api": "*"
 	},
 	"custom": {
 		"modmenu:clientsideOnly": true

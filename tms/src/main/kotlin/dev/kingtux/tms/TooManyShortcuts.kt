@@ -8,6 +8,7 @@ import de.siphalor.amecs.keybinding.ToggleAutoJumpKeyBinding
 import de.siphalor.amecs.mixin.ControlsListWidgetKeyBindingEntryAccessor
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.gui.screen.option.ControlsListWidget
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
@@ -25,6 +26,7 @@ import java.util.*
 
 object TooManyShortcuts : ClientModInitializer {
     const val MOD_ID = "too-many-shortcuts"
+    const val API_MOD_ID = "too-many-shortcuts-api"
 
     const val MOD_NAME = "Too Many Shortcuts"
     const val SKIN_LAYER_CATEGORY: String = "$MOD_ID.key.categories.skin_layers"
@@ -88,6 +90,9 @@ object TooManyShortcuts : ClientModInitializer {
                 keyFilter
             )
         }
+    }
+    fun isAPIInstalled(): Boolean {
+        return FabricLoader.getInstance().isModLoaded(API_MOD_ID)
     }
 
     fun log(level: Level?, message: String) {

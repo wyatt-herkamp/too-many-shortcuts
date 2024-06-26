@@ -1,0 +1,20 @@
+{
+
+	"too-many-shortcuts.key.categories.skin_layers": "Amecs Skin Layers",
+	"key.too-many-shortcuts.toggle_auto_jump": "Toggle Auto Jump",
+	"key.too-many-shortcuts.toggle_cape": "Toggle Cape",
+	"key.too-many-shortcuts.toggle_hat": "Toggle Hat",
+	"key.too-many-shortcuts.toggle_jacket": "Toggle Jacket",
+	"key.too-many-shortcuts.toggle_left_pants_leg": "Toggle Left Pants Leg",
+	"key.too-many-shortcuts.toggle_left_sleeve": "Toggle Left Sleeve",
+	"key.too-many-shortcuts.toggle_right_pants_leg": "Toggle Right Pants Leg",
+	"key.too-many-shortcuts.toggle_right_sleeve": "Toggle Right Sleeve",
+	"key.too-many-shortcuts.alternative_escape": "Escape (Alternative Key)",
+
+	"amecs.toggled.on": "Enabled %s",
+	"amecs.toggled.off": "Disabled %s",
+	"amecs.toggled.auto_jump": "Auto Jump",
+
+	"amecs.search.placeholder": "Search... (= to search by key, =%% for conflicts)",
+	"amecs.search.no_results": "No results found"
+}

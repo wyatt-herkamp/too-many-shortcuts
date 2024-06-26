@@ -7,7 +7,7 @@ plugins {
 }
 
 group = property("maven_group")!!
-version = property("mod_version")!!
+version  = "${property("mod_version")}+mc.${property("minecraft_version")}"
 
 repositories {
     exclusiveContent {
@@ -35,6 +35,7 @@ dependencies {
     modImplementation(project(":tms-api")) {
         exclude(group="net.fabricmc.fabric-api")
     }
+
 }
 
 tasks {
@@ -74,9 +75,13 @@ tasks {
 
 }
 
+kotlin{
+    jvmToolchain(21)
+}
+
 java {
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
+    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_21
     withSourcesJar()
+    withJavadocJar()
 }

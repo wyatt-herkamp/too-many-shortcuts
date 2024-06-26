@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "tms-api",
+	"id": "too-many-shortcuts-api",
 	"version": "${version}",
 	"name": "Too Many Shortcuts API",
 	"description": "The keybinding modifier API of Amecs",
@@ -9,7 +9,10 @@
 		"Klotzi111"
 	],
 	"contributors": [],
-	"contact": {},
+	"contact": {
+		"issues": "https://github.com/wyatt-herkamp/too-many-shortcuts/issues",
+		"sources": "https://github.com/wyatt-herkamp/too-many-shortcuts"
+	},
 	"license": "Apache-2.0",
 	"icon": "assets/amecsapi/icon.png",
 	"environment": "client",
@@ -20,9 +23,9 @@
 		],
 		"server": []
 	},
-	"accessWidener": "amecsapi.accesswidener",
+	"accessWidener": "too-many-shortcuts-api.accesswidener",
 	"mixins": [
-		"amecsapi.mixins.json"
+		"too-many-shortcuts-api.json"
 	],
 	"custom": {
 		"modmenu:api": true,
@@ -33,12 +36,11 @@
 		}
 	},
 	"depends": {
-		"fabricloader": ">=0.4.0",
+		"fabricloader": ">=0.15.0",
 		"fabric-api-base": ">=0.4",
 		"fabric-key-binding-api-v1": "^1.0.5",
 		"fabric-resource-loader-v0": "*"
 	},
 	"conflicts": {
-		"nmuk": "<=1.0.999"
 	}
 }
