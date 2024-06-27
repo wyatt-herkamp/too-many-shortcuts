@@ -44,7 +44,7 @@ import java.util.List;
 @Mixin(ControlsListWidget.KeyBindingEntry.class)
 public abstract class MixinKeyBindingEntry {
 	private static final Text ENTRY_NAME = Text.literal("    ->");
-	private static final Text RESET_TOOLTIP = Text.translatable("nmuk.options.controls.reset.tooltip");
+	private static final Text RESET_TOOLTIP = Text.translatable("too_many_shortcuts.options.controls.reset.tooltip");
 
 	@Shadow
 	@Final

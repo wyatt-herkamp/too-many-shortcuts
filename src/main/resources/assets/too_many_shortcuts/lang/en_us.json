@@ -31,5 +31,7 @@
 	"too_many_shortcuts.modifier.control.tiny": "C",
 	"too_many_shortcuts.modifier.shift": "Shift",
 	"too_many_shortcuts.modifier.shift.short": "Shft",
-	"too_many_shortcuts.modifier.shift.tiny": "S"
+	"too_many_shortcuts.modifier.shift.tiny": "S",
+
+	"too_many_shortcuts.options.controls.reset.tooltip": "Hold Shift to reset all alternatives as well"
 }
