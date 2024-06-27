@@ -23,7 +23,7 @@ repositories {
 }
 
 loom {
-    accessWidenerPath.set(file("src/main/resources/too-many-shortcuts.accesswidener"))
+    accessWidenerPath.set(file("src/main/resources/too_many_shortcuts.accesswidener"))
 }
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")

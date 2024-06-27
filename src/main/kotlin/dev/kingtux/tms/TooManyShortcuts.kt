@@ -24,12 +24,12 @@ import org.apache.logging.log4j.Logger
 import java.util.*
 
 object TooManyShortcuts : ClientModInitializer {
-    const val MOD_ID = "too-many-shortcuts"
+    const val MOD_ID = "too_many_shortcuts"
 
     const val MOD_NAME = "Too Many Shortcuts"
     const val SKIN_LAYER_CATEGORY: String = "$MOD_ID.key.categories.skin_layers"
 
-    val LOGGER: Logger = LogManager.getLogger("Too Many Shortcuts")
+    val LOGGER: Logger = LogManager.getLogger(MOD_NAME)
     const val TRIGGER_KEYBINDING_ON_SCROLL: Boolean = true
 
     val CURRENT_MODIFIERS: KeyModifiers = KeyModifiers()
@@ -73,7 +73,7 @@ object TooManyShortcuts : ClientModInitializer {
     }
 
     fun sendToggleMessage(playerEntity: PlayerEntity, value: Boolean, option: Text?) {
-        playerEntity.sendMessage(Text.translatable("amecs.toggled." + (if (value) "on" else "off"), option), true)
+        playerEntity.sendMessage(Text.translatable("too_many_shortcuts.toggled." + (if (value) "on" else "off"), option), true)
     }
 
     fun entryKeyMatches(entry: ControlsListWidget.KeyBindingEntry, keyFilter: String?): Boolean {
@@ -102,7 +102,7 @@ object TooManyShortcuts : ClientModInitializer {
         return ESCAPE_KEYBINDING
     }
     fun makeKeyID(keyName: String): String {
-        return "key." + MOD_NAME + "." + keyName
+        return "key.$MOD_NAME.$keyName"
     }
 
 }

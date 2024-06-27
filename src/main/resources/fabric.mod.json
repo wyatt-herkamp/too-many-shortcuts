@@ -1,6 +1,6 @@
 {
 	"schemaVersion": 1,
-	"id": "too-many-shortcuts",
+	"id": "too_many_shortcuts",
 	"version": "${version}",
 	"name": "Too Many Shortcuts",
 	"description": "A lot of keybind utilities",
@@ -28,10 +28,10 @@
 	},
 	"mixins": [
 		"amecs.mixins.json",
+		"too_many_shortcuts.json",
 		"amecs-api.mixins.json"
-
 	],
-	"accessWidener" : "too-many-shortcuts.accesswidener",
+	"accessWidener" : "too_many_shortcuts.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.15.0",
 		"fabric": "*"
