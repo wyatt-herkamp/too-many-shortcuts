@@ -77,6 +77,7 @@ public class MixinKeyBindingEntry {
 			}).size(20, 20).build();
 		} else {
 			alternativesButton = ButtonWidget.builder(Text.literal("+"), button -> {
+				System.out.println("Button pressed");
 				KeyBinding altBinding = NMUKKeyBindingHelper.createAlternativeKeyBinding(binding);
 				NMUKKeyBindingHelper.registerKeyBinding(altBinding);
 				ControlsListWidget.KeyBindingEntry altEntry = NMUKKeyBindingHelper.createKeyBindingEntry(outer, altBinding, Text.literal("..."));
