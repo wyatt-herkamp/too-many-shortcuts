@@ -2,16 +2,12 @@
 	"required": true,
 	"package": "de.siphalor.api.impl.mixin",
 	"compatibilityLevel": "JAVA_21",
-	"plugin": "de.siphalor.api.impl.mixin.AmecsAPIMixinConfig",
 	"mixins": [],
 	"client": [
 		"MixinKeybindsScreen",
-		"MixinInputUtilType",
 		"MixinKeyBinding",
 		"MixinKeyBindingEntry",
-		"MixinKeyboard",
-		"MixinMinecraftClient",
-		"MixinMouse"
+		"MixinMinecraftClient"
 	],
 	"server": [],
 	"injectors": {

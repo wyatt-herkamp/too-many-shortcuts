@@ -1,4 +1,4 @@
-package dev.kingtux.tms.mixin.layout;
+package dev.kingtux.tms.mlayout;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
