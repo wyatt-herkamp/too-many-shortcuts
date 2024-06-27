@@ -1,0 +1,6 @@
+accessWidener v1 named
+accessible class net/minecraft/client/gui/widget/EntryListWidget$Entry
+extendable method net/minecraft/client/gui/screen/option/ControlsListWidget$Entry update ()V
+
+accessible	method	net/minecraft/client/util/InputUtil$Type	mapKey	(Lnet/minecraft/client/util/InputUtil$Type;Ljava/lang/String;I)V
+accessible	field	net/minecraft/client/util/InputUtil$Key	KEYS	Ljava/util/Map;

@@ -1,0 +1,35 @@
+{
+
+	"tms.key.categories.skin_layers": "Amecs Skin Layers",
+	"key.tms.toggle_auto_jump": "Toggle Auto Jump",
+	"key.tms.toggle_cape": "Toggle Cape",
+	"key.tms.toggle_hat": "Toggle Hat",
+	"key.tms.toggle_jacket": "Toggle Jacket",
+	"key.tms.toggle_left_pants_leg": "Toggle Left Pants Leg",
+	"key.tms.toggle_left_sleeve": "Toggle Left Sleeve",
+	"key.tms.toggle_right_pants_leg": "Toggle Right Pants Leg",
+	"key.tms.toggle_right_sleeve": "Toggle Right Sleeve",
+	"key.tms.alternative_escape": "Escape (Alternative Key)",
+
+	"tms.toggled.on": "Enabled %s",
+	"tms.toggled.off": "Disabled %s",
+	"tms.toggled.auto_jump": "Auto Jump",
+
+	"tms.search.placeholder": "Search... (= to search by key, =%% for conflicts)",
+	"tms.search.no_results": "No results found",
+
+	"key.tms.mouse.scroll.up": "Scroll Up",
+	"key.amecsapi.mouse.scroll.down": "Scroll Down",
+	"key.amecsapi.mouse.scroll.left": "Scroll Left",
+	"key.amecsapi.mouse.scroll.right": "Scroll Right",
+
+	"tms.modifier.alt": "Alt",
+	"tms.modifier.alt.short": "Alt",
+	"tms.modifier.alt.tiny": "A",
+	"tms.modifier.control": "Control",
+	"tms.modifier.control.short": "Ctrl",
+	"tms.modifier.control.tiny": "C",
+	"tms.modifier.shift": "Shift",
+	"tms.modifier.shift.short": "Shft",
+	"tms.modifier.shift.tiny": "S"
+}
