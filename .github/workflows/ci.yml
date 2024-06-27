@@ -23,5 +23,4 @@ jobs:
           # Optional. Default is 'artifact'
           name: mod
           path: |
-            tms/build/libs/*.jar
-            tms-api/build/libs/*.jar
+            build/libs/*.jar

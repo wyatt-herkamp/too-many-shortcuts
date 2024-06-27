@@ -1,0 +1,22 @@
+{
+	"required": true,
+	"package": "de.siphalor.amecs.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"ControlsListWidgetKeyBindingEntryAccessor"
+	],
+	"client": [
+    	"EntryListWidgetAccessor",
+    	"GameOptionsAccessor",
+    	"KeyBindingAccessor",
+    	"KeybindsScreenAccessor",
+    	"MixinEntryListWidget",
+    	"MixinGameOptions",
+    	"MixinKeyBinding",
+    	"MixinKeyBindingEntry"
+	],
+	"server": [],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

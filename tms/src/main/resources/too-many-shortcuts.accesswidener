@@ -1,3 +1,0 @@
-accessWidener v1 named
-accessible class net/minecraft/client/gui/widget/EntryListWidget$Entry
-extendable method net/minecraft/client/gui/screen/option/ControlsListWidget$Entry update ()V
