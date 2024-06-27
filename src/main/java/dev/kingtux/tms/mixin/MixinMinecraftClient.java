@@ -16,21 +16,23 @@
 
 package dev.kingtux.tms.mixin;
 
-import dev.kingtux.tms.api.scroll.ScrollKey;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.util.InputUtil;
+import dev.kingtux.tms.api.input.InputHandlerManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+
 @Environment(EnvType.CLIENT)
-@Mixin(InputUtil.Type.class)
-public abstract class MixinInputUtilType {
-	@SuppressWarnings("UnresolvedMixinReference")
-	@Inject(method = "<clinit>", at = @At("RETURN"))
-	private static void onRegisterKeyCodes(CallbackInfo callbackInfo) {
-		ScrollKey.Companion.registerMouseScrollKeys();
+@Mixin(value = MinecraftClient.class, priority = 50)
+public abstract class MixinMinecraftClient {
+
+	@Inject(method = "handleInputEvents()V", at = @At(value = "HEAD"))
+	private void handleInputEvents(CallbackInfo ci) {
+		InputHandlerManager.handleInputEvents((MinecraftClient) (Object) this);
 	}
+
 }

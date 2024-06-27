@@ -1,8 +1,8 @@
 package dev.kingtux.tms.mixin;
 
-import de.siphalor.amecs.api.KeyModifier;
-import de.siphalor.api.impl.KeyBindingManager;
+import de.siphalor.amecs.KeyBindingManager;
 import dev.kingtux.tms.TooManyShortcuts;
+import dev.kingtux.tms.api.modifiers.KeyModifier;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Keyboard;
@@ -56,6 +56,6 @@ public class MixinKeyboard {
             screen.lastKeyCodeUpdateTime = Util.getMeasuringTimeMs();
         }
 
-        TooManyShortcuts.INSTANCE.getCurrentModifiers().set(KeyModifier.fromKeyCode(InputUtil.fromKeyCode(key, scanCode).getCode()), action != 0);
+        TooManyShortcuts.INSTANCE.getCurrentModifiers().set(KeyModifier.Companion.fromKeyCode(InputUtil.fromKeyCode(key, scanCode).getCode()), action != 0);
     }
 }

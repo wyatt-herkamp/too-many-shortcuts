@@ -27,9 +27,7 @@
 		"server": []
 	},
 	"mixins": [
-		"amecs.mixins.json",
-		"too_many_shortcuts.json",
-		"amecs-api.mixins.json"
+		"too_many_shortcuts.json"
 	],
 	"accessWidener" : "too_many_shortcuts.accesswidener",
 	"depends": {

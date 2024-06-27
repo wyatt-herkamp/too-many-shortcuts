@@ -13,29 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package dev.kingtux.tms.api.input
 
-package de.siphalor.amecs.api.input;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.MinecraftClient
 
 /**
- * This interface is used for input event handling and is (un-)registered in {@link InputHandlerManager}
+ * This interface is used for input event handling and is (un-)registered in [InputHandlerManager]
  *
- * @see #handleInput
+ * @see .handleInput
+ *
  * @see InputHandlerManager
  */
 @Environment(EnvType.CLIENT)
-public interface InputEventHandler {
-
-	/**
-	 * This method is called from {@link InputHandlerManager#handleInputEvents(MinecraftClient)}
-	 *
-	 * @see InputHandlerManager#handleInputEvents(MinecraftClient)
-	 *
-	 * @param client
-	 */
-	public void handleInput(MinecraftClient client);
-
+interface InputEventHandler {
+    /**
+     * This method is called from [InputHandlerManager.handleInputEvents]
+     *
+     * @see InputHandlerManager.handleInputEvents
+     * @param client
+     */
+    fun handleInput(client: MinecraftClient?)
 }

@@ -1,8 +1,8 @@
 package de.siphalor.amecs.gui;
 
-import de.siphalor.amecs.compat.NMUKProxy;
-import de.siphalor.api.impl.duck.IKeyBindingEntry;
 import dev.kingtux.tms.TooManyShortcuts;
+import dev.kingtux.tms.mlayout.IKeyBinding;
+import dev.kingtux.tms.mlayout.IKeyBindingEntry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -32,7 +32,7 @@ public class SearchFieldControlsListWidget extends ControlsListWidget.Entry {
 	private final TextFieldWidget textFieldWidget;
 
 	private int lastEntryCount = 0;
-	private final Set<ControlsListWidget.KeyBindingEntry> entries = new TreeSet<>(Comparator.comparing(o -> ((IKeyBindingEntry) o).amecs$getKeyBinding()));
+	private final Set<ControlsListWidget.KeyBindingEntry> entries = new TreeSet<>(Comparator.comparing(o -> ((IKeyBindingEntry) o).tms$getKeyBinding()));
 
 	public SearchFieldControlsListWidget(MinecraftClient client) {
 		minecraft = client;
@@ -121,14 +121,14 @@ public class SearchFieldControlsListWidget extends ControlsListWidget.Entry {
 			boolean includeCat = false;
 			lastEntryCount = 1;
 			for (ControlsListWidget.KeyBindingEntry entry : entries) {
-				KeyBinding binding = ((IKeyBindingEntry) entry).amecs$getKeyBinding();
-				if (nmuk && lastMatched && NMUKProxy.isAlternative(binding)) {
+				IKeyBinding binding = (IKeyBinding)((IKeyBindingEntry) entry).tms$getKeyBinding();
+				if (nmuk && lastMatched && binding.tms$isAlternative()) {
 					children.add(entry);
 					lastEntryCount++;
 					continue;
 				}
 
-				final String cat = binding.getCategory();
+				final String cat = ((KeyBinding) binding).getCategory();
 				if (!cat.equals(lastCat)) {
 					includeCat = StringUtils.containsIgnoreCase(I18n.translate(cat), searchText);
 				}
@@ -136,7 +136,7 @@ public class SearchFieldControlsListWidget extends ControlsListWidget.Entry {
 						(
 								includeCat
 										|| searchText == null
-										|| StringUtils.containsIgnoreCase(I18n.translate(((IKeyBindingEntry) entry).amecs$getKeyBinding().getTranslationKey()), searchText)
+										|| StringUtils.containsIgnoreCase(I18n.translate(((IKeyBindingEntry) entry).tms$getKeyBinding().getTranslationKey()), searchText)
 						) && TooManyShortcuts.INSTANCE.entryKeyMatches(entry, keyFilter)
 				) {
 					if (!cat.equals(lastCat)) {

@@ -13,49 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package dev.kingtux.tms.api.input
 
-package de.siphalor.amecs.api.input;
-
-import java.util.LinkedHashSet;
-
-import org.jetbrains.annotations.ApiStatus;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.MinecraftClient
+import org.jetbrains.annotations.ApiStatus
 
 /**
- * This class allows you to (un-)register {@link InputEventHandler}s
+ * This class allows you to (un-)register [InputEventHandler]s
  *
- * @see InputEventHandler#handleInput(MinecraftClient)
- * @see #handleInputEvents
+ * @see InputEventHandler.handleInput
+ * @see .handleInputEvents
  */
 @Environment(EnvType.CLIENT)
-public class InputHandlerManager {
+object InputHandlerManager {
+    // all methods and fields in this class must be used from main thread only or manual synchronization is required
+    private val INPUT_HANDLERS = LinkedHashSet<InputEventHandler>()
 
-	// all methods and fields in this class must be used from main thread only or manual synchronization is required
-	private static final LinkedHashSet<InputEventHandler> INPUT_HANDLERS = new LinkedHashSet<>();
-
-	/**
-	 * This method is called from MinecraftClient.handleInputEvents()
-	 * <br>
-	 * It calls all registered InputEventHandler
-	 *
-	 * @param client
-	 */
+    /**
+     * This method is called from MinecraftClient.handleInputEvents()
+     * <br></br>
+     * It calls all registered InputEventHandler
+     *
+     * @param client
+     */
+    @JvmStatic
 	@ApiStatus.Internal
-	public static void handleInputEvents(MinecraftClient client) {
-		for (InputEventHandler handler : INPUT_HANDLERS) {
-			handler.handleInput(client);
-		}
-	}
+    fun handleInputEvents(client: MinecraftClient?) {
+        for (handler in INPUT_HANDLERS) {
+            handler.handleInput(client)
+        }
+    }
 
-	public static boolean registerInputEventHandler(InputEventHandler handler) {
-		return INPUT_HANDLERS.add(handler);
-	}
+    fun registerInputEventHandler(handler: InputEventHandler): Boolean {
+        return INPUT_HANDLERS.add(handler)
+    }
 
-	public static boolean removeInputEventHandler(InputEventHandler handler) {
-		return INPUT_HANDLERS.remove(handler);
-	}
-
+    fun removeInputEventHandler(handler: InputEventHandler): Boolean {
+        return INPUT_HANDLERS.remove(handler)
+    }
 }

@@ -8,7 +8,13 @@
   "client": [
     "MixinInputUtilType",
     "MixinMouse",
-    "MixinKeyboard"
+    "MixinKeyboard",
+    "MixinGameOptions",
+    "MixinKeyBindingEntry",
+    "MixinKeybindsScreen",
+    "MixinKeyBinding",
+    "MixinMinecraftClient",
+    "EntryListWidgetAccessor"
   ],
   "server": [],
   "injectors": {

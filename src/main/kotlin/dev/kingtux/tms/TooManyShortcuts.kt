@@ -1,11 +1,11 @@
 package dev.kingtux.tms
 
-import de.siphalor.amecs.api.AmecsKeyBinding
-import de.siphalor.amecs.api.KeyModifiers
-import de.siphalor.amecs.keybinding.SkinLayerKeyBinding
-import de.siphalor.amecs.keybinding.ToggleAutoJumpKeyBinding
-import de.siphalor.amecs.mixin.ControlsListWidgetKeyBindingEntryAccessor
-import de.siphalor.api.impl.duck.IKeyBindingEntry
+import dev.kingtux.tms.api.TMSKeyBinding
+import dev.kingtux.tms.keybinding.SkinLayerKeyBinding
+import dev.kingtux.tms.keybinding.ToggleAutoJumpKeyBinding
+
+import dev.kingtux.tms.api.modifiers.BindingModifiers
+import dev.kingtux.tms.mlayout.IKeyBindingEntry
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.gui.screen.option.ControlsListWidget
@@ -31,27 +31,28 @@ object TooManyShortcuts : ClientModInitializer {
 
     val LOGGER: Logger = LogManager.getLogger(MOD_NAME)
     const val TRIGGER_KEYBINDING_ON_SCROLL: Boolean = true
-
-    val CURRENT_MODIFIERS: KeyModifiers = KeyModifiers()
+    val currentModifiers: BindingModifiers = BindingModifiers()
 
     val ESCAPE_KEYBINDING: KeyBinding = KeyBindingHelper.registerKeyBinding(
-        AmecsKeyBinding(
+        TMSKeyBinding(
             Identifier.of(MOD_ID, "alternative_escape"),
             InputUtil.Type.KEYSYM,
             -1,
             "key.categories.ui",
-            KeyModifiers()
+            BindingModifiers()
         )
     )
 
+
     override fun onInitializeClient() {
+
         KeyBindingHelper.registerKeyBinding(
             ToggleAutoJumpKeyBinding(
                 Identifier.of(MOD_ID, "toggle_auto_jump"),
                 InputUtil.Type.KEYSYM,
                 66,
                 "key.categories.movement",
-                KeyModifiers()
+                BindingModifiers()
             )
         )
 
@@ -81,20 +82,18 @@ object TooManyShortcuts : ClientModInitializer {
             return true
         }
         return when (keyFilter) {
-            "" -> (entry as IKeyBindingEntry).`amecs$getKeyBinding`().isUnbound
-            "%" -> (entry as ControlsListWidgetKeyBindingEntryAccessor).editButton.message.style.color === TextColor.fromFormatting(
+            "" -> (entry as IKeyBindingEntry).`tms$getKeyBinding`().isUnbound
+            "%" -> (entry as IKeyBindingEntry).`tms$getEditButton`().message.style.color === TextColor.fromFormatting(
                 Formatting.RED
             )
 
             else -> StringUtils.containsIgnoreCase(
-                (entry as IKeyBindingEntry).`amecs$getKeyBinding`().boundKeyLocalizedText.string,
+                (entry as IKeyBindingEntry).`tms$getKeyBinding`().boundKeyLocalizedText.string,
                 keyFilter
             )
         }
     }
-    fun getCurrentModifiers(): KeyModifiers {
-        return CURRENT_MODIFIERS
-    }
+
     fun log(level: Level?, message: String) {
         LOGGER.log(level, "[$MOD_ID]$message")
     }

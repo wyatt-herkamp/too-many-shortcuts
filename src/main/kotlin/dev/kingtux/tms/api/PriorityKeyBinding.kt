@@ -13,33 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package dev.kingtux.tms.api
 
-package de.siphalor.amecs.api;
-
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 
 /**
- * An interface to be used on {@link net.minecraft.client.option.KeyBinding}s.
- * <b>This key binding triggers without further conditions before any other checks or conditions.</b>
+ * An interface to be used on [net.minecraft.client.option.KeyBinding]s.
+ * **This key binding triggers without further conditions before any other checks or conditions.**
  */
 @Environment(EnvType.CLIENT)
-public interface PriorityKeyBinding {
-	/**
-	 * This method gets triggered when this key binding matches on an input event. <br>
-	 * Since there are no other checks before the invocation you need to check yourself for possible open screens.
-	 *
-	 * @return Return true to cancel propagation of this event. Return false for normal evaluation.
-	 */
-	boolean onPressedPriority();
+interface PriorityKeyBinding {
+    /**
+     * This method gets triggered when this key binding matches on an input event. <br></br>
+     * Since there are no other checks before the invocation you need to check yourself for possible open screens.
+     *
+     * @return Return true to cancel propagation of this event. Return false for normal evaluation.
+     */
+    fun onPressedPriority(): Boolean
 
-	/**
-	 * This method gets triggered when this key binding matches on an input release event. <br>
-	 * Since there are no other checks before the invocation you need to check yourself for possible open screens.
-	 *
-	 * @return Return true to cancel propagation of this event. Return false for normal evaluation.
-	 */
-	default boolean onReleasedPriority() {
-		return false;
-	}
+    /**
+     * This method gets triggered when this key binding matches on an input release event. <br></br>
+     * Since there are no other checks before the invocation you need to check yourself for possible open screens.
+     *
+     * @return Return true to cancel propagation of this event. Return false for normal evaluation.
+     */
+    fun onReleasedPriority(): Boolean {
+        return false
+    }
 }
