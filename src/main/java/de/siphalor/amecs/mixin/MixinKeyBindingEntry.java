@@ -32,6 +32,7 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -41,7 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @Mixin(ControlsListWidget.KeyBindingEntry.class)
-public class MixinKeyBindingEntry {
+public abstract class MixinKeyBindingEntry {
 	private static final Text ENTRY_NAME = Text.literal("    ->");
 	private static final Text RESET_TOOLTIP = Text.translatable("nmuk.options.controls.reset.tooltip");
 
@@ -59,6 +60,7 @@ public class MixinKeyBindingEntry {
 	@Shadow(aliases = "field_2742", remap = false)
 	@Final
 	private ControlsListWidget listWidget;
+
 	@Unique
 	private ButtonWidget alternativesButton;
 
@@ -133,8 +135,8 @@ public class MixinKeyBindingEntry {
 		}
 	}
 
-	@ModifyVariable(method = "render", at = @At("HEAD"), ordinal = 2, argsOnly = true)
-	public int adjustXPosition(int original) {
+	@ModifyArg(method="render", at= @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonWidget;setPosition(II)V"), index=0)
+	private int adjustXPosition(int original) {
 		return original - 30;
 	}
 

@@ -6,14 +6,14 @@
 		"ControlsListWidgetKeyBindingEntryAccessor"
 	],
 	"client": [
-		"MixinEntryListWidget",
-		"KeybindsScreenAccessor",
-		"EntryListWidgetAccessor",
-		"GameOptionsAccessor",
-		"KeyBindingAccessor",
-		"MixinGameOptions",
-		"MixinKeyBinding",
-		"MixinKeyBindingEntry"
+    "EntryListWidgetAccessor",
+    "GameOptionsAccessor",
+    "KeyBindingAccessor",
+    "KeybindsScreenAccessor",
+    "MixinEntryListWidget",
+    "MixinGameOptions",
+    "MixinKeyBinding",
+    "MixinKeyBindingEntry"
 	],
 	"server": [],
 	"injectors": {
