@@ -61,8 +61,6 @@ public abstract class MixinKeyBindingEntry {
 	@Final
 	private ControlsListWidget listWidget;
 
-	@Shadow protected abstract void update();
-
 	@Unique
 	private ButtonWidget alternativesButton;
 
@@ -81,7 +79,6 @@ public abstract class MixinKeyBindingEntry {
 			}).size(20, 20).build();
 		} else {
 			alternativesButton = ButtonWidget.builder(Text.literal("+"), button -> {
-				System.out.println("Alternatives button clicked");
 				KeyBinding altBinding = NMUKKeyBindingHelper.createAlternativeKeyBinding(binding);
 				NMUKKeyBindingHelper.registerKeyBinding(altBinding);
 				ControlsListWidget.KeyBindingEntry altEntry = NMUKKeyBindingHelper.createKeyBindingEntry(outer, altBinding, Text.literal("..."));
@@ -101,7 +98,6 @@ public abstract class MixinKeyBindingEntry {
 			}).size(20, 20).build();
 			resetButton.setTooltip(Tooltip.of(RESET_TOOLTIP));
 		}
-		this.update();
 	}
 
 	@SuppressWarnings("UnresolvedMixinReference")
