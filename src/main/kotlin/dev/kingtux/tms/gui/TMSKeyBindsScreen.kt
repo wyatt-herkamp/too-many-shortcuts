@@ -50,12 +50,10 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
         controlsList.update()
     }.build()
 
-    override fun initBody() {
+    override fun init() {
         this.controlsList =
             layout.addBody(TMSControlsListWidget(this, this.client!!))
-    }
-
-    override fun addOptions() {
+        super.init()
     }
 
     override fun initFooter() {

@@ -35,7 +35,7 @@ object TooManyShortcuts : ClientModInitializer {
 
     val ESCAPE_KEYBINDING: KeyBinding = KeyBindingHelper.registerKeyBinding(
         TMSKeyBinding(
-            Identifier.of(MOD_ID, "alternative_escape"),
+            Identifier(MOD_ID, "alternative_escape"),
             InputUtil.Type.KEYSYM,
             -1,
             "key.categories.ui",
@@ -48,7 +48,7 @@ object TooManyShortcuts : ClientModInitializer {
 
         KeyBindingHelper.registerKeyBinding(
             ToggleAutoJumpKeyBinding(
-                Identifier.of(MOD_ID, "toggle_auto_jump"),
+                Identifier(MOD_ID, "toggle_auto_jump"),
                 InputUtil.Type.KEYSYM,
                 66,
                 "key.categories.movement",
@@ -59,7 +59,7 @@ object TooManyShortcuts : ClientModInitializer {
         Arrays.stream(PlayerModelPart.entries.toTypedArray())
             .map { playerModelPart: PlayerModelPart ->
                 SkinLayerKeyBinding(
-                    Identifier.of(MOD_ID, "toggle_" + playerModelPart.getName().lowercase()),
+                    Identifier(MOD_ID, "toggle_" + playerModelPart.getName().lowercase()),
                     InputUtil.Type.KEYSYM,
                     -1,
                     SKIN_LAYER_CATEGORY,
