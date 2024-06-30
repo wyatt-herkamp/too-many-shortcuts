@@ -11,17 +11,18 @@ import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.Level
 
 fun isDefaultBinding(keybinding: KeyBinding): Boolean {
-    if (keybinding is TMSKeyBinding) {
-        // TODO: Handle TMSKeyBinding
-        return false;
-    }
     if (keybinding !is IKeyBinding) {
         return keybinding.defaultKey == keybinding.boundKey
     }
     if (!keybinding.`tms$hasAlternatives`()) {
         return keybinding.defaultKey == keybinding.boundKey
     }
-    return false
+    for (key in keybinding.`tms$getAlternatives`()!!) {
+        if (!key.isDefault) {
+            return false;
+        }
+    }
+    return keybinding.defaultKey == keybinding.boundKey
 }
 
 fun KeyBinding.isAlternative(): Boolean {

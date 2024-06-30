@@ -19,6 +19,7 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Level;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -93,16 +94,40 @@ public abstract class MixinKeyBinding implements IKeyBinding {
         callbackInfoReturnable.setReturnValue(fullName);
     }
 
-    @Inject(method = "matchesKey", at = @At("RETURN"), cancellable = true)
+
+    @Inject(
+            method = "matchesKey",
+            at = @At("HEAD"),
+            cancellable = true
+    )
     public void matchesKey(int keyCode, int scanCode, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
-        if (!keyModifiers.hasModifiers() && !keyModifiers.equals(TooManyShortcuts.INSTANCE.getCurrentModifiers())) {
+        if (tms$hasAlternatives()) {
+            for (KeyBinding child : children) {
+                if (child.matchesKey(keyCode, scanCode)) {
+                    callbackInfoReturnable.setReturnValue(true);
+                }
+            }
+        }
+        if (!keyModifiers.isUnset() && !keyModifiers.equals(TooManyShortcuts.INSTANCE.getCurrentModifiers())) {
             callbackInfoReturnable.setReturnValue(false);
         }
     }
 
-    @Inject(method = "matchesMouse", at = @At("RETURN"), cancellable = true)
-    public void matchesMouse(int mouse, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
-        if (!keyModifiers.hasModifiers() && !keyModifiers.equals(TooManyShortcuts.INSTANCE.getCurrentModifiers())) {
+
+    @Inject(
+            method = "matchesMouse",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void matchesMouse(int code, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
+        if (children != null && !children.isEmpty()) {
+            for (KeyBinding child : children) {
+                if (child.matchesMouse(code)) {
+                    callbackInfoReturnable.setReturnValue(true);
+                }
+            }
+        }
+        if (!keyModifiers.isUnset() && !keyModifiers.equals(TooManyShortcuts.INSTANCE.getCurrentModifiers())) {
             callbackInfoReturnable.setReturnValue(false);
         }
     }
@@ -156,19 +181,6 @@ public abstract class MixinKeyBinding implements IKeyBinding {
         return isDefaultBinding(((KeyBinding) (Object) this));
     }
 
-    @Inject(
-            method = "onKeyPressed",
-            at = @At(value = "FIELD", target = "Lnet/minecraft/client/option/KeyBinding;timesPressed:I"),
-            cancellable = true,
-            locals = LocalCapture.CAPTURE_FAILSOFT
-    )
-    private static void onKeyPressed(InputUtil.Key key, CallbackInfo callbackInfo, KeyBinding binding) {
-        KeyBinding parent = ((IKeyBinding) binding).tms$getParent();
-        if (parent != null) {
-            ((IKeyBinding) parent).tms$incrementTimesPressed();
-            callbackInfo.cancel();
-        }
-    }
 
     @Inject(
             method = "isPressed",
@@ -220,35 +232,6 @@ public abstract class MixinKeyBinding implements IKeyBinding {
         }
     }
 
-    @Inject(
-            method = "matchesKey",
-            at = @At("HEAD"),
-            cancellable = true
-    )
-    public void matchesKeyInjection(int keyCode, int scanCode, CallbackInfoReturnable<Boolean> cir) {
-        if (children != null && !children.isEmpty()) {
-            for (KeyBinding child : children) {
-                if (child.matchesKey(keyCode, scanCode)) {
-                    cir.setReturnValue(true);
-                }
-            }
-        }
-    }
-
-    @Inject(
-            method = "matchesMouse",
-            at = @At("HEAD"),
-            cancellable = true
-    )
-    public void matchesMouseInjection(int code, CallbackInfoReturnable<Boolean> cir) {
-        if (children != null && !children.isEmpty()) {
-            for (KeyBinding child : children) {
-                if (child.matchesMouse(code)) {
-                    cir.setReturnValue(true);
-                }
-            }
-        }
-    }
 
     @Override
     public void tms$setKeyModifiers(BindingModifiers modifiers) {
@@ -267,6 +250,11 @@ public abstract class MixinKeyBinding implements IKeyBinding {
 
     @Override
     public void tms$incrementTimesPressed() {
+        KeyBinding parent = ((IKeyBinding) this).tms$getParent();
+
+        if (parent != null) {
+            ((IKeyBinding) parent).tms$incrementTimesPressed();
+        }
         timesPressed++;
     }
 
@@ -378,4 +366,13 @@ public abstract class MixinKeyBinding implements IKeyBinding {
         }
     }
 
+    /**
+     * Support for mods who don't want to use the keybinding API for Fabric.
+     *
+     * @return the binding modifiers
+     */
+    @Unique
+    public BindingModifiers amecs$getKeyModifiers() {
+        return keyModifiers;
+    }
 }

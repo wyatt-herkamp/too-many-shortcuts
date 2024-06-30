@@ -55,4 +55,8 @@ data class BindingModifiers(
 
         return shift == boundModifiers.shift && ctrl == boundModifiers.ctrl && alt == boundModifiers.alt
     }
+
+    fun isPressed(): Boolean {
+        return this == TooManyShortcuts.currentModifiers
+    }
 }

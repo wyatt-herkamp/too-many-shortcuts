@@ -46,10 +46,4 @@ class AlternativeKeyBinding(
     override fun isDefault(): Boolean {
         return this.defaultKey == this.boundKey
     }
-
-    fun `tms$incrementTimesPressed`() {
-        timesPressed++
-        val parent = checkNotNull((this as IKeyBinding).`tms$getParent`())
-        (parent as IKeyBinding).`tms$incrementTimesPressed`()
-    }
 }

@@ -103,11 +103,5 @@ public class TMSKeyBinding extends KeyBinding {
         return super.isDefault();
     }
 
-    public void tms$incrementTimesPressed() {
-        this.timesPressed++;
 
-        KeyBinding parent = ((IKeyBinding) this).tms$getParent();
-        assert parent != null;
-        ((IKeyBinding) parent).tms$incrementTimesPressed();
-    }
 }
