@@ -24,10 +24,6 @@ public abstract class MixinOpenKeybindings extends GameOptionsScreen {
     }
 
 
-    /**
-     * @author change the method
-     * @reason Add the mouse settings and keybinds button to the options screen
-     */
     @Inject(method = "addOptions", at = @At("HEAD"), cancellable = true)
     public void changeOptions(CallbackInfo ci) {
         this.body.addWidgetEntry(ButtonWidget.builder(Text.translatable("options.mouse_settings"), (buttonWidget) -> {
