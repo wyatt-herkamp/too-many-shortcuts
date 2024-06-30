@@ -10,9 +10,9 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 
 import net.minecraft.client.option.KeyBinding
+import net.minecraft.client.render.entity.PlayerModelPart
 import net.minecraft.client.util.InputUtil
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.PlayerModelPart
 import net.minecraft.text.Text
 import net.minecraft.text.TextColor
 import net.minecraft.util.Formatting

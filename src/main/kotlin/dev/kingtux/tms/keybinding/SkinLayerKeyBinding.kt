@@ -4,8 +4,8 @@ import dev.kingtux.tms.TooManyShortcuts.sendToggleMessage
 import dev.kingtux.tms.api.TMSKeyBinding
 import dev.kingtux.tms.api.modifiers.BindingModifiers
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.entity.PlayerModelPart
 import net.minecraft.client.util.InputUtil
-import net.minecraft.entity.player.PlayerModelPart
 import net.minecraft.util.Identifier
 
 class SkinLayerKeyBinding(
