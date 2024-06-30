@@ -1,6 +1,7 @@
 package dev.kingtux.tms.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.kingtux.tms.TooManyShortcuts;
 import dev.kingtux.tms.api.KeyBindingUtils;
 import de.siphalor.amecs.KeyBindingManager;
 import dev.kingtux.tms.api.scroll.ScrollKey;
@@ -15,6 +16,7 @@ import net.minecraft.client.Mouse;
 import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,13 +39,13 @@ public class MixinMouse implements IMouse {
 
 
     @Inject(method = "onMouseScroll", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseScrolled(DDDD)Z"), cancellable = true)
-    private void beforeMouseScrollEvent( CallbackInfo ci,@Local(ordinal = 4) double vertical) {
+    private void beforeMouseScrollEvent(CallbackInfo ci, @Local(ordinal = 4) double vertical) {
         InputUtil.Key keyCode = ScrollKey.Companion.getVerticalKey(vertical).inputKey();
-        //TooManyShortcuts.INSTANCE.log(Level.INFO, "Mouse Scroll Event: " + keyCode.toString() + " " + vertical);
+        TooManyShortcuts.INSTANCE.log(Level.INFO, "Mouse Scroll Event: " + keyCode.toString() + " " + vertical);
 
-        if (client.currentScreen != null){
-            if (client.currentScreen instanceof KeybindsScreen){
-                if (handleBindMouseScroll(((KeybindsScreen) client.currentScreen), keyCode)){
+        if (client.currentScreen != null) {
+            if (client.currentScreen instanceof KeybindsScreen) {
+                if (handleBindMouseScroll(((KeybindsScreen) client.currentScreen), keyCode)) {
                     ci.cancel();
                 }
             }
@@ -52,16 +54,18 @@ public class MixinMouse implements IMouse {
 
         KeyBindingUtils.setLastScrollAmount(vertical);
         if (KeyBindingManager.onKeyPressedPriority(keyCode)) {
+
             ci.cancel();
         }
     }
+
     @Unique
-    private boolean handleBindMouseScroll(@NotNull  KeybindsScreen screen, @NotNull InputUtil.Key keyCode){
+    private boolean handleBindMouseScroll(@NotNull KeybindsScreen screen, @NotNull InputUtil.Key keyCode) {
         KeyBinding focusedBinding = screen.selectedKeyBinding;
         if (focusedBinding != null) {
             if (!focusedBinding.isUnbound()) {
                 BindingModifiers keyModifiers = ((IKeyBinding) focusedBinding).tms$getKeyModifiers();
-                keyModifiers.set(KeyModifier.Companion.fromKey(((IKeyBinding) focusedBinding).tms$getBoundKey()), true);
+                keyModifiers.set(KeyModifier.Companion.fromKey((focusedBinding.boundKey)), true);
             }
             // This is a bit hacky, but the easiest way out
             // If the selected binding != null, the mouse x and y will always be ignored - so no need to convert them

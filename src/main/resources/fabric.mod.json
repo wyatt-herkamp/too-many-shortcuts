@@ -5,8 +5,8 @@
 	"name": "Too Many Shortcuts",
 	"description": "A lot of keybind utilities",
 	"authors": [
-		"Siphalor",
-		"KingTux"
+		"KingTux",
+		"Siphalor"
 	],
 	"contributors": [],
 	"contact": {
@@ -32,7 +32,8 @@
 	"accessWidener" : "too_many_shortcuts.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.15.0",
-		"fabric": "*"
+		"fabric": "*",
+		"fabric-language-kotlin": ">=${fabric_kotlin_version}"
 	},
 	"custom": {
 		"modmenu:clientsideOnly": true

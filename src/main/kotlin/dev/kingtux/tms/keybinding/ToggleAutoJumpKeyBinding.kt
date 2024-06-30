@@ -19,6 +19,10 @@ class ToggleAutoJumpKeyBinding(
         val minecraftClient = MinecraftClient.getInstance()
         val autoJump = !minecraftClient.options.autoJump.value
         minecraftClient.options.autoJump.value = autoJump
-        sendToggleMessage(minecraftClient.player!!, autoJump, Text.translatable("amecs.toggled.auto_jump"))
+        sendToggleMessage(
+            minecraftClient.player!!,
+            autoJump,
+            Text.translatable("too_many_shortcuts.toggled.auto_jump")
+        )
     }
 }

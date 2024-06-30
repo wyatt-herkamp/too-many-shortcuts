@@ -28,10 +28,12 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.*;
 
+import static dev.kingtux.tms.api.UtilsKt.isDefaultBinding;
+
 @Environment(EnvType.CLIENT)
 @Mixin(KeyBinding.class)
+@Debug(export = true)
 public abstract class MixinKeyBinding implements IKeyBinding {
-
     @Shadow
     private boolean pressed;
     @Shadow
@@ -40,21 +42,14 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     @Shadow
     @Final
     private String translationKey;
-
     @Unique
     private List<KeyBinding> children = null;
     @Unique
     short nextChildId = 0;
     @Unique
     private KeyBinding parent = null;
-
-    @Shadow
-    private InputUtil.Key boundKey;
     @Shadow
     private int timesPressed;
-    @Shadow
-    @Final
-    private static Map<String, KeyBinding> KEYS_BY_ID;
     // set it to a NOPMap meaning everything done with this map is ignored. Because setting it to null would cause problems
     // ... even if we remove the put in the KeyBinding constructor. Because maybe in the future this map is used elsewhere or a other mod uses it
     @Shadow
@@ -62,6 +57,11 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     @Mutable
     private static Map<InputUtil.Key, KeyBinding> KEY_TO_BINDINGS = NOPMap.nopMap();
 
+    @Shadow
+    public InputUtil.Key boundKey;
+    @Shadow
+    @Final
+    public InputUtil.Key defaultKey;
     @Unique
     private final BindingModifiers keyModifiers = new BindingModifiers();
 
@@ -80,7 +80,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
         do {
             fullName = name;
             for (KeyModifier keyModifier : KeyModifier.getEntries()) {
-                if (keyModifier == KeyModifier.NONE) {
+                if (keyModifier == null) {
                     continue;
                 }
 
@@ -146,13 +146,14 @@ public abstract class MixinKeyBinding implements IKeyBinding {
         callbackInfo.cancel();
     }
 
-    @Inject(method = "isDefault", at = @At("HEAD"), cancellable = true)
-    public void isDefault(CallbackInfoReturnable<Boolean> cir) {
-        if (!((Object) this instanceof TMSKeyBinding)) {
-            if (!keyModifiers.hasModifiers()) {
-                cir.setReturnValue(false);
-            }
-        }
+    /**
+     * @author KingTux
+     * @reason It is simpler to just return overwrite the method
+     */
+    @Overwrite
+    public boolean isDefault() {
+        // The cast is to convince Java that it is possible to cast it.
+        return isDefaultBinding(((KeyBinding) (Object) this));
     }
 
     @Inject(
@@ -164,7 +165,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     private static void onKeyPressed(InputUtil.Key key, CallbackInfo callbackInfo, KeyBinding binding) {
         KeyBinding parent = ((IKeyBinding) binding).tms$getParent();
         if (parent != null) {
-            ( (IKeyBinding) parent).tms$incrementTimesPressed();
+            ((IKeyBinding) parent).tms$incrementTimesPressed();
             callbackInfo.cancel();
         }
     }
@@ -183,6 +184,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
             }
         }
     }
+
     @Inject(
             method = "reset",
             at = @At("RETURN")
@@ -248,93 +250,60 @@ public abstract class MixinKeyBinding implements IKeyBinding {
         }
     }
 
-    @Inject(
-            method = "isDefault",
-            at = @At("RETURN"),
-            cancellable = true
-    )
-    public void isDefaultInjection(CallbackInfoReturnable<Boolean> cir) {
-        if (parent == null) {
-            Collection<KeyBinding> defaults = AlternativeAPI.INSTANCE.getDefaultAlternatives().get((KeyBinding) (Object) this);
-            if (defaults.isEmpty()) {
-                if (children != null && !children.isEmpty()) {
-                    cir.setReturnValue(false);
-                }
-            } else {
-                if (defaults.size() == children.size()) {
-                    for (KeyBinding child : children) {
-                        if (!defaults.contains(child)) {
-                            cir.setReturnValue(false);
-                            return;
-                        }
-                        if (!child.isDefault()) {
-                            cir.setReturnValue(false);
-                            return;
-                        }
-                    }
-                } else {
-                    cir.setReturnValue(false);
-                }
-            }
-        }
-    }
-
     @Override
-    public void tms$setKeyModifiers(BindingModifiers modifiers){
+    public void tms$setKeyModifiers(BindingModifiers modifiers) {
         this.keyModifiers.set(modifiers);
     }
 
     @Override
-    public BindingModifiers tms$getKeyModifiers(){
+    public BindingModifiers tms$getKeyModifiers() {
         return keyModifiers;
     }
-@Override
-public int tms$getTimesPressed(){
+
+    @Override
+    public int tms$getTimesPressed() {
         return timesPressed;
     }
 
     @Override
-    public   void tms$incrementTimesPressed(){
+    public void tms$incrementTimesPressed() {
         timesPressed++;
     }
 
     @Override
-    public void tms$setTimesPressed(int timesPressed){
+    public void tms$setTimesPressed(int timesPressed) {
         this.timesPressed = timesPressed;
     }
 
-    @Override
-    public InputUtil.Key tms$getBoundKey(){
-        return boundKey;
-    }
 
     @Override
-    public short tms$getNextChildId(){
+    public short tms$getNextChildId() {
         return nextChildId++;
     }
 
     @Override
-    public void tms$setNextChildId(short nextChildId){
+    public void tms$setNextChildId(short nextChildId) {
         this.nextChildId = nextChildId;
     }
 
 
     @Override
-    public    KeyBinding tms$getParent(){
+    public KeyBinding tms$getParent() {
         return parent;
     }
+
     @Override
-    public  void tms$setParent(KeyBinding binding){
+    public void tms$setParent(KeyBinding binding) {
         parent = binding;
     }
 
     @Override
-    public List<KeyBinding> tms$getAlternatives(){
+    public List<KeyBinding> tms$getAlternatives() {
         return children;
     }
 
     @Override
-    public int tms$getAlternativesCount(){
+    public int tms$getAlternativesCount() {
         if (children == null) {
             return 0;
         } else {
@@ -344,14 +313,14 @@ public int tms$getTimesPressed(){
     }
 
     @Override
-    public void tms$removeAlternative(KeyBinding binding){
+    public void tms$removeAlternative(KeyBinding binding) {
         if (children != null) {
             children.remove(binding);
         }
     }
 
     @Override
-    public   void tms$addAlternative(KeyBinding binding){
+    public void tms$addAlternative(KeyBinding binding) {
         if (children == null) {
             children = new LinkedList<>();
         }
@@ -359,23 +328,54 @@ public int tms$getTimesPressed(){
     }
 
     @Override
-    public int tms$getIndexInParent(){
+    public int tms$getIndexInParent() {
         if (parent == null) {
             return 0;
         }
         return ((IKeyBinding) parent).tms$getAlternatives().indexOf((KeyBinding) (Object) this);
     }
+
     @Override
-    public ConfigBindings tms$toConfig(){
+    public ConfigBindings tms$toConfig() {
         return new ConfigBindings(this.boundKey.getTranslationKey(), this.keyModifiers);
     }
+
     @Override
-    public void tms$fromConfig(ConfigBindings configBindings){
+    public void tms$fromConfig(ConfigBindings configBindings) {
         this.boundKey = InputUtil.fromTranslationKey(configBindings.getKey());
         this.keyModifiers.set(configBindings.getModifiers());
     }
-    private static Map<String, KeyBinding> tms$getIdToKeyBindingMap() {
-        return KEYS_BY_ID;
+
+    @Override
+    public boolean tms$hasAlternatives() {
+        if (children == null) {
+            return false;
+        }
+        return !children.isEmpty();
+    }
+
+    @Override
+    public void tms$resetBinding(boolean resetAlternatives) {
+        this.keyModifiers.unset();
+        this.boundKey = this.defaultKey;
+        MinecraftClient.getInstance().options.write();
+        if (resetAlternatives && this.tms$hasAlternatives()) {
+            for (KeyBinding child : children) {
+                ((IKeyBinding) child).tms$resetBinding(true);
+            }
+        }
+    }
+
+    @Override
+    public void tms$clearBinding(boolean clearAlternatives) {
+        this.keyModifiers.unset();
+        this.boundKey = InputUtil.UNKNOWN_KEY;
+        MinecraftClient.getInstance().options.write();
+        if (clearAlternatives && this.tms$hasAlternatives()) {
+            for (KeyBinding child : children) {
+                ((IKeyBinding) child).tms$clearBinding(true);
+            }
+        }
     }
 
 }

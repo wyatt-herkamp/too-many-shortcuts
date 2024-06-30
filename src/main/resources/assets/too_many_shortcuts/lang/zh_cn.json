@@ -1,0 +1,17 @@
+{
+  "too_many_shortcuts.key.categories.skin_layers": "too_many_shortcuts 皮肤覆盖层",
+  "key.too_many_shortcuts.toggle_auto_jump": "切换自动跳跃",
+  "key.too_many_shortcuts.toggle_cape": "切换披风",
+  "key.too_many_shortcuts.toggle_hat": "切换帽子",
+  "key.too_many_shortcuts.toggle_jacket": "切换衣服",
+  "key.too_many_shortcuts.toggle_left_pants_leg": "切换左腿裤子",
+  "key.too_many_shortcuts.toggle_left_sleeve": "切换左手袖子",
+  "key.too_many_shortcuts.toggle_right_pants_leg": "切换右腿裤子",
+  "key.too_many_shortcuts.toggle_right_sleeve": "切换右手袖子",
+  "key.too_many_shortcuts.alternative_escape": "Escape （备用键）",
+  "too_many_shortcuts.toggled.on": "启用 %s",
+  "too_many_shortcuts.toggled.off": "禁用 %s",
+  "too_many_shortcuts.toggled.auto_jump": "自动跳跃",
+  "too_many_shortcuts.search.placeholder": "搜索… （= 为按关键词搜索，=%% 为冲突搜索）",
+  "too_many_shortcuts.search.no_results": "未发现结果"
+}

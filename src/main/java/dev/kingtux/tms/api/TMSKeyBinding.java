@@ -12,26 +12,17 @@ import java.lang.invoke.MethodHandles;
 
 public class TMSKeyBinding extends KeyBinding {
     private final BindingModifiers defaultModifiers;
-    private static final MethodHandle INCREMENT_TIMES_PRESSED_SUPER;
-    static {
-        MethodHandle methodHandle;
-        try {
-            methodHandle = MethodHandles.lookup().unreflectSpecial(KeyBinding.class.getDeclaredMethod("tms$incrementTimesPressed"), TMSKeyBinding.class);
-        } catch (NoSuchMethodException | IllegalAccessException e) {
-            methodHandle = null;
-        }
-        INCREMENT_TIMES_PRESSED_SUPER = methodHandle;
-    }
+
     /**
      * Constructs a new amecs keybinding. And because how the vanilla key binding works. It is automatically registered.
      * <br>
      * See {@link KeyBindingUtils#unregisterKeyBinding(KeyBinding)} for how to unregister it
      * If you want to set the key's translationKey directly use {@link #TMSKeyBinding(String, net.minecraft.client.util.InputUtil.Type, int, String, BindingModifiers)} instead
      *
-     * @param id the id to use
-     * @param type the input type which triggers this keybinding
-     * @param code the default key code
-     * @param category the id of the category which should include this keybinding
+     * @param id               the id to use
+     * @param type             the input type which triggers this keybinding
+     * @param code             the default key code
+     * @param category         the id of the category which should include this keybinding
      * @param defaultModifiers the default modifiers
      */
     public TMSKeyBinding(Identifier id, InputUtil.Type type, int code, String category, BindingModifiers defaultModifiers) {
@@ -43,20 +34,21 @@ public class TMSKeyBinding extends KeyBinding {
      * <br>
      * See {@link KeyBindingUtils#unregisterKeyBinding(KeyBinding)} for how to unregister it
      *
-     * @param id the id to use
-     * @param type the input type which triggers this keybinding
-     * @param code the default key code
-     * @param category the id of the category which should include this keybinding
+     * @param id               the id to use
+     * @param type             the input type which triggers this keybinding
+     * @param code             the default key code
+     * @param category         the id of the category which should include this keybinding
      * @param defaultModifiers the default modifiers
      */
     public TMSKeyBinding(String id, InputUtil.Type type, int code, String category, BindingModifiers defaultModifiers) {
         super(id, type, code, category);
-        if (defaultModifiers == null ) {
+        if (defaultModifiers == null) {
             defaultModifiers = new BindingModifiers(); // the modifiable version of: KeyModifiers.NO_MODIFIERS
         }
         this.defaultModifiers = defaultModifiers;
         ((IKeyBinding) this).tms$getKeyModifiers().set(this.defaultModifiers);
     }
+
     public TMSKeyBinding(KeyBinding parent, String translationKey, int code, String category, BindingModifiers defaultModifiers) {
         super(translationKey, code, category);
         this.defaultModifiers = defaultModifiers;
@@ -68,6 +60,7 @@ public class TMSKeyBinding extends KeyBinding {
         this.defaultModifiers = defaultModifiers;
         ((IKeyBinding) this).tms$setParent(parent);
     }
+
     @Override
     public void setPressed(boolean pressed) {
         super.setPressed(pressed);
@@ -98,7 +91,6 @@ public class TMSKeyBinding extends KeyBinding {
     }
 
 
-
     public BindingModifiers getDefaultModifiers() {
         return defaultModifiers;
     }
@@ -110,8 +102,9 @@ public class TMSKeyBinding extends KeyBinding {
         }
         return super.isDefault();
     }
-    public void tms$incrementTimesPressed() throws Throwable {
-        INCREMENT_TIMES_PRESSED_SUPER.invoke(this);
+
+    public void tms$incrementTimesPressed() {
+        this.timesPressed++;
 
         KeyBinding parent = ((IKeyBinding) this).tms$getParent();
         assert parent != null;
