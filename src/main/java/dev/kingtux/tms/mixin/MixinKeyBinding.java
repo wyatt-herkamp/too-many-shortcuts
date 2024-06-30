@@ -171,14 +171,10 @@ public abstract class MixinKeyBinding implements IKeyBinding {
         callbackInfo.cancel();
     }
 
-    /**
-     * @author KingTux
-     * @reason It is simpler to just return overwrite the method
-     */
-    @Overwrite
-    public boolean isDefault() {
-        // The cast is to convince Java that it is possible to cast it.
-        return isDefaultBinding(((KeyBinding) (Object) this));
+
+    @Inject(method = "isDefault", at = @At("HEAD"), cancellable = true)
+    public void isDefault(CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(isDefaultBinding(((KeyBinding) (Object) this)));
     }
 
 
