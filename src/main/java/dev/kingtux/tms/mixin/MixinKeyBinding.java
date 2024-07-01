@@ -204,31 +204,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
             }
         }
     }
-
-    @Inject(
-            method = "compareTo",
-            at = @At("HEAD"),
-            cancellable = true
-    )
-    public void compareToInjection(KeyBinding other, CallbackInfoReturnable<Integer> cir) {
-        if (parent != null) {
-            if (other == parent) {
-                cir.setReturnValue(1);
-            } else if (category.equals(other.getCategory())) {
-                KeyBinding otherParent = ((IKeyBinding) other).tms$getParent();
-                if (otherParent == parent) {
-                    cir.setReturnValue(Integer.compare(tms$getIndexInParent(), ((IKeyBinding) other).tms$getIndexInParent()));
-                } else {
-                    cir.setReturnValue(
-                            I18n.translate(StringUtils.substringBeforeLast(translationKey, "%"))
-                                    .compareTo(I18n.translate(StringUtils.substringBeforeLast(other.getTranslationKey(), "%")))
-                    );
-                }
-            }
-        }
-    }
-
-
+    
     @Override
     public void tms$setKeyModifiers(BindingModifiers modifiers) {
         this.keyModifiers.set(modifiers);
