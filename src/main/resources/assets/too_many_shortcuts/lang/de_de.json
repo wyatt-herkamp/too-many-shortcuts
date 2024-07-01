@@ -1,1 +1,16 @@
-{}
+{
+  "key.too_many_shortcuts.toggle_auto_jump": "Automatisches Springen umschalten",
+  "key.too_many_shortcuts.toggle_cape": "Cape umschalten",
+  "key.too_many_shortcuts.toggle_hat": "Hut umschalten",
+  "key.too_many_shortcuts.toggle_jacket": "Jacke Umschalten",
+  "key.too_many_shortcuts.toggle_left_pants_leg": "Linkes Hosenbein umschalten",
+  "key.too_many_shortcuts.toggle_left_sleeve": "Linken Ärmel umschalten",
+  "key.too_many_shortcuts.toggle_right_pants_leg": "Rechtes Hosenbein umschalten",
+  "key.too_many_shortcuts.toggle_right_sleeve": "Rechten Ärmel umschalten",
+  "key.too_many_shortcuts.alternative_escape": "Escape (alternative Taste)",
+  "too_many_shortcuts.toggled.on": "Aktiviert",
+  "too_many_shortcuts.toggled.off": "Deaktiviert",
+  "too_many_shortcuts.toggled.auto_jump": "Automatisches Springen",
+  "too_many_shortcuts.search.placeholder": "Suchen... (= zum Suchen der Taste, =%% für Konflikte)",
+  "too_many_shortcuts.search.no_results": "Keine Ergebnisse gefunden"
+}

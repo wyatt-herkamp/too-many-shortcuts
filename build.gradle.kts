@@ -7,7 +7,7 @@ plugins {
 }
 
 group = property("maven_group")!!
-version  = "${property("mod_version")}+mc.${property("minecraft_version")}"
+version = "${property("mod_version")}+mc.${property("minecraft_version")}"
 
 repositories {
     exclusiveContent {
@@ -32,7 +32,6 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
-
 }
 
 tasks {
@@ -53,10 +52,10 @@ tasks {
     publishing {
         publications {
             create<MavenPublication>("mavenJava") {
-                pom{
+                pom {
                     url.set(property("source_url")!! as String);
-                    developers{
-                        developer{
+                    developers {
+                        developer {
                             id.set("wyatt-herkamp")
                             name.set("Wyatt Herkamp")
                         }
@@ -74,8 +73,8 @@ tasks {
         // select the repositories you want to publish to
         repositories {
             mavenLocal()
-            if (project.hasProperty("kingtux_dev_username") && project.hasProperty("kingtux_dev_password")){
-                maven{
+            if (project.hasProperty("kingtux_dev_username") && project.hasProperty("kingtux_dev_password")) {
+                maven {
                     name = "kingtux_dev"
                     url = uri("https://repo.kingtux.dev/repositories/maven/fabric-mods/")
                     credentials {
@@ -88,7 +87,7 @@ tasks {
     }
 }
 
-kotlin{
+kotlin {
     jvmToolchain(21)
 }
 

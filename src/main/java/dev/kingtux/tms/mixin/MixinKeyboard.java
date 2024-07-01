@@ -49,13 +49,13 @@ public class MixinKeyboard {
     @Inject(method = "onKey", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Keyboard;debugCrashStartTime:J", ordinal = 0))
     private void onKey(long window, int key, int scanCode, int action, int modifiers, CallbackInfo callbackInfo) {
         // Key released
-        if (action == 0 && MinecraftClient.getInstance().currentScreen instanceof KeybindsScreen) {
-            KeybindsScreen screen = (KeybindsScreen) MinecraftClient.getInstance().currentScreen;
-
+        if (action == 0 && MinecraftClient.getInstance().currentScreen instanceof KeybindsScreen screen) {
             screen.selectedKeyBinding = null;
             screen.lastKeyCodeUpdateTime = Util.getMeasuringTimeMs();
         }
-
-        TooManyShortcuts.INSTANCE.getCurrentModifiers().set(KeyModifier.Companion.fromKeyCode(InputUtil.fromKeyCode(key, scanCode).getCode()), action != 0);
+        KeyModifier keyModifier = KeyModifier.Companion.fromKeyCode(key);
+        if (keyModifier != null) {
+            TooManyShortcuts.INSTANCE.getCurrentModifiers().set(keyModifier, action != 0);
+        }
     }
 }

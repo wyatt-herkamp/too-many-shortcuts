@@ -3,18 +3,15 @@
   "package": "dev.kingtux.tms.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-
   ],
   "client": [
     "MixinInputUtilType",
     "MixinMouse",
     "MixinKeyboard",
     "MixinGameOptions",
-    "MixinKeyBindingEntry",
-    "MixinKeybindsScreen",
     "MixinKeyBinding",
     "MixinMinecraftClient",
-    "EntryListWidgetAccessor"
+    "MixinOpenKeybindings"
   ],
   "server": [],
   "injectors": {

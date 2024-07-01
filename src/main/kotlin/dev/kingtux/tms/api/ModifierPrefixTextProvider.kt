@@ -27,7 +27,7 @@ import net.minecraft.text.TranslatableTextContent
 class ModifierPrefixTextProvider(private val translationKey: String) {
     constructor(modifiers: KeyModifier) : this(modifiers.translationKey)
 
-    protected fun getBaseText(variation: Variation): MutableText {
+    fun getBaseText(variation: Variation): MutableText {
         return MutableText.of(variation.getTranslatableText(translationKey))
     }
 
@@ -67,7 +67,7 @@ class ModifierPrefixTextProvider(private val translationKey: String) {
             val VALUES: Array<Variation> = entries.toTypedArray()
 
             @JvmField
-			val WIDEST: Variation = NORMAL
+            val WIDEST: Variation = NORMAL
             val SMALLEST: Variation = COMPRESSED
         }
     }

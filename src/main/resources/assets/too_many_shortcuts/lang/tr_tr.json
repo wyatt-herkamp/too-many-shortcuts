@@ -1,1 +1,15 @@
-{}
+{
+  "too_many_shortcuts.key.categories.skin_layers": "too_many_shortcuts Cilt Katmanları",
+  "key.too_many_shortcuts.toggle_auto_jump": "Otomatik Zıplamayı Aç/Kapa",
+  "key.too_many_shortcuts.toggle_cape": "Pelerini Aç/Kapa",
+  "key.too_many_shortcuts.toggle_hat": "Şapkayı Aç/Kapa",
+  "key.too_many_shortcuts.toggle_jacket": "Ceketi Aç/Kapa",
+  "key.too_many_shortcuts.toggle_left_pants_leg": "Sol Ayak Katmanını Aç/Kapa",
+  "key.too_many_shortcuts.toggle_left_sleeve": "Sol Kol Katmanını Aç/Kapa",
+  "key.too_many_shortcuts.toggle_right_pants_leg": "Sağ Ayak Katmanını Aç/Kapa",
+  "key.too_many_shortcuts.toggle_right_sleeve": "Sağ Kol Katmanını Aç/Kapa",
+  "too_many_shortcuts.toggled.on": "%s Etkin",
+  "too_many_shortcuts.toggled.off": "%s Devre Dışı",
+  "too_many_shortcuts.toggled.auto_jump": "Otomatik Zıplama",
+  "too_many_shortcuts.search.placeholder": "Ara... (Tuşa göre arama '=')"
+}

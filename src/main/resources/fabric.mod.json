@@ -1,40 +1,44 @@
 {
-	"schemaVersion": 1,
-	"id": "too_many_shortcuts",
-	"version": "${version}",
-	"name": "Too Many Shortcuts",
-	"description": "A lot of keybind utilities",
-	"authors": [
-		"Siphalor",
-		"KingTux"
-	],
-	"contributors": [],
-	"contact": {
-		"issues": "${source_url}/issues",
-		"sources": "${source_url}"
-	},
-	"license": "Apache-2.0",
-	"icon": "assets/amecs/logo.png",
-	"environment": "client",
-	"entrypoints": {
-		"main": [],
-		"client": [
-			{
-				"adapter": "kotlin",
-				"value": "dev.kingtux.tms.TooManyShortcuts"
-			}
-		],
-		"server": []
-	},
-	"mixins": [
-		"too_many_shortcuts.json"
-	],
-	"accessWidener" : "too_many_shortcuts.accesswidener",
-	"depends": {
-		"fabricloader": ">=0.15.0",
-		"fabric": "*"
-	},
-	"custom": {
-		"modmenu:clientsideOnly": true
-	}
+  "schemaVersion": 1,
+  "id": "too_many_shortcuts",
+  "version": "${version}",
+  "name": "Too Many Shortcuts",
+  "description": "A lot of keybind utilities",
+  "authors": [
+    "KingTux",
+    "Siphalor"
+  ],
+  "provides": [
+    "amecsapi"
+  ],
+  "contributors": [],
+  "contact": {
+    "issues": "${source_url}/issues",
+    "sources": "${source_url}"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/amecs/logo.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "dev.kingtux.tms.TooManyShortcuts"
+      }
+    ],
+    "server": []
+  },
+  "mixins": [
+    "too_many_shortcuts.json"
+  ],
+  "accessWidener": "too_many_shortcuts.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=${fabric_kotlin_version}"
+  },
+  "custom": {
+    "modmenu:clientsideOnly": true
+  }
 }

@@ -9,17 +9,23 @@ data class BindingModifiers(
     var shift: Boolean = false,
     var ctrl: Boolean = false,
     var alt: Boolean = false,
-){
+) {
     fun hasModifiers(): Boolean {
         return shift || ctrl || alt
     }
+
     fun isUnset(): Boolean {
         return !shift && !ctrl && !alt
     }
+
     fun unset() {
         shift = false
         ctrl = false
         alt = false
+    }
+
+    fun onlyOneSet(): Boolean {
+        return (shift && !ctrl && !alt) || (!shift && ctrl && !alt) || (!shift && !ctrl && alt)
     }
 
     fun isSet(modifier: KeyModifier): Boolean {
@@ -30,14 +36,12 @@ data class BindingModifiers(
             else -> false
         }
     }
+
     fun set(modifier: KeyModifier, value: Boolean) {
         when (modifier) {
             KeyModifier.SHIFT -> shift = value
             KeyModifier.CONTROL -> ctrl = value
             KeyModifier.ALT -> alt = value
-            KeyModifier.NONE -> {
-
-            }
         }
     }
 
@@ -50,5 +54,9 @@ data class BindingModifiers(
     fun contains(boundModifiers: BindingModifiers): Boolean {
 
         return shift == boundModifiers.shift && ctrl == boundModifiers.ctrl && alt == boundModifiers.alt
+    }
+
+    fun isPressed(): Boolean {
+        return this == TooManyShortcuts.currentModifiers
     }
 }

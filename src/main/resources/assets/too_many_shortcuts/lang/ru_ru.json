@@ -1,1 +1,16 @@
-{}
+{
+  "too_many_shortcuts.key.categories.skin_layers": "Слои скина too_many_shortcuts",
+  "key.too_many_shortcuts.toggle_auto_jump": "Переключить автопрыжок",
+  "key.too_many_shortcuts.toggle_cape": "Переключить плащ",
+  "key.too_many_shortcuts.toggle_hat": "Переключить головной убор",
+  "key.too_many_shortcuts.toggle_jacket": "Переключить куртку",
+  "key.too_many_shortcuts.toggle_left_pants_leg": "Переключить левую штанину",
+  "key.too_many_shortcuts.toggle_left_sleeve": "Переключить левый рукав",
+  "key.too_many_shortcuts.toggle_right_pants_leg": "Переключить правую штанину",
+  "key.too_many_shortcuts.toggle_right_sleeve": "Переключить правый рукав",
+  "too_many_shortcuts.toggled.on": "%s включён",
+  "too_many_shortcuts.toggled.off": "%s выключен",
+  "too_many_shortcuts.toggled.auto_jump": "Автопрыжок",
+  "too_many_shortcuts.search.placeholder": "Поиск... (= - клавиши, =%% - конфликты)",
+  "too_many_shortcuts.search.no_results": "Результатов не найдено"
+}

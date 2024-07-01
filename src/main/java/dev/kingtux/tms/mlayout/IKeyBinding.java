@@ -19,26 +19,43 @@ public interface IKeyBinding {
     ConfigBindings tms$toConfig();
 
     void tms$fromConfig(ConfigBindings configBindings);
-    //void tms$reset();
-    
+
+    /**
+     * Resets the keybinding to the default value
+     *
+     * @param resetAlternatives if true, resets the alternatives as well. If this binding is an alternative it is ignored
+     */
+    void tms$resetBinding(boolean resetAlternatives);
+
+    /**
+     * Sets the keybinding to UNKNOWN and clears the modifiers
+     *
+     * @param clearAlternatives if true, clears the alternatives. If this binding is an alternative it is ignored
+     */
+    void tms$clearBinding(boolean clearAlternatives);
+
     BindingModifiers tms$getKeyModifiers();
-    
+
     int tms$getTimesPressed();
-    
+
     void tms$incrementTimesPressed();
-    
+
     void tms$setTimesPressed(int timesPressed);
-    
-    InputUtil.Key tms$getBoundKey();
+
 
     short tms$getNextChildId();
 
     void tms$setNextChildId(short nextChildId);
 
-    default boolean tms$isAlternative(){
+    boolean tms$hasAlternatives();
+
+
+    default boolean tms$isAlternative() {
         return tms$getParent() != null;
     }
-    @Nullable  KeyBinding tms$getParent();
+
+    @Nullable
+    KeyBinding tms$getParent();
 
     void tms$setParent(KeyBinding binding);
 
@@ -51,9 +68,4 @@ public interface IKeyBinding {
     void tms$addAlternative(KeyBinding binding);
 
     int tms$getIndexInParent();
-
-    void tms$setTranslationKey(String key);
-    void tms$setCategory(String category);
-
-
 }

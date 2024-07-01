@@ -1,3 +1,18 @@
 {
-    "too_many_shortcuts.options.controls.reset.tooltip": "Tieni premuto maiusc per resettare tutte le alternative"
+  "too_many_shortcuts.options.controls.reset.tooltip": "Tieni premuto maiusc per resettare tutte le alternative",
+  "key.too_many_shortcuts.toggle_auto_jump": "Attiva salto automatico",
+  "key.too_many_shortcuts.toggle_cape": "Attiva mantello",
+  "key.too_many_shortcuts.toggle_hat": "Attiva cappello",
+  "key.too_many_shortcuts.toggle_jacket": "Attiva giacca",
+  "key.too_many_shortcuts.toggle_left_pants_leg": "Attiva gamba sinistra dei pantaloni",
+  "key.too_many_shortcuts.toggle_left_sleeve": "Attiva manica sinistra",
+  "key.too_many_shortcuts.toggle_right_sleeve": "Attiva manica destra",
+  "key.too_many_shortcuts.alternative_escape": "Esc (Tasto Alternativo)",
+  "too_many_shortcuts.toggled.on": "%s Abilitato",
+  "too_many_shortcuts.toggled.off": "%s Disabilitato",
+  "too_many_shortcuts.toggled.auto_jump": "Salto Automatico",
+  "too_many_shortcuts.search.no_results": "Nessun risultato trovato",
+  "too_many_shortcuts.key.categories.skin_layers": "Livelli di Skin too_many_shortcuts",
+  "key.too_many_shortcuts.toggle_right_pants_leg": "Attiva gamba destra dei pantaloni",
+  "too_many_shortcuts.search.placeholder": "Cerca... (= per parola chiave, =%% per conflitti)"
 }

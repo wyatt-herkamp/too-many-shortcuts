@@ -2,7 +2,7 @@ package dev.kingtux.tms.config
 
 import dev.kingtux.tms.TooManyShortcuts.LOGGER
 import dev.kingtux.tms.TooManyShortcuts.MOD_ID
-import dev.kingtux.tms.alternatives.createAlternativeKeyBinding
+import dev.kingtux.tms.alternatives.AlternativeKeyBinding
 import dev.kingtux.tms.mlayout.IKeyBinding
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -12,7 +12,8 @@ import java.nio.file.Path
 
 class ConfigManager(private val configPath: Path) {
     var config: Config;
-    companion object{
+
+    companion object {
         // Singleton instance
         private var instance: ConfigManager? = null
         fun instance(): ConfigManager {
@@ -21,14 +22,17 @@ class ConfigManager(private val configPath: Path) {
             }
             return instance!!
         }
+
         private fun configPath(): Path {
             return MinecraftClient.getInstance().runDirectory.toPath().resolve("${MOD_ID}.json")
         }
-        private fun load(){
+
+        private fun load() {
             instance = ConfigManager(configPath())
         }
     }
-    init{
+
+    init {
         if (!configPath.toFile().exists()) {
             // Create default config
             // TODO: Load from minecraft
@@ -47,18 +51,18 @@ class ConfigManager(private val configPath: Path) {
         }
     }
 
-    fun saveConfig(){
+    fun saveConfig() {
         val json = Json.encodeToString(config)
         configPath.toFile().writeText(json)
     }
 
-    fun saveBindings(allKeys: Array<KeyBinding>){
+    fun saveBindings(allKeys: Array<KeyBinding>) {
         for (keyBinding in allKeys) {
             if (keyBinding is IKeyBinding) {
-                if (keyBinding.`tms$isAlternative`()){
+                if (keyBinding.`tms$isAlternative`()) {
                     continue
                 }
-                LOGGER.info("Saving Keybinding: {}", keyBinding.translationKey)
+                //LOGGER.info("Saving Keybinding: {}", keyBinding.translationKey)
                 val alternatives = keyBinding.`tms$getAlternatives`();
                 val trueAlternatives = mutableListOf<ConfigBindings>();
                 if (alternatives != null) {
@@ -72,32 +76,31 @@ class ConfigManager(private val configPath: Path) {
                     (keyBinding as IKeyBinding).`tms$toConfig`(),
                     trueAlternatives
                 )
-                LOGGER.debug("Keybinding {}", keyBinding)
+                // LOGGER.debug("Keybinding {}", keyBinding)
                 config.keybindings[keyBinding.translationKey] = bindings
             }
         }
         saveConfig()
     }
+
     fun loadBindings(allKeys: Array<KeyBinding>): Array<KeyBinding> {
         val newKeys = allKeys.toMutableList()
         for ((key, configBindings) in config.keybindings.entries) {
-            LOGGER.info("Loading Keybinding: {}",key)
+            //LOGGER.info("Loading Keybinding: {}",key)
             val keyBinding = newKeys.find {
                 it.translationKey == key
             } as IKeyBinding?
 
             if (keyBinding == null) {
-                LOGGER.error("Keybinding not found: {}",key)
+                LOGGER.error("Keybinding not found: {}", key)
                 continue
             }
             keyBinding.`tms$fromConfig`(configBindings.primaryBinding)
 
             if (configBindings.hasAlternatives()) {
-                LOGGER.info("Loading Alternatives for: {}",key)
+                // LOGGER.info("Loading Alternatives for: {}",key)
                 for (alternative in configBindings.alternatives) {
-                    val newAlternative = createAlternativeKeyBinding(keyBinding as KeyBinding) as IKeyBinding
-                    newAlternative.`tms$fromConfig`(alternative)
-                    newKeys.add(newAlternative as KeyBinding)
+                    newKeys.add(AlternativeKeyBinding(keyBinding as KeyBinding, alternative))
                 }
             }
         }

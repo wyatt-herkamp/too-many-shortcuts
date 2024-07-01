@@ -5,10 +5,10 @@ import dev.kingtux.tms.keybinding.SkinLayerKeyBinding
 import dev.kingtux.tms.keybinding.ToggleAutoJumpKeyBinding
 
 import dev.kingtux.tms.api.modifiers.BindingModifiers
-import dev.kingtux.tms.mlayout.IKeyBindingEntry
+import dev.kingtux.tms.gui.TMSKeyBindingEntry
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
-import net.minecraft.client.gui.screen.option.ControlsListWidget
+
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
 import net.minecraft.entity.player.PlayerEntity
@@ -74,32 +74,23 @@ object TooManyShortcuts : ClientModInitializer {
     }
 
     fun sendToggleMessage(playerEntity: PlayerEntity, value: Boolean, option: Text?) {
-        playerEntity.sendMessage(Text.translatable("too_many_shortcuts.toggled." + (if (value) "on" else "off"), option), true)
+        playerEntity.sendMessage(
+            Text.translatable(
+                "too_many_shortcuts.toggled." + (if (value) "on" else "off"),
+                option
+            ), true
+        )
     }
 
-    fun entryKeyMatches(entry: ControlsListWidget.KeyBindingEntry, keyFilter: String?): Boolean {
-        if (keyFilter == null) {
-            return true
-        }
-        return when (keyFilter) {
-            "" -> (entry as IKeyBindingEntry).`tms$getKeyBinding`().isUnbound
-            "%" -> (entry as IKeyBindingEntry).`tms$getEditButton`().message.style.color === TextColor.fromFormatting(
-                Formatting.RED
-            )
-
-            else -> StringUtils.containsIgnoreCase(
-                (entry as IKeyBindingEntry).`tms$getKeyBinding`().boundKeyLocalizedText.string,
-                keyFilter
-            )
-        }
-    }
 
     fun log(level: Level?, message: String) {
         LOGGER.log(level, "[$MOD_ID]$message")
     }
+
     fun getEscapeKeyBinding(): KeyBinding {
         return ESCAPE_KEYBINDING
     }
+
     fun makeKeyID(keyName: String): String {
         return "key.$MOD_NAME.$keyName"
     }
