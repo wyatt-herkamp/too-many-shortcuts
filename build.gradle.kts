@@ -93,6 +93,7 @@ modrinth {
     }
     // LATEST_CHANGE_LOG is an environment variable that is set in the CI
     System.getenv("LATEST_CHANGE_LOG").let {
+        project.logger.info("Got Change Log: \n $it")
         if (it != null) {
             changelog.set(it)
         }

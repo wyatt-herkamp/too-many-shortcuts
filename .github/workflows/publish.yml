@@ -31,3 +31,10 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           LATEST_CHANGE_LOG: ${{ steps.changelog.outputs.latestBody }}
         run: gradle modrinth
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: ${{ steps.changelog.outputs.latestBody }}
+          files: |
+            build/libs/*.jar
+          make_latest: true
