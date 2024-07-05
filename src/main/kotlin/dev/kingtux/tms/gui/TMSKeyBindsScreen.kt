@@ -105,7 +105,6 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
         // If the key is escape we are going to clear the selected binding.
         if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
             this.selectedKeyBinding?.binding?.clearBinding(false)
-            this.selectedKeyBinding = null
             controlsList.update()
             return true
         }
@@ -120,9 +119,7 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
         if (this.selectedKeyBinding == null) {
             return super.keyPressed(keyCode, scanCode, modifiers)
         }
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-            return true
-        }
+
         this.selectedKeyBinding = null
         return true
     }
