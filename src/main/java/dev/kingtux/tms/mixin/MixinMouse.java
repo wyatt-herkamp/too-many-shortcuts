@@ -39,18 +39,18 @@ public class MixinMouse implements IMouse {
 
 
     @Inject(method = "onMouseScroll", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;mouseScrolled(DDDD)Z"), cancellable = true)
-    private void beforeMouseScrollEvent(CallbackInfo ci, @Local(ordinal = 4) double vertical) {
-        InputUtil.Key keyCode = ScrollKey.Companion.getVerticalKey(vertical).inputKey();
-        TooManyShortcuts.INSTANCE.log(Level.INFO, "Mouse Scroll Event: " + keyCode.toString() + " " + vertical);
+    private void beforeMouseScrollEvent(CallbackInfo ci, @Local(ordinal = 3) double horizontal, @Local(ordinal = 4) double vertical) {
+        ScrollKey scrollKey = ScrollKey.Companion.getScrollKey(vertical, horizontal);
 
-        if (client.currentScreen != null) {
-            if (client.currentScreen instanceof KeybindsScreen) {
-                if (handleBindMouseScroll(((KeybindsScreen) client.currentScreen), keyCode)) {
-                    ci.cancel();
-                }
-            }
+        if (scrollKey == null) {
             return;
         }
+
+        InputUtil.Key keyCode = scrollKey.inputKey();
+        if (client.currentScreen != null) {
+            return;
+        }
+        TooManyShortcuts.INSTANCE.getLOGGER().info("Mouse Scroll Event: {} {} {}", scrollKey, vertical, horizontal);
 
         KeyBindingUtils.setLastScrollAmount(vertical);
         if (KeyBindingManager.onKeyPressedPriority(keyCode)) {
@@ -58,24 +58,7 @@ public class MixinMouse implements IMouse {
             ci.cancel();
         }
     }
-
-    @Unique
-    private boolean handleBindMouseScroll(@NotNull KeybindsScreen screen, @NotNull InputUtil.Key keyCode) {
-        KeyBinding focusedBinding = screen.selectedKeyBinding;
-        if (focusedBinding != null) {
-            if (!focusedBinding.isUnbound()) {
-                BindingModifiers keyModifiers = ((IKeyBinding) focusedBinding).tms$getKeyModifiers();
-                keyModifiers.set(KeyModifier.Companion.fromKey((focusedBinding.boundKey)), true);
-            }
-            // This is a bit hacky, but the easiest way out
-            // If the selected binding != null, the mouse x and y will always be ignored - so no need to convert them
-            // The key code that InputUtil.MOUSE.createFromCode chooses is always one bigger than the input
-            screen.mouseClicked(-1, -1, keyCode.getCode());
-            return true;
-        }
-        return false;
-    }
-
+    
     @Override
     public boolean tms$getMouseScrolledEventUsed() {
         return mouseScrolled_eventUsed;

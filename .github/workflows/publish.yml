@@ -5,7 +5,9 @@ on:
     # Pattern matched against refs/tags
     tags:
       - '*'
-
+permissions:
+  contents: write
+  discussions: write
 jobs:
   build:
     runs-on: ubuntu-latest

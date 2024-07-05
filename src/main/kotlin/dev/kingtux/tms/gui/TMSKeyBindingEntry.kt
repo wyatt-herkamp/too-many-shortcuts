@@ -6,7 +6,7 @@ import dev.kingtux.tms.alternatives.AlternativeKeyBinding
 import dev.kingtux.tms.api.modifiers.KeyModifier
 import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKey
 import dev.kingtux.tms.api.resetBinding
-import dev.kingtux.tms.api.scroll.ScrollKey.Companion.getVerticalKey
+import dev.kingtux.tms.api.scroll.ScrollKey.Companion.getScrollKey
 import dev.kingtux.tms.mlayout.IGameOptions
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.fabricmc.api.EnvType
@@ -80,16 +80,7 @@ abstract class TMSKeyBindingEntry(
             return
         }
 
-        val keyCode = if (verticalAmount != 0.0) {
-            getVerticalKey(verticalAmount).inputKey()
-        } else if (horizontalAmount != 0.0) {
-            //TODO Handle Horizontal Scrolling issue #5
-            TooManyShortcuts.log(Level.INFO, "Horizontal Scroll")
-            return;
-        } else {
-            TooManyShortcuts.log(Level.INFO, "No Scroll")
-            return;
-        }
+        val keyCode = getScrollKey(verticalAmount, horizontalAmount) ?: return
         if (!binding.isUnbound) {
             fromKey(binding.boundKey)?.let {
                 val keyModifiers = binding.`tms$getKeyModifiers`()
@@ -97,7 +88,7 @@ abstract class TMSKeyBindingEntry(
             }
         }
         val gameOptions = MinecraftClient.getInstance().options
-        gameOptions.setKeyCode(binding, keyCode)
+        gameOptions.setKeyCode(binding, keyCode.inputKey())
         TooManyShortcuts.log(Level.INFO, "Mouse Scroll $keyCode with ${binding.`tms$getKeyModifiers`()}")
     }
 
