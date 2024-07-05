@@ -1,4 +1,4 @@
-name: Publish API
+name: Publish
 
 on:
   push:
@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
+      - name: Parse Changelog
+        id: changelog
+        uses: ocavue/changelog-parser-action@v1
+        with:
+          removeMarkdown: false
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -19,5 +24,10 @@ jobs:
           java-version: 21
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
-      - name: Build with Gradle
-        run: ./gradlew publish
+      - name: Build
+        run: gradle build
+      - name: Publish Mod
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          LATEST_CHANGE_LOG: ${{ steps.changelog.outputs.latestBody }}
+        run: gradle modrinth

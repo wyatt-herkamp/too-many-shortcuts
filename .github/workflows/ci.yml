@@ -17,6 +17,16 @@ jobs:
         uses: gradle/gradle-build-action@v3
       - name: Build with Gradle
         run: ./gradlew build
+      - name: Parse Changelog
+        id: changelog
+        uses: ocavue/changelog-parser-action@v1
+        with:
+          removeMarkdown: false
+      ## Create LATEST_CHANGE_LOG.md file
+      - name: Create LATEST_CHANGE_LOG.md
+        run: |
+          touch LATEST_CHANGE_LOG.md
+          echo "${{ steps.changelog.outputs.latestBody }}" > LATEST_CHANGE_LOG.md
       - uses: actions/upload-artifact@v4
         with:
           # Name of the artifact to upload.
@@ -24,3 +34,4 @@ jobs:
           name: mod
           path: |
             build/libs/*.jar
+            LATEST_CHANGE_LOG.md

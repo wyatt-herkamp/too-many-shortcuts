@@ -1,33 +1,25 @@
 plugins {
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm")
     id("fabric-loom")
     `maven-publish`
     java
-    kotlin("plugin.serialization") version "2.0.0"
+    kotlin("plugin.serialization")
+    id("com.modrinth.minotaur") version "2.+"
+
 }
 
 group = property("maven_group")!!
 version = "${property("mod_version")}+mc.${property("minecraft_version")}"
 
-repositories {
-    exclusiveContent {
-        forRepository {
-            maven {
-                url = uri("https://cursemaven.com")
-            }
-        }
-        filter {
-            includeGroup("curse.maven")
-        }
-    }
-}
+repositories {}
 
 loom {
     accessWidenerPath.set(file("src/main/resources/too_many_shortcuts.accesswidener"))
 }
+val yarn_mapping_version = "${property("minecraft_version")}+build.${property("yarn_mappings")}"
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
-    mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
+    mappings("net.fabricmc:yarn:$yarn_mapping_version:v2")
     modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
@@ -86,7 +78,26 @@ tasks {
         }
     }
 }
-
+modrinth {
+    token.set(System.getenv("MODRINTH_TOKEN"))
+    projectId.set("too-many-shortcuts")
+    versionNumber.set(version.toString())
+    versionType.set(property("release_type").toString())
+    uploadFile.set(tasks.remapJar)
+    val supportedMinecraftVersions = property("supported_minecraft_versions").toString().split(",");
+    gameVersions.addAll(supportedMinecraftVersions)
+    loaders.add("fabric")
+    dependencies {
+        required.project("fabric-api")
+        required.project("fabric-language-kotlin")
+    }
+    // LATEST_CHANGE_LOG is an environment variable that is set in the CI
+    System.getenv("LATEST_CHANGE_LOG").let {
+        if (it != null) {
+            changelog.set(it)
+        }
+    }
+}
 kotlin {
     jvmToolchain(21)
 }
