@@ -1,5 +1,6 @@
 package dev.kingtux.tms.api.modifiers
 
+import de.siphalor.amecs.api.KeyModifiers
 import dev.kingtux.tms.TooManyShortcuts
 import kotlinx.serialization.Serializable
 
@@ -45,6 +46,12 @@ data class BindingModifiers(
         }
     }
 
+    fun set(modifiers: de.siphalor.amecs.api.KeyModifiers) {
+        shift = modifiers.shift
+        ctrl = modifiers.control
+        alt = modifiers.alt
+    }
+
     fun set(modifiers: BindingModifiers) {
         shift = modifiers.shift
         ctrl = modifiers.ctrl
@@ -58,5 +65,13 @@ data class BindingModifiers(
 
     fun isPressed(): Boolean {
         return this == TooManyShortcuts.currentModifiers
+    }
+
+    fun toAmecs(): de.siphalor.amecs.api.KeyModifiers {
+        val keyModifiers = KeyModifiers()
+        keyModifiers.shift = shift
+        keyModifiers.control = ctrl
+        keyModifiers.alt = alt
+        return keyModifiers
     }
 }

@@ -5,7 +5,6 @@ import dev.kingtux.tms.keybinding.SkinLayerKeyBinding
 import dev.kingtux.tms.keybinding.ToggleAutoJumpKeyBinding
 
 import dev.kingtux.tms.api.modifiers.BindingModifiers
-import dev.kingtux.tms.gui.TMSKeyBindingEntry
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 
@@ -14,10 +13,7 @@ import net.minecraft.client.util.InputUtil
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerModelPart
 import net.minecraft.text.Text
-import net.minecraft.text.TextColor
-import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
-import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -45,7 +41,6 @@ object TooManyShortcuts : ClientModInitializer {
 
 
     override fun onInitializeClient() {
-
         KeyBindingHelper.registerKeyBinding(
             ToggleAutoJumpKeyBinding(
                 Identifier.of(MOD_ID, "toggle_auto_jump"),
