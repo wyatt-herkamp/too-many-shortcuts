@@ -12,7 +12,7 @@
   "too_many_shortcuts.toggled.on": "Enabled %s",
   "too_many_shortcuts.toggled.off": "Disabled %s",
   "too_many_shortcuts.toggled.auto_jump": "Auto Jump",
-  "too_many_shortcuts.search.placeholder": "Search... (= to search by key, =%% for conflicts)",
+  "too_many_shortcuts.search.placeholder": "Search... (= to search by key)",
   "too_many_shortcuts.search.no_results": "No results found",
   "key.too_many_shortcuts.mouse.scroll.up": "Scroll Up",
   "key.too_many_shortcuts.mouse.scroll.down": "Scroll Down",
@@ -28,5 +28,10 @@
   "too_many_shortcuts.modifier.shift.short": "Shft",
   "too_many_shortcuts.modifier.shift.tiny": "S",
   "too_many_shortcuts.options.controls.reset.tooltip": "Hold Shift to reset all alternatives as well",
-  "too_many_shortcuts.options.controls.alternatives": "%s alternative %d"
+  "too_many_shortcuts.options.controls.alternatives": "%s alternative %d",
+  "too_many_shortcuts.options.controls.show.all": "Show: All",
+  "too_many_shortcuts.options.controls.show.conflicts": "Show: Conflicts",
+  "too_many_shortcuts.options.controls.show.unbound": "Show: Unbound",
+  "too_many_shortcuts.options.controls.screen-mode": "Screen Mode: %s",
+  "too_many_shortcuts.options.controls.free-list.button": "Free List"
 }

@@ -51,7 +51,7 @@ abstract class TMSKeyBindingEntry(
 
     abstract val bindingName: Text;
     abstract val alternativesButton: ButtonWidget
-    private var duplicate = false
+     var duplicate = false
     private val description: MutableList<Text> = mutableListOf()
     val editButton: ButtonWidget =
         ButtonWidget.builder(Text.translatable(binding.translationKey)) {
@@ -280,10 +280,6 @@ abstract class TMSKeyBindingEntry(
         }
         return when (keyFilter) {
             "" -> this.binding.isUnbound
-            "%" -> this.editButton.message.style.color === TextColor.fromFormatting(
-                Formatting.RED
-            )
-
             else -> StringUtils.containsIgnoreCase(
                 binding.boundKeyLocalizedText.string,
                 keyFilter

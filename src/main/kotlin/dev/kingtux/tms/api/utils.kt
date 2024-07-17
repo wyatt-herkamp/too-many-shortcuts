@@ -31,7 +31,29 @@ fun KeyBinding.isAlternative(): Boolean {
     }
     return false
 }
-
+fun KeyBinding.hasConflicts(gameOptions: GameOptions): Boolean {
+    for (keyBinding in gameOptions.allKeys) {
+        if (keyBinding === this){
+            continue
+        }
+        if (keyBinding.boundKey.equals(this.boundKey)) {
+            return true
+        }
+    }
+    return false
+}
+fun KeyBinding.entryKeyMatches(keyFilter: String?): Boolean {
+    if (keyFilter == null) {
+        return true
+    }
+    return when (keyFilter) {
+        "" -> this.isUnbound
+        else -> StringUtils.containsIgnoreCase(
+            this.boundKeyLocalizedText.string,
+            keyFilter
+        )
+    }
+}
 fun KeyBinding.translatedTextEqualsIgnoreCase(searchText: String): Boolean {
 
     return StringUtils.containsIgnoreCase(
