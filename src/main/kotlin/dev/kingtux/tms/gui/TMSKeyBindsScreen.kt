@@ -53,7 +53,7 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
 
     var show: ShowOptions = ShowOptions.SHOW_ALL
     var screenMode: ScreenModes = ScreenModes.KeyBindings
-    val changeScreenMode: ButtonWidget = ButtonWidget.builder(
+    private val changeScreenMode: ButtonWidget = ButtonWidget.builder(
         screenMode.buttonText(),
     ) {
         screenMode = screenMode.next()
