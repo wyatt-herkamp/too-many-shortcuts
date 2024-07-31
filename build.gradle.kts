@@ -66,6 +66,7 @@ tasks {
         repositories {
             mavenLocal()
             if (project.hasProperty("kingtux_dev_username") && project.hasProperty("kingtux_dev_password")) {
+                println("Detected KingTux Dev Credentials")
                 maven {
                     name = "kingtux_dev"
                     url = uri("https://repo.kingtux.dev/repositories/maven/fabric-mods/")
