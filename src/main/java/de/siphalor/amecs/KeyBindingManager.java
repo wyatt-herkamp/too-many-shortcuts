@@ -16,9 +16,10 @@
 
 package de.siphalor.amecs;
 
+import de.siphalor.amecs.api.PriorityKeyBinding;
 import dev.kingtux.tms.api.KeyBindingUtils;
 
-import dev.kingtux.tms.api.PriorityKeyBinding;
+
 import dev.kingtux.tms.TooManyShortcuts;
 import dev.kingtux.tms.mlayout.IKeyBinding;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
@@ -186,7 +187,12 @@ public class KeyBindingManager {
 
     public static boolean onKeyPressedPriority(InputUtil.Key keyCode) {
         // because streams are lazily evaluated, this code only calls onPressedPriority so often until one returns true
-        Optional<KeyBinding> keyBindings = getMatchingKeyBindings(keyCode, true).filter(keyBinding -> ((PriorityKeyBinding) keyBinding).onPressedPriority()).findFirst();
+        Optional<KeyBinding> keyBindings = getMatchingKeyBindings(keyCode, true).filter(keyBinding -> {
+            if (keyBinding instanceof PriorityKeyBinding) {
+                return ((PriorityKeyBinding) keyBinding).onPressedPriority();
+            }
+            return false;
+        }).findFirst();
         return keyBindings.isPresent();
     }
 

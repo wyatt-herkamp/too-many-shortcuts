@@ -14,7 +14,7 @@ class ToggleAutoJumpKeyBinding(
     code: Int,
     category: String?,
     defaultModifiers: BindingModifiers?
-) : TMSKeyBinding(id, type, code, category, defaultModifiers) {
+) : TMSKeyBinding(id, type, code, category, defaultModifiers){
     override fun onPressed() {
         val minecraftClient = MinecraftClient.getInstance()
         val autoJump = !minecraftClient.options.autoJump.value
