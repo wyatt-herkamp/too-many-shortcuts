@@ -10,7 +10,10 @@ plugins {
 
 group = property("maven_group")!!
 version = "${property("mod_version")}+mc.${property("minecraft_version")}"
-
+var mavenVersion = "${property("mod_version")}"
+if (project.hasProperty("maven_version_extension")) {
+    mavenVersion += "-${property("maven_version_extension")}"
+}
 repositories {}
 
 loom {
@@ -44,6 +47,7 @@ tasks {
     publishing {
         publications {
             create<MavenPublication>("mavenJava") {
+                version = mavenVersion
                 pom {
                     url.set(property("source_url")!! as String);
                     developers {
