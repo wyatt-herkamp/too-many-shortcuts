@@ -87,8 +87,7 @@ abstract class TMSKeyBindingEntry(
                 keyModifiers.set(it, true)
             }
         }
-        val gameOptions = MinecraftClient.getInstance().options
-        gameOptions.setKeyCode(binding, keyCode.inputKey())
+        binding.setBoundKey( keyCode.inputKey())
         TooManyShortcuts.log(Level.INFO, "Mouse Scroll $keyCode with ${binding.`tms$getKeyModifiers`()}")
     }
 
@@ -96,7 +95,6 @@ abstract class TMSKeyBindingEntry(
         if (binding !is IKeyBinding) {
             return
         }
-        val gameOptions = MinecraftClient.getInstance().options
 
         val keyCode = InputUtil.Type.MOUSE.createFromCode(button)
         val key = binding.boundKey
@@ -105,7 +103,7 @@ abstract class TMSKeyBindingEntry(
             val keyModifiers = binding.`tms$getKeyModifiers`()
             keyModifiers.set(keyAsModifier, true)
         }
-        gameOptions.setKeyCode(binding, keyCode)
+        binding.setBoundKey(keyCode)
 
         TooManyShortcuts.log(Level.INFO, "Mouse Click $button with ${binding.`tms$getKeyModifiers`()}")
         parent.parent.selectedKeyBinding = null
@@ -116,7 +114,7 @@ abstract class TMSKeyBindingEntry(
         val gameOptions = MinecraftClient.getInstance().options
         val newInput = InputUtil.fromKeyCode(keyCode, scanCode);
         if (binding.isUnbound) {
-            gameOptions.setKeyCode(binding, newInput)
+            binding.setBoundKey(newInput)
         }
         if (binding !is IKeyBinding) {
             TooManyShortcuts.log(Level.ERROR, "Binding is not a IKeyBinding")
@@ -135,7 +133,7 @@ abstract class TMSKeyBindingEntry(
                 keyModifiers.set(keyModifier, true)
             }
         }
-        gameOptions.setKeyCode(binding, newInput)
+        binding.setBoundKey(newInput)
         TooManyShortcuts.log(
             Level.INFO,
             "KeyBoard Click ${binding.boundKey} with ${binding.`tms$getKeyModifiers`()}"

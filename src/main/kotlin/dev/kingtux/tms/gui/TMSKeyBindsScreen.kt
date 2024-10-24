@@ -110,7 +110,7 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
         directionalLayoutWidget.add(rowTwo)
     }
 
-    override fun initTabNavigation() {
+    override fun refreshWidgetPositions() {
         layout.refreshPositions()
         controlsList.position(this.width, this.layout)
     }

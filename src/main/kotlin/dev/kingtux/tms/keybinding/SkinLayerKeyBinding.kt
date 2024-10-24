@@ -18,7 +18,8 @@ class SkinLayerKeyBinding(
     override fun onPressed() {
         val client = MinecraftClient.getInstance()
         if (client.player == null) return
-        client.options.togglePlayerModelPart(playerModelPart, !client.options.isPlayerModelPartEnabled(playerModelPart))
+        // TODO: Figure out how to do this in 1.21.3
+        //client.options.togglePlayerModelPart(playerModelPart, !client.options.isPlayerModelPartEnabled(playerModelPart))
         sendToggleMessage(
             client.player!!,
             client.options.isPlayerModelPartEnabled(playerModelPart),
