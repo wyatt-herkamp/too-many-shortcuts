@@ -5,8 +5,6 @@
   "mixins": [
   ],
   "client": [
-    "MixinInputUtilType",
-    "MixinMouse",
     "MixinKeyboard",
     "MixinGameOptions",
     "MixinKeyBinding",

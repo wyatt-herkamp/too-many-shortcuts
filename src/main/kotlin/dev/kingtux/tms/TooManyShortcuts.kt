@@ -26,7 +26,6 @@ object TooManyShortcuts : ClientModInitializer {
     const val SKIN_LAYER_CATEGORY: String = "$MOD_ID.key.categories.skin_layers"
 
     val LOGGER: Logger = LogManager.getLogger(MOD_NAME)
-    const val TRIGGER_KEYBINDING_ON_SCROLL: Boolean = true
     val currentModifiers: BindingModifiers = BindingModifiers()
 
     val ESCAPE_KEYBINDING: KeyBinding = KeyBindingHelper.registerKeyBinding(

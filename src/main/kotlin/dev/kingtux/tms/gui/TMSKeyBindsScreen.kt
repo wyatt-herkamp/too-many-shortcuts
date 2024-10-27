@@ -125,7 +125,6 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
         if (this.selectedKeyBinding == null || !config.config.scrollBindings) {
             return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
         }
-        this.selectedKeyBinding!!.updateMouseScroll(horizontalAmount, verticalAmount)
         controlsList.update()
         return true
     }

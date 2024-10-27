@@ -6,7 +6,6 @@ import dev.kingtux.tms.alternatives.AlternativeKeyBinding
 import dev.kingtux.tms.api.modifiers.KeyModifier
 import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKey
 import dev.kingtux.tms.api.resetBinding
-import dev.kingtux.tms.api.scroll.ScrollKey.Companion.getScrollKey
 import dev.kingtux.tms.mlayout.IGameOptions
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.fabricmc.api.EnvType
@@ -72,24 +71,6 @@ abstract class TMSKeyBindingEntry(
         }
     }
 
-    fun updateMouseScroll(
-        horizontalAmount: Double,
-        verticalAmount: Double
-    ) {
-        if (binding !is IKeyBinding) {
-            return
-        }
-
-        val keyCode = getScrollKey(verticalAmount, horizontalAmount) ?: return
-        if (!binding.isUnbound) {
-            fromKey(binding.boundKey)?.let {
-                val keyModifiers = binding.`tms$getKeyModifiers`()
-                keyModifiers.set(it, true)
-            }
-        }
-        binding.setBoundKey( keyCode.inputKey())
-        TooManyShortcuts.log(Level.INFO, "Mouse Scroll $keyCode with ${binding.`tms$getKeyModifiers`()}")
-    }
 
     fun updateMouseClick(button: Int) {
         if (binding !is IKeyBinding) {

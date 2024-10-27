@@ -16,10 +16,8 @@
 
 package de.siphalor.amecs.api;
 
-
-import java.util.Map;
-
-
+import dev.kingtux.tms.api.TMSKeyBindingUtils;
+import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.mlayout.IKeyBinding;
 
 import net.fabricmc.api.EnvType;
@@ -28,18 +26,15 @@ import net.minecraft.client.option.KeyBinding;
 
 /**
  * Utility methods and constants for Amecs and vanilla key bindings
+ *
+ * @deprecated Use {@link dev.kingtux.tms.api.TMSKeyBindingUtils} instead
  */
 @SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
+@Deprecated
 public class KeyBindingUtils {
-
-
-    private static Map<String, KeyBinding> idToKeyBindingMap;
-
     private KeyBindingUtils() {
     }
-
-
     /**
      * Gets the key modifiers that are bound to the given key binding
      *
@@ -58,16 +53,14 @@ public class KeyBindingUtils {
      * @return a reference to the default modifiers
      */
     public static KeyModifiers getDefaultModifiers(KeyBinding keyBinding) {
-        if (keyBinding instanceof AmecsKeyBinding) {
-            return ((AmecsKeyBinding) keyBinding).getDefaultModifiers();
+        BindingModifiers bindingModifiers = TMSKeyBindingUtils.INSTANCE.getDefaultModifiers(keyBinding);
+        if (bindingModifiers == null) {
+            return KeyModifiers.NO_MODIFIERS;
         }
-        return KeyModifiers.NO_MODIFIERS;
+        return bindingModifiers.toAmecs();
     }
 
     public static void resetBoundModifiers(KeyBinding keyBinding) {
-        ((IKeyBinding) keyBinding).tms$getKeyModifiers().unset();
-        if (keyBinding instanceof AmecsKeyBinding) {
-            ((AmecsKeyBinding) keyBinding).resetKeyBinding();
-        }
+        TMSKeyBindingUtils.INSTANCE.resetBoundModifiers(keyBinding);
     }
 }

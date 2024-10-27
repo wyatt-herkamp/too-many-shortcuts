@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.6] (unreleased)
 - Updated to 1.21.3
 - `togglePlayerModelPart` renamed to `setPlayerModelPart`
+- Dropped Mouse Keybinding Support
+- Fixed Crash due to Mixin Issue
+- 
 
 ## [0.0.5] (2024-08-21)
 - Removed ` dev.kingtux.tms.api.PriorityKeyBinding` to use Amecs API PriorityKeyBinding

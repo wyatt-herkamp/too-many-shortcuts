@@ -337,7 +337,29 @@ public abstract class MixinKeyBinding implements IKeyBinding {
             }
         }
     }
-
+    @Override
+    public String tms$debugString() {
+        String parent;
+        if (this.parent == null){
+            parent = "null";
+        }else if (this.parent instanceof IKeyBinding){
+            parent =  ((IKeyBinding) this.parent).tms$debugString();
+        } else {
+            parent = this.parent.getTranslationKey();
+        }
+     return "KeyBinding{" +
+            "pressed=" + pressed +
+            ", category='" + category + '\'' +
+            ", translationKey='" + translationKey + '\'' +
+            ", children=" + children +
+            ", nextChildId=" + nextChildId +
+            ", parent=" + parent +
+            ", timesPressed=" + timesPressed +
+            ", keyModifiers=" + keyModifiers +
+            ", boundKey=" + boundKey +
+            ", defaultKey=" + defaultKey +
+            '}';
+    }
     /**
      * Support for mods who don't want to use the keybinding API for Fabric.
      *

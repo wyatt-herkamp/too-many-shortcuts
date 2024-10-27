@@ -16,11 +16,11 @@
 
 package de.siphalor.amecs;
 
+import de.siphalor.amecs.api.KeyBindingUtils;
 import de.siphalor.amecs.api.PriorityKeyBinding;
-import dev.kingtux.tms.api.KeyBindingUtils;
-
 
 import dev.kingtux.tms.TooManyShortcuts;
+import dev.kingtux.tms.api.TMSKeyBindingUtils;
 import dev.kingtux.tms.mlayout.IKeyBinding;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.api.modifiers.KeyModifier;
@@ -33,7 +33,6 @@ import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Environment(EnvType.CLIENT)
@@ -81,6 +80,7 @@ public class KeyBindingManager {
         InputUtil.Key keyCode = keyBinding.boundKey;
         List<KeyBinding> keyBindings = targetMap.computeIfAbsent(keyCode, k -> new ArrayList<>());
         if (keyBindings.contains(keyBinding)) {
+            TMSKeyBindingUtils.debugKeyBinding("Key binding already registered", keyBinding);
             return false;
         }
         keyBindings.add(keyBinding);
@@ -115,14 +115,19 @@ public class KeyBindingManager {
     }
 
     private static boolean areExactModifiersPressed(KeyBinding keyBinding) {
-        return KeyBindingUtils.getBoundModifiers(keyBinding).equals(TooManyShortcuts.INSTANCE.getCurrentModifiers());
+        return TooManyShortcuts.INSTANCE.getCurrentModifiers().equals(TMSKeyBindingUtils.getBoundModifiersOrEmpty(keyBinding));
     }
 
     public static void onKeyPressed(InputUtil.Key keyCode) {
         getMatchingKeyBindings(keyCode, false).forEach(keyBinding ->
-                ((IKeyBinding) keyBinding).tms$incrementTimesPressed()
+                {
+                    //TMSKeyBindingUtils.debugKeyBinding("Key pressed", keyBinding);
+                    ((IKeyBinding) keyBinding).tms$incrementTimesPressed();
+                }
         );
     }
+
+
 
     private static Stream<KeyBinding> getKeyBindingsFromMap(Map<InputUtil.Key, List<KeyBinding>> keysById_map) {
         return keysById_map.values().stream().flatMap(Collection::stream);
@@ -167,7 +172,7 @@ public class KeyBindingManager {
     public static void updateKeysByCode() {
         keysById.clear();
         priorityKeysById.clear();
-        KeyBindingUtils.getIdToKeyBindingMap().values().forEach(KeyBindingManager::register);
+        TMSKeyBindingUtils.getIdToKeyBindingMap().values().forEach(KeyBindingManager::register);
     }
 
     public static void setKeyBindingPressed(KeyBinding keyBinding, boolean pressed) {
@@ -182,7 +187,7 @@ public class KeyBindingManager {
     }
 
     public static void unpressAll() {
-        KeyBindingUtils.getIdToKeyBindingMap().values().forEach(KeyBinding::reset);
+        TMSKeyBindingUtils.getIdToKeyBindingMap().values().forEach(KeyBinding::reset);
     }
 
     public static boolean onKeyPressedPriority(InputUtil.Key keyCode) {
@@ -219,7 +224,7 @@ public class KeyBindingManager {
     private static void handleReleasedModifier() {
         // Handle the case that a modifier has been released
         pressedKeyBindings.removeIf(pressedKeyBinding -> {
-            BindingModifiers boundModifiers = KeyBindingUtils.getBoundModifiers(pressedKeyBinding);
+            BindingModifiers boundModifiers = TMSKeyBindingUtils.getBoundModifiers(pressedKeyBinding);
             if (!TooManyShortcuts.INSTANCE.getCurrentModifiers().contains(boundModifiers)) {
                 pressedKeyBinding.setPressed(false);
                 return true;

@@ -26,6 +26,10 @@ public abstract class MixinOpenKeybindings extends GameOptionsScreen {
 
     @Inject(method = "addOptions", at = @At("HEAD"), cancellable = true)
     public void changeOptions(CallbackInfo ci) {
+        if (this.body == null || this.client == null) {
+            // Time to panic. Because how did this happen?
+            return;
+        }
         this.body.addWidgetEntry(ButtonWidget.builder(Text.translatable("options.mouse_settings"), (buttonWidget) -> {
             this.client.setScreen(new MouseOptionsScreen(this, this.gameOptions));
         }).build(), ButtonWidget.builder(Text.translatable("controls.keybinds"), (buttonWidget) -> {

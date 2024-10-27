@@ -68,4 +68,6 @@ public interface IKeyBinding {
     void tms$addAlternative(KeyBinding binding);
 
     int tms$getIndexInParent();
+    /// Proper Debug Message for KeyBinding
+    String tms$debugString();
 }
