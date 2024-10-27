@@ -7,8 +7,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
+
 
 public class TMSKeyBinding extends KeyBinding {
     private final BindingModifiers defaultModifiers;
@@ -16,7 +15,7 @@ public class TMSKeyBinding extends KeyBinding {
     /**
      * Constructs a new amecs keybinding. And because how the vanilla key binding works. It is automatically registered.
      * <br>
-     * See {@link KeyBindingUtils#unregisterKeyBinding(KeyBinding)} for how to unregister it
+     * See {@link TMSKeyBindingUtils#unregisterKeyBinding(KeyBinding)} for how to unregister it
      * If you want to set the key's translationKey directly use {@link #TMSKeyBinding(String, net.minecraft.client.util.InputUtil.Type, int, String, BindingModifiers)} instead
      *
      * @param id               the id to use
@@ -32,7 +31,7 @@ public class TMSKeyBinding extends KeyBinding {
     /**
      * Constructs a new amecs keybinding. And because how the vanilla key binding works. It is automatically registered.
      * <br>
-     * See {@link KeyBindingUtils#unregisterKeyBinding(KeyBinding)} for how to unregister it
+     * See {@link TMSKeyBindingUtils#unregisterKeyBinding(KeyBinding)} for how to unregister it
      *
      * @param id               the id to use
      * @param type             the input type which triggers this keybinding
