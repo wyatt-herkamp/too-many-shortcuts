@@ -220,7 +220,7 @@ class TMSControlsListWidget(val parent: TMSKeyBindsScreen, val client: Minecraft
     private fun rebuildKeybindingEntries(searchValue: String?){
         val (entries, maxKeyNameLength) = createAllEntries(searchValue)
         this.maxKeyNameLength = maxKeyNameLength
-        scrollAmount = 0.0
+        scrollY = 0.0
         var lastCategory: String? = null
         if (entries.isEmpty()){
             addEntry(TMSCategoryEntry(NO_RESULTS_TEXT, this))
