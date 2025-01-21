@@ -12,6 +12,6 @@ A Fork of [Amecs](https://github.com/Siphalor/amecs), [Amecs-API](https://github
 
 
 ## API Usage
-[![fabric-mods Repository](https://repo.kingtux.dev/badge/repositories/maven/fabric-mods/nitro_repo_badge)](https://repo.kingtux.dev/repositories/maven/fabric-mods/)
+[![fabric-mods Repository](https://repo.kingtux.dev/badge/repositories/maven/fabric-mods/nitro_repo_badge)]([https://repo.kingtux.dev/repositories/maven/fabric-mods/](https://repo.kingtux.dev/page/repository/f609cacd-e7de-41a2-8a4b-6f055b550969))
 
 // TODO
