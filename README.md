@@ -1,5 +1,7 @@
 # Too Many Shortcuts
 [![](https://dcbadge.limes.pink/api/server/sVfVTh4wTc)](https://discord.gg/sVfVTh4wTc)
+[![fabric-mods Repository](https://repo.kingtux.dev/badge/public/fabric-mods)](https://repo.kingtux.dev/page/repository/f609cacd-e7de-41a2-8a4b-6f055b550969)
+[![fabric-mods Repository](https://repo.kingtux.dev/badge/public/fabric-mods/project/dev.kingtux:too-many-shortcuts)](https://repo.kingtux.dev/projects/8230c96a-61b3-480a-a5e5-71b91eae38c7)
 
 
 A Fork of [Amecs](https://github.com/Siphalor/amecs), [Amecs-API](https://github.com/Siphalor/amecs-api), and [Nmuk](https://github.com/Siphalor/nmuk)
@@ -12,6 +14,5 @@ A Fork of [Amecs](https://github.com/Siphalor/amecs), [Amecs-API](https://github
 
 
 ## API Usage
-[![fabric-mods Repository](https://repo.kingtux.dev/badge/repositories/maven/fabric-mods/nitro_repo_badge)]([https://repo.kingtux.dev/repositories/maven/fabric-mods/](https://repo.kingtux.dev/page/repository/f609cacd-e7de-41a2-8a4b-6f055b550969))
 
 // TODO
