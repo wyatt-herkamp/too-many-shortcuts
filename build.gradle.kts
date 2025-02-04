@@ -72,7 +72,7 @@ tasks {
                 println("Detected KingTux Dev Credentials")
                 maven {
                     name = "kingtux_dev"
-                    url = uri("https://repo.kingtux.dev/repositories/maven/fabric-mods/")
+                    url = uri("https://repo.kingtux.dev/repositories/public/fabric-mods/")
                     credentials {
                         username = project.property("kingtux_dev_username") as String
                         password = project.property("kingtux_dev_password") as String
