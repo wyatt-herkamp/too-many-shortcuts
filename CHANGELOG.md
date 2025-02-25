@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [0.0.8] (Unreleased)
+## [0.0.8] (2025-02-25)
 - Fixed Rebinding to a modifier keeps previous modifiers [#25](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/25)
 - Fixed Unable to bind modifiers alone [#13](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/13)
 - Fixed reset is disabled when modifiers are present but key is the default
@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated Yarn Mappings build.8
 - Updated Fabric API to 0.118
 - Updated Fabric Kotlin to 1.13.1
+- Stopped overwriting ControlsOptionsScreen completely to open TMSKeyBindsScreen Fixes [#20](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/20)
 ## [0.0.7] (2024-12-29)
 - Updated to 1.21.4
 
@@ -48,3 +49,5 @@ Initial release.
 [0.0.2]:https://github.com/wyatt-herkamp/too-many-shortcuts/releases/tag/0.0.2
 
 [0.0.3]:https://github.com/wyatt-herkamp/too-many-shortcuts/releases/tag/0.0.3
+
+[0.0.8]:https://github.com/wyatt-herkamp/too-many-shortcuts/releases/tag/0.0.8

@@ -14,3 +14,5 @@ accessible field net/minecraft/client/gui/screen/option/GameOptionsScreen body L
 accessible field net/minecraft/client/option/KeyBinding boundKey Lnet/minecraft/client/util/InputUtil$Key;
 accessible field net/minecraft/client/option/KeyBinding defaultKey Lnet/minecraft/client/util/InputUtil$Key;
 accessible field net/minecraft/client/option/KeyBinding KEYS_BY_ID Ljava/util/Map;
+# Access parent screen
+accessible field net/minecraft/client/gui/screen/option/GameOptionsScreen parent Lnet/minecraft/client/gui/screen/Screen;
