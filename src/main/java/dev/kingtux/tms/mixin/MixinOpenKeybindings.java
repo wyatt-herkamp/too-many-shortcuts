@@ -38,4 +38,5 @@ public abstract class MixinOpenKeybindings extends GameOptionsScreen {
         this.body.addAll(gameOptions.getSneakToggled(), gameOptions.getSprintToggled(), gameOptions.getAutoJump(), gameOptions.getOperatorItemsTab());
         ci.cancel();
     }
+
 }

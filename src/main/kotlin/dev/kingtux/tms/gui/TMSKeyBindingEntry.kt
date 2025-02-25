@@ -50,9 +50,9 @@ abstract class TMSKeyBindingEntry(
 
     abstract val bindingName: Text;
     abstract val alternativesButton: ButtonWidget
-     var duplicate = false
+    private var duplicate = false
     private val description: MutableList<Text> = mutableListOf()
-    val editButton: ButtonWidget =
+    private val editButton: ButtonWidget =
         ButtonWidget.builder(Text.translatable(binding.translationKey)) {
             parent.parent.selectedKeyBinding = this
             parent.update()
@@ -101,16 +101,25 @@ abstract class TMSKeyBindingEntry(
             TooManyShortcuts.log(Level.ERROR, "Binding is not a IKeyBinding")
             return;
         }
+        // Gets the current bindings modifiers
         val keyModifiers = binding.`tms$getKeyModifiers`()
+        // Get the active modifiers being pressed
         val activeModifiers = KeyModifier.fromModifiers(modifiers)
         TooManyShortcuts.log(
             Level.INFO,
             "Key Code $keyCode Scan Code $scanCode Modifiers $activeModifiers from $modifiers"
         )
-        if (activeModifiers.isEmpty()) {
-            keyModifiers.unset()
-        } else {
+
+        // Remove all the modifiers then add the active ones
+        keyModifiers.unset()
+         if (activeModifiers.isNotEmpty()) {
+
             for (keyModifier in activeModifiers) {
+                if (keyModifier.matches(keyCode)){
+                    TooManyShortcuts.log(Level.TRACE, "Ignoring Modifier $keyModifier due to matching key")
+                    continue
+                }
+                TooManyShortcuts.log(Level.TRACE, "Adding Modifier $keyModifier")
                 keyModifiers.set(keyModifier, true)
             }
         }
@@ -151,7 +160,7 @@ abstract class TMSKeyBindingEntry(
 
     override fun update() {
         editButton.message = binding.boundKeyLocalizedText
-        resetButton.active = !binding.isDefault
+        resetButton.active = !binding.isUnbound && !binding.isDefault
         this.duplicate = false
         val mutableText = Text.empty()
         if (!binding.isUnbound) {

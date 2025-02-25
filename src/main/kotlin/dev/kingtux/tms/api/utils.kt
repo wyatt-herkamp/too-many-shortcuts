@@ -11,8 +11,13 @@ import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.Level
 
 fun isDefaultBinding(keybinding: KeyBinding): Boolean {
+    // If for some weird reason KeyBinding is not the Mixin type just use the default
     if (keybinding !is IKeyBinding) {
         return keybinding.defaultKey == keybinding.boundKey
+    }
+    // Anytime it has modifiers it is not the default
+    if (keybinding.`tms$getKeyModifiers`().hasModifiers()){
+        return false
     }
     if (!keybinding.`tms$hasAlternatives`()) {
         return keybinding.defaultKey == keybinding.boundKey

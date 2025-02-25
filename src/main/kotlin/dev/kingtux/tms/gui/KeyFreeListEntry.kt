@@ -41,10 +41,10 @@ class KeyFreeListEntry(
     }
 
     override fun children(): MutableList<out Element> {
-        return ImmutableList.of(
-            translationKey,
-            keyText
-        ) as MutableList<out Element>
+        return mutableListOf(
+            translationKey as Element,
+            keyText as Element
+        )
     }
 
     override fun selectableChildren(): MutableList<out Selectable> {
