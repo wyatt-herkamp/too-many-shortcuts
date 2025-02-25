@@ -17,6 +17,7 @@ repositories {}
 
 loom {
     accessWidenerPath.set(file("src/main/resources/too_many_shortcuts.accesswidener"))
+    log4jConfigs.from("log4j-dev.xml")
 }
 val yarn_mapping_version = "${property("minecraft_version")}+build.${property("yarn_mappings")}"
 dependencies {

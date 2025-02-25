@@ -29,6 +29,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.*;
@@ -80,7 +81,7 @@ public class KeyBindingManager {
         InputUtil.Key keyCode = keyBinding.boundKey;
         List<KeyBinding> keyBindings = targetMap.computeIfAbsent(keyCode, k -> new ArrayList<>());
         if (keyBindings.contains(keyBinding)) {
-            TMSKeyBindingUtils.debugKeyBinding("Key binding already registered", keyBinding);
+            //TMSKeyBindingUtils.debugKeyBinding("Key binding already registered", keyBinding);
             return false;
         }
         keyBindings.add(keyBinding);
@@ -147,7 +148,10 @@ public class KeyBindingManager {
         long windowHandle = MinecraftClient.getInstance().getWindow().getHandle();
         forEachKeyBinding(keyBinding -> {
             InputUtil.Key key = keyBinding.boundKey;
-            boolean pressed = !keyBinding.isUnbound() && key.getCategory() == InputUtil.Type.KEYSYM && InputUtil.isKeyPressed(windowHandle, key.getCode());
+            if (keyBinding.isUnbound()){
+                return;
+            }
+            boolean pressed =  key.getCategory() == InputUtil.Type.KEYSYM && InputUtil.isKeyPressed(windowHandle, key.getCode());
             setKeyBindingPressed(keyBinding, pressed);
         });
     }
@@ -225,7 +229,12 @@ public class KeyBindingManager {
         // Handle the case that a modifier has been released
         pressedKeyBindings.removeIf(pressedKeyBinding -> {
             BindingModifiers boundModifiers = TMSKeyBindingUtils.getBoundModifiers(pressedKeyBinding);
+            // If no modifiers are bound to this pressed binding. Then it was not unpressed
+            if (boundModifiers == null || boundModifiers.isUnset()) {
+                return false;
+            }
             if (!TooManyShortcuts.INSTANCE.getCurrentModifiers().contains(boundModifiers)) {
+                TooManyShortcuts.INSTANCE.log(Level.DEBUG, "Undressing keybinding due to released modifier: " + pressedKeyBinding.getTranslationKey());
                 pressedKeyBinding.setPressed(false);
                 return true;
             }

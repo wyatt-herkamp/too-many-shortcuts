@@ -25,7 +25,7 @@ object TooManyShortcuts : ClientModInitializer {
     const val MOD_NAME = "Too Many Shortcuts"
     const val SKIN_LAYER_CATEGORY: String = "$MOD_ID.key.categories.skin_layers"
 
-    val LOGGER: Logger = LogManager.getLogger(MOD_NAME)
+    val LOGGER: Logger = LogManager.getLogger(TooManyShortcuts.javaClass)
     val currentModifiers: BindingModifiers = BindingModifiers()
 
     val ESCAPE_KEYBINDING: KeyBinding = KeyBindingHelper.registerKeyBinding(
