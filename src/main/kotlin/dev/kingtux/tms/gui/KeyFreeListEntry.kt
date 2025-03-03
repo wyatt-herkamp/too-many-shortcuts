@@ -1,10 +1,8 @@
 package dev.kingtux.tms.gui
 
-import com.google.common.collect.ImmutableList
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.Element
 import net.minecraft.client.gui.Selectable
-import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.InputUtil
 import net.minecraft.text.Text
 import net.minecraft.util.Colors
@@ -40,11 +38,8 @@ class KeyFreeListEntry(
         )
     }
 
-    override fun children(): MutableList<out Element> {
-        return mutableListOf(
-            translationKey as Element,
-            keyText as Element
-        )
+    override fun children(): List<Element> {
+        return emptyList()
     }
 
     override fun selectableChildren(): MutableList<out Selectable> {

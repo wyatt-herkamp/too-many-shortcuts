@@ -92,7 +92,6 @@ abstract class TMSKeyBindingEntry(
     }
 
     fun updateKeyboardInput(keyCode: Int, scanCode: Int, modifiers: Int) {
-        val gameOptions = MinecraftClient.getInstance().options
         val newInput = InputUtil.fromKeyCode(keyCode, scanCode);
         if (binding.isUnbound) {
             binding.setBoundKey(newInput)
