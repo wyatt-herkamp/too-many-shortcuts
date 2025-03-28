@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    modImplementation(project(":api"))
+    implementation(project(":api", configuration = "namedElements"))
 
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
