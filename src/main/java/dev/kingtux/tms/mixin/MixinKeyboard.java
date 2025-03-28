@@ -2,6 +2,7 @@ package dev.kingtux.tms.mixin;
 
 import de.siphalor.amecs.KeyBindingManager;
 import dev.kingtux.tms.TooManyShortcuts;
+import dev.kingtux.tms.api.TMSKeyBindingManager;
 import dev.kingtux.tms.api.modifiers.KeyModifier;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -55,7 +56,7 @@ public class MixinKeyboard {
         }
         KeyModifier keyModifier = KeyModifier.Companion.fromKeyCode(key);
         if (keyModifier != null) {
-            TooManyShortcuts.INSTANCE.getCurrentModifiers().set(keyModifier, action != 0);
+            TMSKeyBindingManager.INSTANCE.getCurrentModifiers().set(keyModifier, action != 0);
         }
     }
 }

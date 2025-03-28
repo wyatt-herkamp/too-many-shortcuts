@@ -20,6 +20,14 @@ pluginManagement {
     }
 }
 
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
+include("api")
+include("extra-shortcuts:1_21_x")
+include("extra-shortcuts:1_20_6")
+
+include("alternatives:1_20_6_and_after")
+
+include("gui:1_21_4_and_after")

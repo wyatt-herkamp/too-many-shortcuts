@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.1.0"
+    kotlin("jvm") version "2.1.10"
     id("fabric-loom")
     `maven-publish`
     java
@@ -19,14 +19,42 @@ loom {
     accessWidenerPath.set(file("src/main/resources/too_many_shortcuts.accesswidener"))
     log4jConfigs.from("log4j-dev.xml")
 }
-val yarn_mapping_version = "${property("minecraft_version")}+build.${property("yarn_mappings")}"
 dependencies {
-    minecraft("com.mojang:minecraft:${property("minecraft_version")}")
-    mappings("net.fabricmc:yarn:$yarn_mapping_version:v2")
-    modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
+    implementation(project(":api", configuration = "namedElements"))
+    implementation(project(":alternatives:1_20_6_and_after", configuration = "namedElements"))
 
-    modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
+}
+
+
+allprojects {
+    val yarn_mapping_version = "${property("minecraft_version")}+build.${property("yarn_mappings")}"
+
+    apply(plugin = "fabric-loom" )
+    apply(plugin = "java")
+    apply(plugin = "kotlin")
+    dependencies{
+        minecraft("com.mojang:minecraft:${property("minecraft_version")}")
+        mappings("net.fabricmc:yarn:$yarn_mapping_version:v2")
+        modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
+
+        modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
+    }
+    tasks{
+        processResources {
+            duplicatesStrategy = DuplicatesStrategy.INCLUDE
+            inputs.property("version", project.version)
+            filesMatching("fabric.mod.json") {
+                expand(getProperties())
+                expand(mutableMapOf("version" to project.version))
+            }
+        }
+
+        jar {
+            from("LICENSE")
+        }
+    }
+
 }
 
 tasks {
@@ -112,5 +140,4 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
     sourceCompatibility = JavaVersion.VERSION_21
     withSourcesJar()
-    withJavadocJar()
 }

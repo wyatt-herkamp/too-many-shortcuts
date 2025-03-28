@@ -1,12 +1,8 @@
 package dev.kingtux.tms.mixin;
 
 import de.siphalor.amecs.KeyBindingManager;
-import dev.kingtux.tms.api.ModifierPrefixTextProvider;
+import dev.kingtux.tms.api.*;
 import de.siphalor.amecs.NOPMap;
-import dev.kingtux.tms.TooManyShortcuts;
-import dev.kingtux.tms.api.AlternativeAPI;
-import dev.kingtux.tms.api.TMSKeyBinding;
-import dev.kingtux.tms.config.ConfigBindings;
 import dev.kingtux.tms.mlayout.IKeyBinding;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.api.modifiers.KeyModifier;
@@ -15,21 +11,19 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Level;
+
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.*;
 
-import static dev.kingtux.tms.api.UtilsKt.isDefaultBinding;
+import static dev.kingtux.tms.api.internal.UtilsKt.isDefaultBinding;
+
 
 @Environment(EnvType.CLIENT)
 @Mixin(KeyBinding.class)
@@ -108,7 +102,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
                 }
             }
         }
-        if (!keyModifiers.isUnset() && !keyModifiers.equals(TooManyShortcuts.INSTANCE.getCurrentModifiers())) {
+        if (!keyModifiers.isUnset() && !keyModifiers.equals(TMSKeyBindingManager.INSTANCE.getCurrentModifiers())) {
             callbackInfoReturnable.setReturnValue(false);
         }
     }
@@ -127,7 +121,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
                 }
             }
         }
-        if (!keyModifiers.isUnset() && !keyModifiers.equals(TooManyShortcuts.INSTANCE.getCurrentModifiers())) {
+        if (!keyModifiers.isUnset() && !keyModifiers.equals(TMSKeyBindingManager.INSTANCE.getCurrentModifiers())) {
             callbackInfoReturnable.setReturnValue(false);
         }
     }

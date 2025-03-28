@@ -14,24 +14,30 @@
  * limitations under the License.
  */
 
-package dev.kingtux.tms.mixin;
+package dev.kigntux.tms.gui.mixin;
 
 import dev.kingtux.tms.api.input.InputHandlerManager;
+import dev.kingtux.tms.gui.TMSKeyBindsScreen;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-
 @Environment(EnvType.CLIENT)
 @Mixin(value = MinecraftClient.class, priority = 50)
-public abstract class MixinMinecraftClient {
+public abstract class MixinOpenKeybindsScreen {
 
-	@Inject(method = "handleInputEvents()V", at = @At(value = "HEAD"))
-	private void handleInputEvents(CallbackInfo ci) {
-		InputHandlerManager.handleInputEvents((MinecraftClient) (Object) this);
+	@Inject(method = "setScreen", at = @At("HEAD"),cancellable = true)
+	private void openScreen(Screen screen, CallbackInfo ci) {
+		if (screen instanceof KeybindsScreen){
+			ci.cancel();
+			KeybindsScreen keybindsScreen = (KeybindsScreen) screen;
+			MinecraftClient.getInstance().setScreen(new TMSKeyBindsScreen(keybindsScreen.parent, MinecraftClient.getInstance().options));
+		}
 	}
 }

@@ -3,8 +3,10 @@ package dev.kingtux.tms.config
 import dev.kingtux.tms.TooManyShortcuts.LOGGER
 import dev.kingtux.tms.TooManyShortcuts.MOD_ID
 import dev.kingtux.tms.alternatives.AlternativeKeyBinding
+import dev.kingtux.tms.api.Config
+import dev.kingtux.tms.api.ConfigBindings
+import dev.kingtux.tms.api.ConfigKeyBinding
 import dev.kingtux.tms.mlayout.IKeyBinding
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
