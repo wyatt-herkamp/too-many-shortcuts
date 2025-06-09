@@ -5,6 +5,8 @@ import dev.kingtux.tms.keybinding.SkinLayerKeyBinding
 import dev.kingtux.tms.keybinding.ToggleAutoJumpKeyBinding
 
 import dev.kingtux.tms.api.modifiers.BindingModifiers
+import dev.kingtux.tms.keybinding.HotBarDirection
+import dev.kingtux.tms.keybinding.ScrollHotBar
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 
@@ -49,6 +51,21 @@ object TooManyShortcuts : ClientModInitializer {
                 BindingModifiers()
             )
         )
+
+
+        HotBarDirection.entries.map {
+            ScrollHotBar(
+                Identifier.of(MOD_ID, it.bindingKey()),
+                InputUtil.Type.KEYSYM,
+                InputUtil.UNKNOWN_KEY.code,
+                "key.categories.inventory",
+                it
+            )
+        }
+            .forEach { keyBinding: TMSKeyBinding ->
+                KeyBindingHelper.registerKeyBinding(keyBinding)
+            }
+
 
         Arrays.stream(PlayerModelPart.entries.toTypedArray())
             .map { playerModelPart: PlayerModelPart ->

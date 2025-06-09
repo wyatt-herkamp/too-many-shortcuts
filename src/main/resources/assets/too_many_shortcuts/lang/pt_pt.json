@@ -18,5 +18,7 @@
     "too_many_shortcuts.search.no_results": "Nenhum resultado encontrado",
 
 
-    "too_many_shortcuts.options.controls.reset.tooltip": "Segure Shift para redefinir todas as opções alternativas também"
+    "too_many_shortcuts.options.controls.reset.tooltip": "Segure Shift para redefinir todas as opções alternativas também",
+    "key.too_many_shortcuts.inventory.scroll_hotbar.left": "Rolar barra rápida para a esquerda",
+    "key.too_many_shortcuts.inventory.scroll_hotbar.right": "Rolar barra rápida para a direita"
 }

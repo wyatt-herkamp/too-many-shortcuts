@@ -33,5 +33,7 @@
   "too_many_shortcuts.options.controls.show.conflicts": "Show: Conflicts",
   "too_many_shortcuts.options.controls.show.unbound": "Show: Unbound",
   "too_many_shortcuts.options.controls.screen-mode": "Screen Mode: %s",
-  "too_many_shortcuts.options.controls.free-list.button": "Free List"
+  "too_many_shortcuts.options.controls.free-list.button": "Free List",
+  "key.too_many_shortcuts.inventory.scroll_hotbar.left": "Scroll Hotbar Left",
+  "key.too_many_shortcuts.inventory.scroll_hotbar.right": "Scroll Hotbar Right"
 }
