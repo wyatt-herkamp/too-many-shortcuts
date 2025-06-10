@@ -142,7 +142,7 @@ abstract class TMSKeyBindingEntry(
         )
     }.build()
         .run {
-            this.tooltip = Tooltip.of(resetTooltip())
+            this.setTooltip(Tooltip.of(resetTooltip()))
             this
         }
 
@@ -188,9 +188,9 @@ abstract class TMSKeyBindingEntry(
                 Text.literal("[ ").append(editButton.message.copy().formatted(Formatting.WHITE)).append(" ]").formatted(
                     Formatting.RED
                 )
-            editButton.tooltip = Tooltip.of(Text.translatable("controls.keybinds.duplicateKeybinds", mutableText))
+            editButton.setTooltip(Tooltip.of(Text.translatable("controls.keybinds.duplicateKeybinds", mutableText)))
         } else {
-            editButton.tooltip = null
+            editButton.setTooltip(null)
         }
 
         if (parent.parent.selectedKeyBinding === this) {
