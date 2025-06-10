@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [0.0.10] (UNRELEASED)
+- Updated to Minecraft 1.21.5
+- Added a new keybinding to shift the hotbar left or right.
+- Fabric Loader Version Update to 0.16.14
+- Fabric Kotlin Version Update to 1.13.3+kotlin.2.1.21
+- Kotlin Version Update to 2.1.21
 ## [0.0.9] (2025-03-03)
 - On modifier release. Before removing an active keybinding. Make sure it needs said modifier. 
 - Fixed Game Crash when using free binds list.  [#28](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/28)
