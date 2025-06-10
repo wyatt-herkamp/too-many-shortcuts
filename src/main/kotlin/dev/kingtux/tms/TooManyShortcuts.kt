@@ -18,7 +18,6 @@ object TooManyShortcuts : ClientModInitializer {
     const val MOD_ID = "too_many_shortcuts"
 
     const val MOD_NAME = "Too Many Shortcuts"
-    const val SKIN_LAYER_CATEGORY: String = "$MOD_ID.key.categories.skin_layers"
 
     val LOGGER: Logger = LogManager.getLogger(TooManyShortcuts.javaClass)
 

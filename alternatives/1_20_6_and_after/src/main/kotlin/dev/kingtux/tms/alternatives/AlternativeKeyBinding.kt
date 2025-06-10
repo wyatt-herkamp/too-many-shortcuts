@@ -1,8 +1,7 @@
-@file:Suppress("CAST_NEVER_SUCCEEDS")
 
 package dev.kingtux.tms.alternatives
 
-import dev.kingtux.tms.api.ConfigBindings
+import dev.kingtux.tms.api.config.ConfigBindings
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
@@ -34,7 +33,7 @@ class AlternativeKeyBinding(
         translationKey: String,
     ) : this(parent, translationKey, InputUtil.UNKNOWN_KEY);
 
-    constructor(parent: KeyBinding, config: ConfigBindings ) : this(
+    constructor(parent: KeyBinding, config: ConfigBindings) : this(
         parent,
         alternativeKeyBindingTranslationKey(parent),
         InputUtil.UNKNOWN_KEY

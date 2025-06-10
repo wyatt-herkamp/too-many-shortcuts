@@ -1,4 +1,4 @@
-package dev.kingtux.tms.api
+package dev.kingtux.tms.api.config
 import dev.kingtux.tms.api.modifiers.BindingModifiers
 import kotlinx.serialization.*
 @Serializable

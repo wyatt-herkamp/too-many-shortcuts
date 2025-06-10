@@ -3,6 +3,7 @@ package dev.kingtux.tms.mixin;
 import de.siphalor.amecs.KeyBindingManager;
 import dev.kingtux.tms.api.*;
 import de.siphalor.amecs.NOPMap;
+import dev.kingtux.tms.api.config.ConfigBindings;
 import dev.kingtux.tms.mlayout.IKeyBinding;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.api.modifiers.KeyModifier;
@@ -363,4 +364,14 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     public BindingModifiers amecs$getKeyModifiers() {
         return keyModifiers;
     }
+
+    @Override
+    public InputUtil.Key tms$getBoundKey() {
+     return   this.boundKey;
+    }
+    @Override
+    public void tms$setBoundKey(InputUtil.Key key) {
+        this.boundKey = key;
+    }
+
 }

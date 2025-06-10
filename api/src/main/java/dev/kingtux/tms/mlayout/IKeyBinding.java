@@ -1,7 +1,7 @@
 package dev.kingtux.tms.mlayout;
 
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
-import dev.kingtux.tms.api.ConfigBindings;
+import dev.kingtux.tms.api.config.ConfigBindings;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.Nullable;

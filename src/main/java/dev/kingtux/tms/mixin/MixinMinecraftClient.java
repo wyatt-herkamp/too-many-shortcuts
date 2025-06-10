@@ -28,7 +28,7 @@ import net.minecraft.client.MinecraftClient;
 
 @Environment(EnvType.CLIENT)
 @Mixin(value = MinecraftClient.class, priority = 50)
-public abstract class MixinMinecraftClient {
+public abstract class   MixinMinecraftClient {
 
 	@Inject(method = "handleInputEvents()V", at = @At(value = "HEAD"))
 	private void handleInputEvents(CallbackInfo ci) {
