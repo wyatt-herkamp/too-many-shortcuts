@@ -1,5 +1,6 @@
 package dev.kingtux.tms.gui
 
+import dev.kingtux.tms.gui.mlayout.DrawContextExt
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.Element
 import net.minecraft.client.gui.Selectable
@@ -28,11 +29,11 @@ class KeyFreeListEntry(
         hovered: Boolean,
         tickDelta: Float
     ) {
-        context.drawTextWithShadow(
+        (context as DrawContextExt).`tms$drawTextWithShadow`(
             parent.client.textRenderer,
             this.translationKey, x + entryWidth - parent.client.textRenderer.getWidth(this.keyText) - 5, y + entryHeight / 2 - 9 / 2, Colors.WHITE
         )
-        context.drawTextWithShadow(
+        (context as DrawContextExt).`tms$drawTextWithShadow`(
             parent.client.textRenderer,
             this.keyText, x, y + entryHeight / 2 - 9 / 2, Colors.WHITE
         )

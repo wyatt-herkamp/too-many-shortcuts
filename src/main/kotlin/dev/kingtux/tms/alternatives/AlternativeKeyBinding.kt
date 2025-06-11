@@ -47,6 +47,11 @@ class AlternativeKeyBinding(
         return this.defaultKey == this.boundKey
     }
 
+    override fun setPressed(pressed: Boolean) {
+        //println("Setting pressed state for AlternativeKeyBinding: $pressed")
+        super.setPressed(pressed)
+        (this as IKeyBinding).`tms$getParent`()?.isPressed = pressed
+    }
     override fun toString(): String {
         return "AlternativeKeyBinding{parent=${this.translationKey}, key=${this.boundKey}, modifiers=${(this as IKeyBinding).`tms$getKeyModifiers`()}}"
     }

@@ -20,8 +20,10 @@ class ScrollHotBar(
     type: InputUtil.Type?,
     code: Int,
     category: String?,
+    defaultModifiers: BindingModifiers?,
+
     private val direction: HotBarDirection
-) : TMSKeyBinding(id, type, code, category, BindingModifiers()) {
+) : TMSKeyBinding(id, type, code, category, defaultModifiers) {
     override fun onPressed() {
         val client = MinecraftClient.getInstance()
         if (client.player == null) return

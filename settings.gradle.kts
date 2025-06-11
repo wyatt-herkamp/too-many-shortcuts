@@ -23,3 +23,9 @@ pluginManagement {
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
+
+include(":mixin-helpers")
+include(":gui")
+include(":gui:1_21_4_and_1_21_5")
+include(":gui:1_21_3")
+include(":gui:1_21_6")

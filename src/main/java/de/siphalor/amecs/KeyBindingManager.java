@@ -20,6 +20,7 @@ import de.siphalor.amecs.api.KeyBindingUtils;
 import de.siphalor.amecs.api.PriorityKeyBinding;
 
 import dev.kingtux.tms.TooManyShortcuts;
+import dev.kingtux.tms.api.TMSKeyBinding;
 import dev.kingtux.tms.api.TMSKeyBindingUtils;
 import dev.kingtux.tms.mlayout.IKeyBinding;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
@@ -124,6 +125,9 @@ public class KeyBindingManager {
                 {
                     //TMSKeyBindingUtils.debugKeyBinding("Key pressed", keyBinding);
                     ((IKeyBinding) keyBinding).tms$incrementTimesPressed();
+                    //if (keyBinding instanceof TMSKeyBinding){
+                    //    ((TMSKeyBinding) keyBinding).onPressed();
+                    //}
                 }
         );
     }

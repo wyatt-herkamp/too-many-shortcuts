@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.1.0"
+    kotlin("jvm") version "2.1.21"
     id("fabric-loom")
     `maven-publish`
     java
@@ -19,31 +19,79 @@ loom {
     accessWidenerPath.set(file("src/main/resources/too_many_shortcuts.accesswidener"))
     log4jConfigs.from("log4j-dev.xml")
 }
-val yarn_mapping_version = "${property("minecraft_version")}+build.${property("yarn_mappings")}"
 dependencies {
-    minecraft("com.mojang:minecraft:${property("minecraft_version")}")
-    mappings("net.fabricmc:yarn:$yarn_mapping_version:v2")
-    modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
+    //modApi(project(":mixin-helpers"))
+    //include(project(":mixin-helpers"))
+    //include(project(":mixin-helpers", configuration = "namedElements"))
+    //modImplementation(project(":mixin-helpers", configuration = "namedElements"))
+    // Testing
+    testImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
+    testImplementation(kotlin("test"))
 
-    modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
+    //modImplementation(project(":gui", configuration = "namedElements"))
+    implementation(project(":gui", configuration = "namedElements"))
+    include(project(":gui"))
+    include(project(":gui:1_21_4_and_1_21_5"))
+    include(project(":gui:1_21_3"))
+    include(project(":gui:1_21_6"))
+    include(project(":mixin-helpers", configuration = "namedElements"))
+
+    // So, you cant do a clean build with these options. However, you can only run the mod in development mode with these options.
+    //modRuntimeOnly(project(":gui", configuration = "namedElements"))
+    //modRuntimeOnly(project(":gui:1_21_4_and_1_21_5", configuration = "namedElements"))
 }
 
-tasks {
+allprojects{
+    val yarnMappingVersion = "${property("minecraft_version")}+build.${property("yarn_mappings")}"
+    apply(plugin = "fabric-loom" )
+    apply(plugin = "java")
+    apply(plugin = "kotlin")
+    version = property("mod_version") as String
+    group = property("maven_group") as String
+    dependencies{
+        minecraft("com.mojang:minecraft:${property("minecraft_version")}")
+        mappings("net.fabricmc:yarn:$yarnMappingVersion:v2")
+        modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
-    processResources {
-        duplicatesStrategy = DuplicatesStrategy.INCLUDE
-        inputs.property("version", project.version)
-        filesMatching("fabric.mod.json") {
-            expand(getProperties())
-            expand(mutableMapOf("version" to project.version))
+        modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
+        modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
+        testImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
+        testImplementation(kotlin("test"))
+        if (project.path == ":mixin-helpers"){
+            return@dependencies
+        }
+        annotationProcessor(implementation(project(":mixin-helpers", configuration = "namedElements")) as Dependency)
+    }
+    kotlin {
+        jvmToolchain(21)
+    }
+
+    java {
+        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_21
+        withSourcesJar()
+        withJavadocJar()
+    }
+
+    tasks{
+        processResources {
+            duplicatesStrategy = DuplicatesStrategy.INCLUDE
+            inputs.property("version", project.version)
+            filesMatching("fabric.mod.json") {
+                expand(getProperties())
+                expand(mutableMapOf("version" to project.version))
+            }
+        }
+        jar {
+            from("LICENSE")
+        }
+        test {
+            useJUnitPlatform()
         }
     }
 
-    jar {
-        from("LICENSE")
-    }
-
+}
+tasks {
     publishing {
         publications {
             create<MavenPublication>("mavenJava") {
@@ -103,14 +151,4 @@ modrinth {
             changelog.set(it)
         }
     }
-}
-kotlin {
-    jvmToolchain(21)
-}
-
-java {
-    targetCompatibility = JavaVersion.VERSION_21
-    sourceCompatibility = JavaVersion.VERSION_21
-    withSourcesJar()
-    withJavadocJar()
 }

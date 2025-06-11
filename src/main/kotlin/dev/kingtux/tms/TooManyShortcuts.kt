@@ -42,6 +42,7 @@ object TooManyShortcuts : ClientModInitializer {
 
 
     override fun onInitializeClient() {
+
         KeyBindingHelper.registerKeyBinding(
             ToggleAutoJumpKeyBinding(
                 Identifier.of(MOD_ID, "toggle_auto_jump"),
@@ -59,6 +60,7 @@ object TooManyShortcuts : ClientModInitializer {
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.code,
                 "key.categories.inventory",
+                BindingModifiers(),
                 it
             )
         }

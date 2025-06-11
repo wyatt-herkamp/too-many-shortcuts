@@ -150,6 +150,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     @Inject(method = "setKeyPressed", at = @At("HEAD"), cancellable = true)
     private static void setKeyPressed(InputUtil.Key keyCode, boolean pressed, CallbackInfo callbackInfo) {
         KeyBindingManager.setKeyPressed(keyCode, pressed);
+
         callbackInfo.cancel();
     }
 

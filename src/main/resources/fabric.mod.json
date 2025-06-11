@@ -36,7 +36,9 @@
   "depends": {
     "fabricloader": ">=0.15.0",
     "fabric": "*",
-    "fabric-language-kotlin": ">=${fabric_kotlin_version}"
+    "fabric-language-kotlin": ">=${fabric_kotlin_version}",
+    "tms-mixin-helpers": "*",
+    "tms-gui": "*"
   },
   "custom": {
     "modmenu:clientsideOnly": true

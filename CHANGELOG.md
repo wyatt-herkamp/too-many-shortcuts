@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fabric Loader Version Update to 0.16.14
 - Fabric Kotlin Version Update to 1.13.3+kotlin.2.1.21
 - Kotlin Version Update to 2.1.21
+- Added support for Minecraft 1.21.6-pre4
+- Added support for Minecraft 1.21.3
 ## [0.0.9] (2025-03-03)
 - On modifier release. Before removing an active keybinding. Make sure it needs said modifier. 
 - Fixed Game Crash when using free binds list.  [#28](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/28)

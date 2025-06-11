@@ -2,6 +2,7 @@
   "required": true,
   "package": "dev.kingtux.tms.mixin",
   "compatibilityLevel": "JAVA_21",
+  "plugin": "dev.kingtux.tms.mixin.helpers.MCVersionMixinPlugin",
   "mixins": [
   ],
   "client": [

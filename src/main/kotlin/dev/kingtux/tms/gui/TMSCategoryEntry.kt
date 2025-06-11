@@ -1,6 +1,7 @@
 package dev.kingtux.tms.gui
 
 import com.google.common.collect.ImmutableList
+import dev.kingtux.tms.gui.mlayout.DrawContextExt
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.gui.DrawContext
@@ -36,7 +37,7 @@ class TMSCategoryEntry(
     ) {
         val textX = parent.width / 2 - this.textWidth / 2;
         val textY = y + entryHeight - 9 - 1
-        context.drawText(
+        (context as DrawContextExt).`tms$drawText`(
             parent.client.textRenderer,
             this.text,
             textX,

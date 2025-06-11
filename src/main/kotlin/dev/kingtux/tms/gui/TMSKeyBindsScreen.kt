@@ -7,6 +7,7 @@ import dev.kingtux.tms.api.modifiers.KeyModifier
 import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKey
 import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKeyCode
 import dev.kingtux.tms.config.ConfigManager
+import dev.kingtux.tms.gui.mlayout.IScrollMixin
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -220,7 +221,7 @@ class TMSControlsListWidget(val parent: TMSKeyBindsScreen, val client: Minecraft
     private fun rebuildKeybindingEntries(searchValue: String?){
         val (entries, maxKeyNameLength) = createAllEntries(searchValue)
         this.maxKeyNameLength = maxKeyNameLength
-        scrollY = 0.0
+        (this as IScrollMixin).`tms$setScrollY`(0.0)
         var lastCategory: String? = null
         if (entries.isEmpty()){
             addEntry(TMSCategoryEntry(NO_RESULTS_TEXT, this))

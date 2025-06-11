@@ -6,6 +6,8 @@ import dev.kingtux.tms.alternatives.AlternativeKeyBinding
 import dev.kingtux.tms.api.modifiers.KeyModifier
 import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKey
 import dev.kingtux.tms.api.resetBinding
+import dev.kingtux.tms.gui.mlayout.DrawContextExt
+import dev.kingtux.tms.gui.mlayout.IScrollMixin
 import dev.kingtux.tms.mlayout.IGameOptions
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.fabricmc.api.EnvType
@@ -22,13 +24,13 @@ import net.minecraft.client.resource.language.I18n
 import net.minecraft.client.util.InputUtil
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.text.TextColor
 import net.minecraft.util.Colors
 import net.minecraft.util.Formatting
 import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.Level
 import org.jetbrains.annotations.ApiStatus
 import java.util.function.Supplier
+import dev.kingtux.tms.gui.mlayout.IToolTip
 
 @ApiStatus.Internal
 abstract class TMSKeyBindingEntry(
@@ -142,7 +144,7 @@ abstract class TMSKeyBindingEntry(
         )
     }.build()
         .run {
-            this.tooltip = Tooltip.of(resetTooltip())
+            (this as IToolTip).`tms$setToolTip`(Tooltip.of(resetTooltip()))
             this
         }
 
@@ -188,9 +190,11 @@ abstract class TMSKeyBindingEntry(
                 Text.literal("[ ").append(editButton.message.copy().formatted(Formatting.WHITE)).append(" ]").formatted(
                     Formatting.RED
                 )
-            editButton.tooltip = Tooltip.of(Text.translatable("controls.keybinds.duplicateKeybinds", mutableText))
+            (editButton as IToolTip).`tms$setToolTip`(
+                Tooltip.of(Text.translatable("controls.keybinds.duplicateKeybinds", mutableText))
+            )
         } else {
-            editButton.tooltip = null
+            (editButton as IToolTip).`tms$removeToolTip`()
         }
 
         if (parent.parent.selectedKeyBinding === this) {
@@ -213,7 +217,7 @@ abstract class TMSKeyBindingEntry(
         hovered: Boolean,
         tickDelta: Float
     ) {
-        val resetX: Int = parent.scrollbarX - resetButton.width - 40
+        val resetX: Int =(parent as IScrollMixin).`tms$getScrollBarX`() - resetButton.width - 40
         val yPos = y - 2
         resetButton.setPosition(resetX, yPos)
         resetButton.render(context, mouseX, mouseY, tickDelta)
@@ -221,7 +225,7 @@ abstract class TMSKeyBindingEntry(
         editButton.setPosition(editX, yPos)
         editButton.render(context, mouseX, mouseY, tickDelta)
 
-        context.drawTextWithShadow(
+        (context as DrawContextExt).`tms$drawTextWithShadow`(
             parent.client.textRenderer,
             this.bindingName, x, y + entryHeight / 2 - 9 / 2, Colors.WHITE
         )

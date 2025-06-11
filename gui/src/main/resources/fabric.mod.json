@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "${module_id}",
+  "version": "${version}",
+  "name": "${module_id}",
+  "description": "UI Changes to Too Many Shortcuts",
+  "authors": [
+    "KingTux"
+  ],
+  "contributors": [],
+  "contact": {
+    "issues": "${source_url}/issues",
+    "sources": "${source_url}"
+  },
+  "license": "Apache-2.0",
+  "environment": "client",
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=${fabric_kotlin_version}",
+    "minecraft": "${minecraft_range}"
+  },
+  "<% if (project.hasProperty('mixin')) { %>mixins": [
+    "${mixin}.mixins.json"
+  ],
+
+  "<% } %>custom": {
+    "modmenu:clientsideOnly": true,
+    "modmenu": {
+      "parent": "too_many_shortcuts"
+    }
+  }
+}

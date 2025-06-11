@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "dev.kingtux.tms.gui.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "dev.kingtux.tms.mixin.helpers.MCVersionMixinPlugin",
+  "mixins": [
+  ],
+  "client": [
+    "Mixin124Scroll",
+    "Mixin124ToolTip",
+    "MixinDrawContext"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

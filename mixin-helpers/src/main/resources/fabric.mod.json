@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "tms-mixin-helpers",
+  "version": "${version}",
+  "name": "Too Many Shortcuts Mixin Helpers",
+  "description": "Internal Mixin Library for Too Many Shortcuts",
+  "authors": [
+    "KingTux"
+  ],
+
+  "contributors": [],
+  "contact": {
+    "issues": "${source_url}/issues",
+    "sources": "${source_url}"
+  },
+  "license": "Apache-2.0",
+  "environment": "client",
+
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=${fabric_kotlin_version}"
+  },
+  "custom": {
+    "modmenu:clientsideOnly": true,
+    "modmenu": {
+      "parent": "too_many_shortcuts"
+    }
+  }
+}
