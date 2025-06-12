@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Kotlin Version Update to 2.1.21
 - Added support for Minecraft ~~1.21.6-pre4~~ 1.21.6-rc.1
 - Added support for Minecraft 1.21.3
+- Fixed Bug Where Alternative Keybindings were not working with custom keybindings.
 ## [0.0.9] (2025-03-03)
 - On modifier release. Before removing an active keybinding. Make sure it needs said modifier. 
 - Fixed Game Crash when using free binds list.  [#28](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/28)
