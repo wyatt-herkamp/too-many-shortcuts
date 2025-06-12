@@ -14,11 +14,10 @@
   },
   "license": "Apache-2.0",
   "environment": "client",
-
   "depends": {
-    "fabricloader": ">=0.15.0",
-    "fabric": "*",
-    "fabric-language-kotlin": ">=${fabric_kotlin_version}"
+    "fabricloader": "${fabric_loader_range}",
+    "minecraft": "${minecraft_range}",
+    "fabric": "*"
   },
   "custom": {
     "modmenu:clientsideOnly": true,

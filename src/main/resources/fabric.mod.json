@@ -34,7 +34,8 @@
   ],
   "accessWidener": "too_many_shortcuts.accesswidener",
   "depends": {
-    "fabricloader": ">=0.15.0",
+    "fabricloader": "${fabric_loader_range}",
+    "minecraft": "${minecraft_range}",
     "fabric": "*",
     "fabric-language-kotlin": ">=${fabric_kotlin_version}",
     "tms-mixin-helpers": "*",

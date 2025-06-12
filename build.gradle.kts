@@ -80,6 +80,7 @@ allprojects{
             filesMatching("fabric.mod.json") {
                 expand(getProperties())
                 expand(mutableMapOf("version" to project.version))
+
             }
         }
         jar {
