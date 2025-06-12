@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.Shadow;
 
 
 @MinecraftVersion(
-        minecraftVersions = {"1.21.6-beta.4"})
+        minecraftVersions = {"1.21.6-rc.1"})
 @Environment(EnvType.CLIENT)
 @Mixin(DrawContext.class)
-public abstract class MixinDrawContext implements DrawContextExt {
+public abstract class MixinDrawContext_1_21_6 implements DrawContextExt {
     @Shadow
     public abstract void drawText(
             TextRenderer renderer,

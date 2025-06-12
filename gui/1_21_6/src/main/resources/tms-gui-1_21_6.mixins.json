@@ -6,9 +6,9 @@
   "mixins": [
   ],
   "client": [
-    "Mixin124Scroll",
-    "Mixin124ToolTip",
-    "MixinDrawContext"
+    "MixinToolTip_1_21_6",
+    "MixinScroll_1_21_6",
+    "MixinDrawContext_1_21_6"
   ],
   "server": [],
   "injectors": {

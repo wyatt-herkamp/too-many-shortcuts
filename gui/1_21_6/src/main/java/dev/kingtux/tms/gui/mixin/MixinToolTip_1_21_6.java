@@ -4,17 +4,15 @@ import dev.kingtux.tms.gui.mlayout.IScrollMixin;
 import dev.kingtux.tms.mixin.helpers.MinecraftVersion;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.screen.option.GameOptionsScreen;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ScrollableWidget;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @MinecraftVersion(
-        minecraftVersions = {"1.21.6-beta.4"})
+        minecraftVersions = {"1.21.6-rc.1"})
 @Environment(EnvType.CLIENT)
 @Mixin(ScrollableWidget.class)
-public abstract class Mixin124Scroll implements IScrollMixin {
+public abstract class MixinToolTip_1_21_6 implements IScrollMixin {
 
     @Shadow public abstract void setScrollY(double scrollY);
 

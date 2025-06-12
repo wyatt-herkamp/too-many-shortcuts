@@ -37,6 +37,14 @@ public abstract class MixinMinecraftClient {
 	private void handleInputEvents(CallbackInfo ci) {
 		InputHandlerManager.handleInputEvents((MinecraftClient) (Object) this);
 	}
+
+	/**
+	 * Intercepts the setScreen method to replace the KeybindsScreen with TMSKeyBindsScreen.
+	 *
+	 * This is done to ensure that any other mods that edit the Controls Screen can still access it.
+	 * @param screen the screen to open
+	 * @param ci the callback info
+	 */
 	@Inject(method = "setScreen", at = @At("HEAD"),cancellable = true)
 	private void openScreen(Screen screen, CallbackInfo ci) {
 		if (screen instanceof KeybindsScreen){

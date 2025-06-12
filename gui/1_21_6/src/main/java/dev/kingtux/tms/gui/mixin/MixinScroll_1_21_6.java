@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @MinecraftVersion(
-        minecraftVersions = {"1.21.6-beta.4"})
+        minecraftVersions = {"1.21.6-rc.1"})
 @Environment(EnvType.CLIENT)
 @Mixin(ClickableWidget.class)
-public abstract class Mixin124ToolTip implements IToolTip {
+public abstract class MixinScroll_1_21_6 implements IToolTip {
     @Shadow public abstract void setTooltip(@Nullable Tooltip tooltip);
 
     @Override
