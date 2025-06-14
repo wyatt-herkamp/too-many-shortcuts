@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @MinecraftVersion(
-        minecraftVersions = {"1.21.6-rc.1"})
+        minecraftVersions = {"1.21.6-rc.1", "1.21.6"})
 @Environment(EnvType.CLIENT)
 @Mixin(ScrollableWidget.class)
 public abstract class MixinToolTip_1_21_6 implements IScrollMixin {

@@ -1,11 +1,7 @@
 package dev.kingtux.tms.gui
 
 import dev.kingtux.tms.TooManyShortcuts
-import dev.kingtux.tms.TooManyShortcuts.log
 import dev.kingtux.tms.api.*
-import dev.kingtux.tms.api.modifiers.KeyModifier
-import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKey
-import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKeyCode
 import dev.kingtux.tms.config.ConfigManager
 import dev.kingtux.tms.gui.mlayout.IScrollMixin
 import dev.kingtux.tms.mlayout.IKeyBinding
@@ -14,7 +10,6 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.gui.screen.option.ControlsListWidget.KeyBindingEntry
 import net.minecraft.client.gui.screen.option.GameOptionsScreen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.gui.widget.DirectionalLayoutWidget
