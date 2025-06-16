@@ -20,7 +20,7 @@ import org.jetbrains.annotations.ApiStatus
 class TMSCategoryEntry(
     val text: Text, parent: TMSControlsListWidget,
 ) : TMSControlListEntry(parent) {
-    private val textWidth = parent.client.textRenderer.getWidth(this.text)
+    private val textWidth = parent.parent.client().textRenderer.getWidth(this.text)
 
     override fun render(
         context: DrawContext,
@@ -37,7 +37,7 @@ class TMSCategoryEntry(
         val textX = parent.width / 2 - this.textWidth / 2;
         val textY = y + entryHeight - 9 - 1
         context.drawText(
-            parent.client.textRenderer,
+            parent.parent.client().textRenderer,
             this.text,
             textX,
             textY,

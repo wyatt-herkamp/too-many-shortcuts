@@ -16,4 +16,8 @@ interface KeyBindingScreenType<Self : KeyBindingScreenType<Self, T, W>, T : KeyB
     fun gameOptions(): GameOptions
 
     fun client(): MinecraftClient
+
+    fun isSelected(entry: T): Boolean{
+        return selectedKeyBinding == entry
+    }
 }

@@ -30,19 +30,6 @@ abstract class TMSKeyBindingEntry(
     override val binding: KeyBinding,
     parent: TMSControlsListWidget,
 ) : TMSControlListEntry(parent), KeyBindingEntry<TMSControlsListWidget> {
-    companion object {
-        fun newEntry(
-            binding: KeyBinding,
-            parent: TMSControlsListWidget
-        ): TMSKeyBindingEntry {
-            return if (binding is IKeyBinding && binding.`tms$isAlternative`()) {
-                TMSAlternativeKeyBindingEntry(binding, parent)
-            } else {
-                TMSKeyBindingParentEntry(binding, parent)
-            }
-        }
-    }
-
     override var setModifierLast = false
     abstract val bindingName: Text;
     abstract val alternativesButton: ButtonWidget

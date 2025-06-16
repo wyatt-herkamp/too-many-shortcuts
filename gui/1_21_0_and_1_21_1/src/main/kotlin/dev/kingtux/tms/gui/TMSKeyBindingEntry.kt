@@ -133,7 +133,7 @@ abstract class TMSKeyBindingEntry(
         editButton.render(context, mouseX, mouseY, tickDelta)
 
         context.drawTextWithShadow(
-            parent.client.textRenderer,
+            parent.parent.client().textRenderer,
             this.bindingName, x, y + entryHeight / 2 - 9 / 2, Colors.WHITE
         )
         if (this.duplicate) {

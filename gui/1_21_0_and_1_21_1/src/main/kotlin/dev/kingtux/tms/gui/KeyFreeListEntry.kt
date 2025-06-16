@@ -29,14 +29,14 @@ class KeyFreeListEntry(
         tickDelta: Float
     ) {
         context.drawTextWithShadow(
-            parent.client.textRenderer,
+            parent.parent.client().textRenderer,
             this.translationKey,
-            x + entryWidth - parent.client.textRenderer.getWidth(this.keyText) - 5,
+            x + entryWidth - parent.parent.client().textRenderer.getWidth(this.keyText) - 5,
             y + entryHeight / 2 - 9 / 2,
             Colors.WHITE
         )
         context.drawTextWithShadow(
-            parent.client.textRenderer,
+            parent.parent.client().textRenderer,
             this.keyText, x, y + entryHeight / 2 - 9 / 2, Colors.WHITE
         )
     }
