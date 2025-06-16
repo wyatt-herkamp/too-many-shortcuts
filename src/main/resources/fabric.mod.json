@@ -38,10 +38,16 @@
     "minecraft": "${minecraft_range}",
     "fabric": "*",
     "fabric-language-kotlin": ">=${fabric_kotlin_version}",
-    "tms-mixin-helpers": "*",
-    "tms-gui": "*"
+    "tms_core": "*",
+    "tms_gui": "*",
+    "tms_shortcuts": "*"
   },
   "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "${discord_url}"
+      }
+    },
     "modmenu:clientsideOnly": true
   }
 }

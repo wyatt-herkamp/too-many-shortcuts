@@ -20,25 +20,32 @@ loom {
     log4jConfigs.from("log4j-dev.xml")
 }
 dependencies {
-    //modApi(project(":mixin-helpers"))
-    //include(project(":mixin-helpers"))
-    //include(project(":mixin-helpers", configuration = "namedElements"))
-    //modImplementation(project(":mixin-helpers", configuration = "namedElements"))
     // Testing
     testImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
     testImplementation(kotlin("test"))
 
     //modImplementation(project(":gui", configuration = "namedElements"))
-    implementation(project(":gui", configuration = "namedElements"))
+    include(project(":core"))
+
     include(project(":gui"))
-    include(project(":gui:1_21_4_and_1_21_5"))
+    include(project(":gui:1_20_6"))
+    include(project(":gui:1_21_0_and_1_21_1"))
     include(project(":gui:1_21_3"))
+    include(project(":gui:1_21_4_and_1_21_5"))
     include(project(":gui:1_21_6"))
-    include(project(":mixin-helpers", configuration = "namedElements"))
+    include(project(":shortcuts"))
+    include( project(":shortcuts:shortcuts-1_20_6"))
+    include(project(":shortcuts:shortcuts-1_21_and_after"))
 
     // So, you cant do a clean build with these options. However, you can only run the mod in development mode with these options.
-    //modRuntimeOnly(project(":gui", configuration = "namedElements"))
-    //modRuntimeOnly(project(":gui:1_21_4_and_1_21_5", configuration = "namedElements"))
+    runtimeOnly(project(":gui", configuration = "namedElements"))
+    runtimeOnly(project(":gui:1_21_4_and_1_21_5", configuration = "namedElements"))
+    runtimeOnly(project(":shortcuts", configuration = "namedElements"))
+    runtimeOnly(project(":shortcuts:shortcuts-1_21_and_after", configuration = "namedElements"))
+
+    implementation(project(":shortcuts", configuration = "namedElements"))
+    implementation(project(":gui", configuration = "namedElements"))
+
 }
 
 allprojects{
@@ -57,10 +64,10 @@ allprojects{
         modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
         testImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
         testImplementation(kotlin("test"))
-        if (project.path == ":mixin-helpers"){
+        if (project.path == ":core"){
             return@dependencies
         }
-        annotationProcessor(implementation(project(":mixin-helpers", configuration = "namedElements")) as Dependency)
+        annotationProcessor(implementation(project(":core", configuration = "namedElements")) as Dependency)
     }
     kotlin {
         jvmToolchain(21)

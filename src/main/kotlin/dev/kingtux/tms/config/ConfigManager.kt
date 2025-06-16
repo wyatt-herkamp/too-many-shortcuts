@@ -3,15 +3,17 @@ package dev.kingtux.tms.config
 import dev.kingtux.tms.TooManyShortcuts.LOGGER
 import dev.kingtux.tms.TooManyShortcuts.MOD_ID
 import dev.kingtux.tms.alternatives.AlternativeKeyBinding
+import dev.kingtux.tms.api.config.TmsConfig
+import dev.kingtux.tms.api.config.ConfigBindings
+import dev.kingtux.tms.api.config.ConfigKeyBinding
 import dev.kingtux.tms.mlayout.IKeyBinding
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.KeyBinding
 import java.nio.file.Path
 
 class ConfigManager(private val configPath: Path) {
-    var config: Config;
+    var config: TmsConfig;
 
     companion object {
         // Singleton instance
@@ -36,8 +38,7 @@ class ConfigManager(private val configPath: Path) {
         if (!configPath.toFile().exists()) {
             // Create default config
             // TODO: Load from minecraft
-            config = Config(
-                scrollBindings = true,
+            config = TmsConfig(
                 keybindings = mutableMapOf()
             )
             // Write default config to file
@@ -47,7 +48,7 @@ class ConfigManager(private val configPath: Path) {
             // Read file to string
             val fileContent = configPath.toFile().readText()
             // Parse string to Config object
-            config = Json.decodeFromString<Config>(fileContent)
+            config = Json.decodeFromString<TmsConfig>(fileContent)
         }
     }
 

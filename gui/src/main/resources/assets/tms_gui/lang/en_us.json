@@ -1,0 +1,12 @@
+{
+
+  "tms_gui.search.placeholder": "Search... (= to search by key)",
+  "tms_gui.search.no_results": "No results found",
+  "tms_gui.options.controls.reset.tooltip": "Hold Shift to reset all alternatives as well",
+  "tms_gui.options.controls.alternatives": "%s alternative %d",
+  "tms_gui.options.controls.show.all": "Show: All",
+  "tms_gui.options.controls.show.conflicts": "Show: Conflicts",
+  "tms_gui.options.controls.show.unbound": "Show: Unbound",
+  "tms_gui.options.controls.screen-mode": "Screen Mode: %s",
+  "tms_gui.options.controls.free-list.button": "Free List"
+}

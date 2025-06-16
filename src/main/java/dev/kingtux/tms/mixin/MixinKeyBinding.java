@@ -1,12 +1,10 @@
 package dev.kingtux.tms.mixin;
 
 import de.siphalor.amecs.KeyBindingManager;
+import dev.kingtux.tms.TooManyShortcutsCore;
 import dev.kingtux.tms.api.ModifierPrefixTextProvider;
 import de.siphalor.amecs.NOPMap;
-import dev.kingtux.tms.TooManyShortcuts;
-import dev.kingtux.tms.api.AlternativeAPI;
-import dev.kingtux.tms.api.TMSKeyBinding;
-import dev.kingtux.tms.config.ConfigBindings;
+import dev.kingtux.tms.api.config.ConfigBindings;
 import dev.kingtux.tms.mlayout.IKeyBinding;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.api.modifiers.KeyModifier;
@@ -15,17 +13,13 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Level;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.*;
 
@@ -63,6 +57,9 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     @Shadow
     @Final
     public InputUtil.Key defaultKey;
+
+    @Shadow protected abstract void reset();
+
     @Unique
     private final BindingModifiers keyModifiers = new BindingModifiers();
 
@@ -108,7 +105,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
                 }
             }
         }
-        if (!keyModifiers.isUnset() && !keyModifiers.equals(TooManyShortcuts.INSTANCE.getCurrentModifiers())) {
+        if (!keyModifiers.isUnset() && !keyModifiers.equals(TooManyShortcutsCore.INSTANCE.getCurrentModifiers())) {
             callbackInfoReturnable.setReturnValue(false);
         }
     }
@@ -127,7 +124,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
                 }
             }
         }
-        if (!keyModifiers.isUnset() && !keyModifiers.equals(TooManyShortcuts.INSTANCE.getCurrentModifiers())) {
+        if (!keyModifiers.isUnset() && !keyModifiers.equals(TooManyShortcutsCore.INSTANCE.getCurrentModifiers())) {
             callbackInfoReturnable.setReturnValue(false);
         }
     }
@@ -369,5 +366,24 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     @Unique
     public BindingModifiers amecs$getKeyModifiers() {
         return keyModifiers;
+    }
+
+    @Override
+    public InputUtil.Key tms$getBoundKey() {
+        return boundKey;
+    }
+
+    @Override
+    public void tms$setBoundKey(InputUtil.Key key) {
+        this.boundKey = key;
+    }
+
+    @Override
+    public InputUtil.Key tms$getDefaultKey() {
+        return defaultKey;
+    }
+    @Override
+    public void tms$reset() {
+        this.reset();
     }
 }

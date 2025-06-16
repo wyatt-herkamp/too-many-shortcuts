@@ -1,0 +1,6 @@
+accessWidener v2 named
+accessible	method	net/minecraft/client/util/InputUtil$Type	mapKey	(Lnet/minecraft/client/util/InputUtil$Type;Ljava/lang/String;I)V
+accessible	field	net/minecraft/client/util/InputUtil$Key	KEYS	Ljava/util/Map;
+
+# Open the Keybinding. File
+accessible field net/minecraft/client/option/KeyBinding KEYS_BY_ID Ljava/util/Map;

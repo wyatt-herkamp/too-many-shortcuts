@@ -1,0 +1,4 @@
+accessWidener v2 named
+# Only needed for 1.21.5 and later
+accessible field net/minecraft/entity/player/PlayerInventory selectedSlot I
+accessible method net/minecraft/client/option/GameOptions setPlayerModelPart (Lnet/minecraft/entity/player/PlayerModelPart;Z)V

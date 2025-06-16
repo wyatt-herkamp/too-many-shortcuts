@@ -14,12 +14,14 @@
   },
   "license": "Apache-2.0",
   "environment": "client",
-  "depends": {
+  "<% if (project.hasProperty('access_widener')) { %>accessWidener": "${access_widener}.accesswidener",
+  "<% } %>depends": {
     "fabricloader": "${fabric_loader_range}",
     "fabric": "*",
     "fabric-language-kotlin": ">=${fabric_kotlin_version}",
     "minecraft": "${minecraft_range}"
   },
+
   "<% if (project.hasProperty('mixin')) { %>mixins": [
     "${mixin}.mixins.json"
   ],

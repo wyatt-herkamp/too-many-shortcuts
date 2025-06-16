@@ -1,0 +1,11 @@
+{
+  "tms.modifier.alt": "Alt",
+  "tms.modifier.alt.short": "Alt",
+  "tms.modifier.alt.tiny": "A",
+  "tms.modifier.control": "Control",
+  "tms.modifier.control.short": "Ctrl",
+  "tms.modifier.control.tiny": "C",
+  "tms.modifier.shift": "Shift",
+  "tms.modifier.shift.short": "Shft",
+  "tms.modifier.shift.tiny": "S"
+}

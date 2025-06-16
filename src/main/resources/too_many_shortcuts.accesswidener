@@ -1,19 +1,10 @@
 accessWidener v2 named
-accessible class net/minecraft/client/gui/widget/EntryListWidget$Entry
-extendable method net/minecraft/client/gui/screen/option/ControlsListWidget$Entry update ()V
-
 accessible	method	net/minecraft/client/util/InputUtil$Type	mapKey	(Lnet/minecraft/client/util/InputUtil$Type;Ljava/lang/String;I)V
 accessible	field	net/minecraft/client/util/InputUtil$Key	KEYS	Ljava/util/Map;
-
 accessible method net/minecraft/client/option/KeyBinding reset ()V
 
-accessible method net/minecraft/client/gui/widget/EntryListWidget getScrollbarX ()I
-accessible field net/minecraft/client/gui/widget/EntryListWidget children Ljava/util/List;
-accessible field net/minecraft/client/gui/screen/option/GameOptionsScreen body Lnet/minecraft/client/gui/widget/OptionListWidget;
 # Open the Keybinding. File
 accessible field net/minecraft/client/option/KeyBinding boundKey Lnet/minecraft/client/util/InputUtil$Key;
 accessible field net/minecraft/client/option/KeyBinding defaultKey Lnet/minecraft/client/util/InputUtil$Key;
 accessible field net/minecraft/client/option/KeyBinding KEYS_BY_ID Ljava/util/Map;
-# Access parent screen
-accessible field net/minecraft/client/gui/screen/option/GameOptionsScreen parent Lnet/minecraft/client/gui/screen/Screen;
-accessible field net/minecraft/entity/player/PlayerInventory selectedSlot I
+accessible method net/minecraft/util/Identifier <init> (Ljava/lang/String;Ljava/lang/String;)V

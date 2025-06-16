@@ -1,13 +1,14 @@
 package dev.kingtux.tms.mixin;
 
 import de.siphalor.amecs.KeyBindingManager;
-import dev.kingtux.tms.TooManyShortcuts;
+import dev.kingtux.tms.TooManyShortcutsCore;
 import dev.kingtux.tms.api.modifiers.KeyModifier;
+import dev.kingtux.tms.gui.KeyBindingScreenType;
+import dev.kingtux.tms.shortcuts.TmsShortcuts;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Util;
 import org.lwjgl.glfw.GLFW;
@@ -27,7 +28,7 @@ public class MixinKeyboard {
             at = @At(value = "FIELD", target = "Lnet/minecraft/client/Keyboard;debugCrashStartTime:J")
     )
     public int modifyPressedKey(int key, long window, int key_, int scancode) {
-        if (TooManyShortcuts.INSTANCE.getEscapeKeyBinding().matchesKey(key, scancode)) {
+        if (TmsShortcuts.INSTANCE.getEscapeKeyBinding().matchesKey(key, scancode)) {
             return GLFW.GLFW_KEY_ESCAPE;
         }
         return key;
@@ -49,13 +50,13 @@ public class MixinKeyboard {
     @Inject(method = "onKey", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Keyboard;debugCrashStartTime:J", ordinal = 0))
     private void onKey(long window, int key, int scanCode, int action, int modifiers, CallbackInfo callbackInfo) {
         // Key released
-        if (action == 0 && MinecraftClient.getInstance().currentScreen instanceof KeybindsScreen screen) {
-            screen.selectedKeyBinding = null;
-            screen.lastKeyCodeUpdateTime = Util.getMeasuringTimeMs();
+        if (action == 0 && MinecraftClient.getInstance().currentScreen instanceof KeyBindingScreenType screen) {
+            screen.setSelectedKeyBindingToNull();
+            screen.setLastKeyCodeUpdateTime(Util.getMeasuringTimeMs());
         }
         KeyModifier keyModifier = KeyModifier.Companion.fromKeyCode(key);
         if (keyModifier != null) {
-            TooManyShortcuts.INSTANCE.getCurrentModifiers().set(keyModifier, action != 0);
+            TooManyShortcutsCore.INSTANCE.getCurrentModifiers().set(keyModifier, action != 0);
         }
     }
 }
