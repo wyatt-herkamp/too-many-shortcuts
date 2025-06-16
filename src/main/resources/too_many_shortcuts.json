@@ -9,7 +9,8 @@
     "MixinKeyboard",
     "MixinGameOptions",
     "MixinKeyBinding",
-    "MixinMinecraftClient"
+    "MixinMinecraftClient",
+    "MixinMouse"
   ],
   "server": [],
   "injectors": {

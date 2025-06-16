@@ -22,7 +22,7 @@ A Fork of [Amecs](https://github.com/Siphalor/amecs), [Amecs-API](https://github
 -  1.21.5/1.21.4 Had zero changes between them.
 -  1.21.3
 ### Version Policy
-This mod will try it's best to support the latest 3 Minecraft versions. 
+This mod will try it's best to support at least the latest 3 Minecraft versions. 
 Some changes make this impossible or extremely difficult.
 ## Requirements
 - [Fabric API](https://modrinth.com/mod/fabric-api)

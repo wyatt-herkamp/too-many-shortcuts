@@ -79,6 +79,7 @@ abstract class TMSKeyBindingEntry(
         val keyCode = InputUtil.Type.MOUSE.createFromCode(button)
         val key = binding.boundKey
         val keyAsModifier = fromKey(key)
+        binding
         if (key != InputUtil.UNKNOWN_KEY && keyAsModifier != null) {
             val keyModifiers = binding.`tms$getKeyModifiers`()
             keyModifiers.set(keyAsModifier, true)
