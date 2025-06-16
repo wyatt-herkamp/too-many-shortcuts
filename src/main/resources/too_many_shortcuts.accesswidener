@@ -7,4 +7,3 @@ accessible method net/minecraft/client/option/KeyBinding reset ()V
 accessible field net/minecraft/client/option/KeyBinding boundKey Lnet/minecraft/client/util/InputUtil$Key;
 accessible field net/minecraft/client/option/KeyBinding defaultKey Lnet/minecraft/client/util/InputUtil$Key;
 accessible field net/minecraft/client/option/KeyBinding KEYS_BY_ID Ljava/util/Map;
-accessible method net/minecraft/util/Identifier <init> (Ljava/lang/String;Ljava/lang/String;)V

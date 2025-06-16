@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Support for Minecraft 1.20.6, 1.21.1, 1.21.2, 1.21.3
 - Extracted a lot of API into a separate module.
 - Config System is now in the API module.
+- Fixed Alternative Escape Binding working with Mouse Buttons
+- Fixed selectedKeyBinding not being returned to null after being set [#27](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/27)
 ## [0.0.10] (06-14-2025)
 - Updated to Minecraft 1.21.5
 - Added a new keybinding to shift the hotbar left or right.

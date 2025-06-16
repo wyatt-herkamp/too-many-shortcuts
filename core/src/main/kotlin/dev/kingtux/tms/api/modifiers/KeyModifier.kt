@@ -50,7 +50,9 @@ enum class KeyModifier(
             }
             return null
         }
-
+        fun isKeyModifier(key: InputUtil.Key?): Boolean {
+            return fromKey(key) != null
+        }
         fun fromKey(key: InputUtil.Key?): KeyModifier? {
             if (key == null || key.category != InputUtil.Type.KEYSYM) {
                 return null

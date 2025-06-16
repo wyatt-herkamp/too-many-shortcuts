@@ -30,7 +30,7 @@ private val TITLE_TEXT: Text = Text.translatable("controls.keybinds.title")
 @ApiStatus.Internal
 @Environment(EnvType.CLIENT)
 class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
-    GameOptionsScreen(parent, gameOptions, TITLE_TEXT), KeyBindingScreenType{
+    GameOptionsScreen(parent, gameOptions, TITLE_TEXT), KeyBindingScreenType {
     var isShiftEnabled = false;
     var selectedKeyBinding: TMSKeyBindingEntry? = null
     lateinit var controlsList: TMSControlsListWidget;
@@ -39,6 +39,7 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
     override fun setSelectedKeyBindingToNull() {
         this.selectedKeyBinding = null
     }
+
     private var resetAllButton: ButtonWidget = ButtonWidget.builder(
         Text.translatable("controls.resetAll"),
     ) {
@@ -77,12 +78,14 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
     }
 
     override fun initHeader() {
-        searchField = TextFieldWidget(this.textRenderer,
+        searchField = TextFieldWidget(
+            this.textRenderer,
             MinecraftClient.getInstance().currentScreen!!.width / 2 - 125,
             0,
             250,
             20,
-            Text.empty());
+            Text.empty()
+        );
         searchField.setSuggestion(SUGGESTION_TEXT)
         searchField.setChangedListener {
             search(it)
@@ -91,6 +94,7 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
         directionalLayoutWidget.add(TextWidget(this.title, this.textRenderer))
         directionalLayoutWidget.add(searchField);
     }
+
     override fun initFooter() {
         layout.footerHeight = 40
         val directionalLayoutWidget = layout.addFooter(DirectionalLayoutWidget.vertical().spacing(2))
@@ -195,35 +199,39 @@ class TMSControlsListWidget(val parent: TMSKeyBindsScreen, client: MinecraftClie
     init {
         this.rebuildEntries(null)
     }
-    fun rebuildEntries(searchValue: String?){
+
+    fun rebuildEntries(searchValue: String?) {
         clearEntries()
         when (parent.screenMode) {
             ScreenModes.KeyBindings -> {
                 rebuildKeybindingEntries(searchValue)
             }
+
             ScreenModes.FreeList -> {
                 rebuildFreeListEntries(searchValue)
             }
         }
         update()
     }
-    private fun rebuildFreeListEntries(searchValue: String?){
 
-        for (key in InputUtil.Key.KEYS.entries){
+    private fun rebuildFreeListEntries(searchValue: String?) {
+
+        for (key in InputUtil.Key.KEYS.entries) {
             val inputKey: InputUtil.Key = key.value
             val entry = KeyFreeListEntry(inputKey, this)
             addEntry(entry)
         }
 
     }
-    private fun rebuildKeybindingEntries(searchValue: String?){
+
+    private fun rebuildKeybindingEntries(searchValue: String?) {
         val (entries, maxKeyNameLength) = createAllEntries(searchValue)
         this.maxKeyNameLength = maxKeyNameLength
         scrollY = 0.0
         var lastCategory: String? = null
-        if (entries.isEmpty()){
+        if (entries.isEmpty()) {
             addEntry(TMSCategoryEntry(NO_RESULTS_TEXT, this))
-        }else{
+        } else {
             for (entry in entries) {
                 if (entry is TMSKeyBindingParentEntry) {
                     val category = entry.binding.category
@@ -236,6 +244,7 @@ class TMSControlsListWidget(val parent: TMSKeyBindsScreen, client: MinecraftClie
             }
         }
     }
+
     /**
      * Create all the entries for the controls list
      * @return Pair of the entries and the max key name length
@@ -259,11 +268,11 @@ class TMSControlsListWidget(val parent: TMSKeyBindsScreen, client: MinecraftClie
                 shouldAdd =
                     if (StringUtils.containsIgnoreCase(Text.translatable(keyBinding.category).string, searchValue)) {
                         true
-                    }else{
+                    } else {
                         keyBinding.translatedTextEqualsIgnoreCase(searchValue)
                     }
             }
-            if (!shouldAdd){
+            if (!shouldAdd) {
                 continue;
             }
             val entry = TMSKeyBindingParentEntry(keyBinding, this);

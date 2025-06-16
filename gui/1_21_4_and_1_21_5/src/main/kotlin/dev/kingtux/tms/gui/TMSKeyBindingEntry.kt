@@ -2,6 +2,7 @@ package dev.kingtux.tms.gui
 
 import com.google.common.collect.ImmutableList
 import dev.kingtux.tms.alternatives.AlternativeKeyBinding
+import dev.kingtux.tms.api.modifiers.BindingModifiers
 import dev.kingtux.tms.api.modifiers.KeyModifier
 import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKey
 import dev.kingtux.tms.api.resetBinding
@@ -24,6 +25,7 @@ import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Colors
 import net.minecraft.util.Formatting
+import net.minecraft.util.Util
 import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.Level
 import org.jetbrains.annotations.ApiStatus
@@ -51,6 +53,7 @@ abstract class TMSKeyBindingEntry(
     abstract val alternativesButton: ButtonWidget
     private var duplicate = false
     private val description: MutableList<Text> = mutableListOf()
+    private var setModifierLast = false
     private val editButton: ButtonWidget =
         ButtonWidget.builder(Text.translatable(binding.translationKey)) {
             parent.parent.selectedKeyBinding = this
@@ -88,6 +91,7 @@ abstract class TMSKeyBindingEntry(
 
         TmsGUI.log(Level.INFO, "Mouse Click $button with ${binding.`tms$getKeyModifiers`()}")
         parent.parent.selectedKeyBinding = null
+        setModifierLast = false
 
     }
 
@@ -111,10 +115,10 @@ abstract class TMSKeyBindingEntry(
 
         // Remove all the modifiers then add the active ones
         keyModifiers.unset()
-         if (activeModifiers.isNotEmpty()) {
+        if (activeModifiers.isNotEmpty()) {
 
             for (keyModifier in activeModifiers) {
-                if (keyModifier.matches(keyCode)){
+                if (keyModifier.matches(keyCode)) {
                     TmsGUI.log(Level.TRACE, "Ignoring Modifier $keyModifier due to matching key")
                     continue
                 }
@@ -127,7 +131,21 @@ abstract class TMSKeyBindingEntry(
             Level.INFO,
             "KeyBoard Click ${binding.boundKey} with ${binding.`tms$getKeyModifiers`()}"
         )
-
+        if (!KeyModifier.Companion.isKeyModifier(newInput)) {
+            parent.parent.selectedKeyBinding = null
+            setModifierLast = false
+        } else {
+            // The task will wait a 500ms before clearing the selected key binding. This is allow the user to treat the selected key as modifier
+            setModifierLast = true
+            Util.getMainWorkerExecutor().execute {
+                Thread.sleep(500)
+                if (setModifierLast) {
+                    parent.parent.selectedKeyBinding = null
+                    setModifierLast = false
+                    update()
+                }
+            }
+        }
     }
 
     private val resetButton: ButtonWidget = ButtonWidget.builder(
@@ -201,6 +219,8 @@ abstract class TMSKeyBindingEntry(
                 .append(editButton.message.copy().formatted(Formatting.WHITE, Formatting.UNDERLINE))
                 .append(" <")
                 .formatted(Formatting.YELLOW)
+        } else {
+            setModifierLast = false
         }
     }
 

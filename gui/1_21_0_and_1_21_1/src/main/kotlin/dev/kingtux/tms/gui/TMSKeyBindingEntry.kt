@@ -24,6 +24,7 @@ import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Colors
 import net.minecraft.util.Formatting
+import net.minecraft.util.Util
 import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.Level
 import org.jetbrains.annotations.ApiStatus
@@ -46,6 +47,7 @@ abstract class TMSKeyBindingEntry(
             }
         }
     }
+    private var setModifierLast = false
 
     abstract val bindingName: Text;
     abstract val alternativesButton: ButtonWidget
@@ -126,7 +128,21 @@ abstract class TMSKeyBindingEntry(
             Level.INFO,
             "KeyBoard Click ${binding.boundKey} with ${binding.`tms$getKeyModifiers`()}"
         )
-
+        if (!KeyModifier.Companion.isKeyModifier(newInput)) {
+            parent.parent.selectedKeyBinding = null
+            setModifierLast = false
+        } else {
+            // The task will wait a 500ms before clearing the selected key binding. This is allow the user to treat the selected key as modifier
+            setModifierLast = true
+            Util.getMainWorkerExecutor().execute {
+                Thread.sleep(500)
+                if (setModifierLast ) {
+                    parent.parent.selectedKeyBinding = null
+                    setModifierLast = false
+                    update()
+                }
+            }
+        }
     }
 
     private val resetButton: ButtonWidget = ButtonWidget.builder(
@@ -199,6 +215,8 @@ abstract class TMSKeyBindingEntry(
                 .append(editButton.message.copy().formatted(Formatting.WHITE, Formatting.UNDERLINE))
                 .append(" <")
                 .formatted(Formatting.YELLOW)
+        } else {
+            setModifierLast = false
         }
     }
 
