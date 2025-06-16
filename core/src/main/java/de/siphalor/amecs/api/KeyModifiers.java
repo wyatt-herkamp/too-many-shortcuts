@@ -41,30 +41,6 @@ public class KeyModifiers {
      * Trying to change the modifiers of it will fail with an {@link UnsupportedOperationException}
      */
     public static final KeyModifiers NO_MODIFIERS = new FinalKeyModifiers();
-
-    private static class FinalKeyModifiers extends KeyModifiers {
-        private static final String EXCEPTION_MESSAGE = "You must not alter this Modifiers object";
-
-        @Override
-        public KeyModifiers setValue(boolean[] value) {
-            throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
-        }
-
-        @Override
-        public void set(KeyModifier keyModifier, boolean value) {
-            throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
-        }
-
-        @Override
-        public void unset() {
-            throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
-        }
-    }
-
-    public static KeyModifiers getCurrentlyPressed() {
-        return TooManyShortcutsCore.INSTANCE.getCurrentModifiers().toAmecs();
-    }
-
     // using a boolean array here because it is faster and needs less space
     private final boolean[] value;
 
@@ -104,6 +80,10 @@ public class KeyModifiers {
         setShift(shift);
     }
 
+    public static KeyModifiers getCurrentlyPressed() {
+        return TooManyShortcutsCore.INSTANCE.getCurrentModifiers().toAmecs();
+    }
+
     /**
      * Compares this object with the currently pressed keys
      *
@@ -133,6 +113,18 @@ public class KeyModifiers {
     /**
      * FOR INTERNAL USE ONLY
      * <p>
+     * Gets the raw value
+     *
+     * @return the value with all flags set
+     */
+    @ApiStatus.Internal
+    public boolean[] getValue() {
+        return value;
+    }
+
+    /**
+     * FOR INTERNAL USE ONLY
+     * <p>
      * Sets the raw value
      *
      * @param value the value with flags set
@@ -150,23 +142,20 @@ public class KeyModifiers {
     /**
      * FOR INTERNAL USE ONLY
      * <p>
-     * Gets the raw value
-     *
-     * @return the value with all flags set
-     */
-    @ApiStatus.Internal
-    public boolean[] getValue() {
-        return value;
-    }
-
-    /**
-     * FOR INTERNAL USE ONLY
-     * <p>
      * copies the modifiers of the other KeyModifiers object into this
      */
     @ApiStatus.Internal
     public void copyModifiers(KeyModifiers other) {
         setValue(other.getValue());
+    }
+
+    /**
+     * Gets the state of the alt flag
+     *
+     * @return whether the alt key needs to be pressed
+     */
+    public boolean getAlt() {
+        return get(KeyModifier.ALT);
     }
 
     /**
@@ -180,12 +169,12 @@ public class KeyModifiers {
     }
 
     /**
-     * Gets the state of the alt flag
+     * Gets the state of the control flag
      *
-     * @return whether the alt key needs to be pressed
+     * @return whether the control key needs to be pressed
      */
-    public boolean getAlt() {
-        return get(KeyModifier.ALT);
+    public boolean getControl() {
+        return get(KeyModifier.CONTROL);
     }
 
     /**
@@ -199,12 +188,12 @@ public class KeyModifiers {
     }
 
     /**
-     * Gets the state of the control flag
+     * Gets the state of the shift flag
      *
-     * @return whether the control key needs to be pressed
+     * @return whether the shift key needs to be pressed
      */
-    public boolean getControl() {
-        return get(KeyModifier.CONTROL);
+    public boolean getShift() {
+        return get(KeyModifier.SHIFT);
     }
 
     /**
@@ -215,15 +204,6 @@ public class KeyModifiers {
     public KeyModifiers setShift(boolean value) {
         set(KeyModifier.SHIFT, value);
         return this;
-    }
-
-    /**
-     * Gets the state of the shift flag
-     *
-     * @return whether the shift key needs to be pressed
-     */
-    public boolean getShift() {
-        return get(KeyModifier.SHIFT);
     }
 
     public void set(KeyModifier keyModifier, boolean value) {
@@ -262,7 +242,7 @@ public class KeyModifiers {
      */
     public void cleanup(KeyBinding keyBinding) {
         IKeyBinding iKeyBinding = (IKeyBinding) keyBinding;
-        InputUtil.Key key =iKeyBinding.tms$getBoundKey();
+        InputUtil.Key key = iKeyBinding.tms$getBoundKey();
         set(KeyModifier.fromKey(key), false);
     }
 
@@ -289,6 +269,25 @@ public class KeyModifiers {
     @Override
     public String toString() {
         return "KeyModifiers [alt=" + getAlt() + ", control=" + getControl() + ", shift=" + getShift() + "]";
+    }
+
+    private static class FinalKeyModifiers extends KeyModifiers {
+        private static final String EXCEPTION_MESSAGE = "You must not alter this Modifiers object";
+
+        @Override
+        public KeyModifiers setValue(boolean[] value) {
+            throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        }
+
+        @Override
+        public void set(KeyModifier keyModifier, boolean value) {
+            throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        }
+
+        @Override
+        public void unset() {
+            throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
+        }
     }
 
 }

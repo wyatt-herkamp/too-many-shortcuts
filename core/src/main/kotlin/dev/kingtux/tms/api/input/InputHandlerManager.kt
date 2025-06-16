@@ -39,7 +39,7 @@ object InputHandlerManager {
      * @param client
      */
     @JvmStatic
-	@ApiStatus.Internal
+    @ApiStatus.Internal
     fun handleInputEvents(client: MinecraftClient?) {
         for (handler in INPUT_HANDLERS) {
             handler.handleInput(client)

@@ -7,7 +7,6 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
 
 
-
 public class TMSKeyBinding extends KeyBinding {
     private final BindingModifiers defaultModifiers;
 

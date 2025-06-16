@@ -7,6 +7,7 @@ import dev.kingtux.tms.mlayout.IKeyBinding
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.option.KeyBinding
+
 @Environment(EnvType.CLIENT)
 object TMSKeyBindingUtils {
 
@@ -75,6 +76,7 @@ object TMSKeyBindingUtils {
     fun getBoundModifiers(keyBinding: KeyBinding): BindingModifiers? {
         return (keyBinding as IKeyBinding).`tms$getKeyModifiers`()
     }
+
     /**
      * Gets the key modifiers that are bound to the given key binding or an empty instance if none are bound
      *
@@ -106,12 +108,17 @@ object TMSKeyBindingUtils {
             (keyBinding as TMSKeyBinding).resetKeyBinding()
         }
     }
+
     @JvmStatic
     fun debugKeyBinding(message: String, keyBinding: KeyBinding) {
         if (keyBinding is IKeyBinding) {
             TooManyShortcutsCore.LOGGER.debug("Debugging Key Binding {}, {}", message, keyBinding.`tms$debugString`())
-        }else{
-            TooManyShortcutsCore.LOGGER.debug("Debugging Key Binding (Not TMS Keybinding) {}, {}", message, keyBinding.translationKey)
+        } else {
+            TooManyShortcutsCore.LOGGER.debug(
+                "Debugging Key Binding (Not TMS Keybinding) {}, {}",
+                message,
+                keyBinding.translationKey
+            )
         }
     }
 }

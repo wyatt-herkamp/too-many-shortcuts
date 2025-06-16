@@ -1,7 +1,7 @@
 package dev.kingtux.tms.mlayout;
 
-import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.api.config.ConfigBindings;
+import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.Nullable;
@@ -64,6 +64,7 @@ public interface IKeyBinding {
     void tms$addAlternative(KeyBinding binding);
 
     int tms$getIndexInParent();
+
     /// Proper Debug Message for KeyBinding
     String tms$debugString();
 

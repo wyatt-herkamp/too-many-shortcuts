@@ -27,7 +27,9 @@
       "links": {
         "modmenu.discord": "${discord_url}"
       },
-      "badges": ["library"]
+      "badges": [
+        "library"
+      ]
     }
   }
 }

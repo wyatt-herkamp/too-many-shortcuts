@@ -17,12 +17,11 @@
 package de.siphalor.amecs;
 
 import de.siphalor.amecs.api.PriorityKeyBinding;
-
 import dev.kingtux.tms.TooManyShortcutsCore;
 import dev.kingtux.tms.api.TMSKeyBindingUtils;
-import dev.kingtux.tms.mlayout.IKeyBinding;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.api.modifiers.KeyModifier;
+import dev.kingtux.tms.mlayout.IKeyBinding;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -134,7 +133,6 @@ public class KeyBindingManager {
     }
 
 
-
     private static Stream<KeyBinding> getKeyBindingsFromMap(Map<InputUtil.Key, List<KeyBinding>> keysById_map) {
         return keysById_map.values().stream().flatMap(Collection::stream);
     }
@@ -154,10 +152,10 @@ public class KeyBindingManager {
         forEachKeyBinding(keyBinding -> {
             IKeyBinding iKeyBinding = (IKeyBinding) keyBinding;
             InputUtil.Key key = iKeyBinding.tms$getBoundKey();
-            if (keyBinding.isUnbound()){
+            if (keyBinding.isUnbound()) {
                 return;
             }
-            boolean pressed =  key.getCategory() == InputUtil.Type.KEYSYM && InputUtil.isKeyPressed(windowHandle, key.getCode());
+            boolean pressed = key.getCategory() == InputUtil.Type.KEYSYM && InputUtil.isKeyPressed(windowHandle, key.getCode());
             setKeyBindingPressed(keyBinding, pressed);
         });
     }

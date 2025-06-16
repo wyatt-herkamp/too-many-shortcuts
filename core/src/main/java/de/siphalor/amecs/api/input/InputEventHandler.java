@@ -29,13 +29,12 @@ import net.minecraft.client.MinecraftClient;
 @Environment(EnvType.CLIENT)
 public interface InputEventHandler {
 
-	/**
-	 * This method is called from {@link InputHandlerManager#handleInputEvents(MinecraftClient)}
-	 *
-	 * @see InputHandlerManager#handleInputEvents(MinecraftClient)
-	 *
-	 * @param client
-	 */
-	public void handleInput(MinecraftClient client);
+    /**
+     * This method is called from {@link InputHandlerManager#handleInputEvents(MinecraftClient)}
+     *
+     * @param client
+     * @see InputHandlerManager#handleInputEvents(MinecraftClient)
+     */
+    public void handleInput(MinecraftClient client);
 
 }

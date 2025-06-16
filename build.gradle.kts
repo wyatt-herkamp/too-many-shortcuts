@@ -34,7 +34,7 @@ dependencies {
     include(project(":gui:1_21_4_and_1_21_5"))
     include(project(":gui:1_21_6"))
     include(project(":shortcuts"))
-    include( project(":shortcuts:shortcuts-1_20_6"))
+    include(project(":shortcuts:shortcuts-1_20_6"))
     include(project(":shortcuts:shortcuts-1_21_and_after"))
 
     // So, you cant do a clean build with these options. However, you can only run the mod in development mode with these options.
@@ -48,14 +48,14 @@ dependencies {
 
 }
 
-allprojects{
+allprojects {
     val yarnMappingVersion = "${property("minecraft_version")}+build.${property("yarn_mappings")}"
-    apply(plugin = "fabric-loom" )
+    apply(plugin = "fabric-loom")
     apply(plugin = "java")
     apply(plugin = "kotlin")
     version = property("mod_version") as String
     group = property("maven_group") as String
-    dependencies{
+    dependencies {
         minecraft("com.mojang:minecraft:${property("minecraft_version")}")
         mappings("net.fabricmc:yarn:$yarnMappingVersion:v2")
         modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
@@ -64,7 +64,7 @@ allprojects{
         modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
         testImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
         testImplementation(kotlin("test"))
-        if (project.path == ":core"){
+        if (project.path == ":core") {
             return@dependencies
         }
         annotationProcessor(implementation(project(":core", configuration = "namedElements")) as Dependency)
@@ -80,7 +80,7 @@ allprojects{
         withJavadocJar()
     }
 
-    tasks{
+    tasks {
         processResources {
             duplicatesStrategy = DuplicatesStrategy.INCLUDE
             inputs.property("version", project.version)

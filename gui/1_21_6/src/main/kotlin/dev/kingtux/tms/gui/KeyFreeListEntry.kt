@@ -9,9 +9,9 @@ import net.minecraft.util.Colors
 
 class KeyFreeListEntry(
     val key: InputUtil.Key, parent: TMSControlsListWidget,
-) : TMSControlListEntry(parent)  {
-     val translationKey: Text = Text.translatable(key.translationKey);
-     val keyText: Text = Text.of(key.toString());
+) : TMSControlListEntry(parent) {
+    val translationKey: Text = Text.translatable(key.translationKey);
+    val keyText: Text = Text.of(key.toString());
     override fun update() {
 
     }
@@ -30,7 +30,10 @@ class KeyFreeListEntry(
     ) {
         context.drawTextWithShadow(
             parent.client.textRenderer,
-            this.translationKey, x + entryWidth - parent.client.textRenderer.getWidth(this.keyText) - 5, y + entryHeight / 2 - 9 / 2, Colors.WHITE
+            this.translationKey,
+            x + entryWidth - parent.client.textRenderer.getWidth(this.keyText) - 5,
+            y + entryHeight / 2 - 9 / 2,
+            Colors.WHITE
         )
         context.drawTextWithShadow(
             parent.client.textRenderer,

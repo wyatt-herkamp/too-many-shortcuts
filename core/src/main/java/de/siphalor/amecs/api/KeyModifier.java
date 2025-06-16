@@ -16,12 +16,10 @@
 
 package de.siphalor.amecs.api;
 
-import org.apache.commons.lang3.ArrayUtils;
-
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.InputUtil;
+import org.apache.commons.lang3.ArrayUtils;
 
 @SuppressWarnings("WeakerAccess")
 @Environment(EnvType.CLIENT)
@@ -67,12 +65,11 @@ public enum KeyModifier {
         return fromKeyCode(key.getCode());
     }
 
-    public boolean matches(int keyCode) {
-        return ArrayUtils.contains(keyCodes, keyCode);
-    }
-
-
     public static int getModifierCount() {
         return VALUES.length - 1; // remove 1 for NONE
+    }
+
+    public boolean matches(int keyCode) {
+        return ArrayUtils.contains(keyCodes, keyCode);
     }
 }

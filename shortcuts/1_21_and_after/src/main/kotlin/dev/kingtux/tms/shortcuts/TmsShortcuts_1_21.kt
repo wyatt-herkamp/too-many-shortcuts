@@ -9,26 +9,23 @@ import dev.kingtux.tms.shortcuts.keybinding.ToggleAutoJumpKeyBinding
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.util.InputUtil
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerModelPart
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import org.apache.logging.log4j.Level
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
-import java.util.Arrays
+import java.util.*
 
-object TmsShortcuts_1_21: ClientModInitializer {
+object TmsShortcuts_1_21 : ClientModInitializer {
     override fun onInitializeClient() {
-        TmsShortcuts.setEscapeKeyBinding(KeyBindingHelper.registerKeyBinding(
-            TMSKeyBinding(
-                Identifier.of(TmsShortcuts.MOD_ID, "alternative_escape"),
-                InputUtil.Type.KEYSYM,
-                -1,
-                "key.categories.ui",
-                BindingModifiers()
+        TmsShortcuts.setEscapeKeyBinding(
+            KeyBindingHelper.registerKeyBinding(
+                TMSKeyBinding(
+                    Identifier.of(TmsShortcuts.MOD_ID, "alternative_escape"),
+                    InputUtil.Type.KEYSYM,
+                    -1,
+                    "key.categories.ui",
+                    BindingModifiers()
+                )
             )
-        ))
+        )
         KeyBindingHelper.registerKeyBinding(
             ToggleAutoJumpKeyBinding(
                 Identifier.of(TmsShortcuts.MOD_ID, "toggle_auto_jump"),

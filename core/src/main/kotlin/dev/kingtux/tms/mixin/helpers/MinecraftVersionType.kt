@@ -1,34 +1,40 @@
 package dev.kingtux.tms.mixin.helpers
-enum class SupportMarker{
+
+enum class SupportMarker {
     GreaterThan,
     LessThan,
     NotEqual,
     Equal
 }
+
 data class MinecraftVersionSupportRange(
     val marker: SupportMarker,
     val version: MinecraftVersionType
-){
+) {
     companion object {
         fun parse(version: String): MinecraftVersionSupportRange {
             var version = version.trim()
             val marker = when {
                 version.startsWith(">") -> {
-                   version= version.removePrefix(">")
+                    version = version.removePrefix(">")
                     SupportMarker.GreaterThan
                 }
+
                 version.startsWith("<") -> {
                     version = version.removePrefix("<")
                     SupportMarker.LessThan
                 }
+
                 version.startsWith("!=") -> {
                     version = version.removePrefix("!=")
                     SupportMarker.NotEqual
                 }
+
                 version.startsWith("=") -> {
                     version = version.removePrefix("=")
                     SupportMarker.Equal
                 }
+
                 else -> SupportMarker.Equal
             }
             return MinecraftVersionSupportRange(
@@ -37,6 +43,7 @@ data class MinecraftVersionSupportRange(
             )
         }
     }
+
     fun supports(minecraftVersion: MinecraftVersionType): Boolean {
         return when (marker) {
             SupportMarker.GreaterThan -> minecraftVersion >= version
@@ -46,6 +53,7 @@ data class MinecraftVersionSupportRange(
         }
     }
 }
+
 data class MinecraftVersionType(
     val major: Int,
     val minor: Int,
@@ -60,10 +68,10 @@ data class MinecraftVersionType(
             val patchString = parts.getOrNull(2)?.lowercase() ?: "0"
             var patch: Int? = null;
             var preRelease: Int? = null;
-            if (patchString.contains("-beta")){
+            if (patchString.contains("-beta")) {
                 patch = patchString.removeSuffix("-beta").toIntOrNull()
                 preRelease = parts.getOrNull(3)?.toIntOrNull()
-            }else{
+            } else {
                 patch = patchString.toIntOrNull()
             }
 

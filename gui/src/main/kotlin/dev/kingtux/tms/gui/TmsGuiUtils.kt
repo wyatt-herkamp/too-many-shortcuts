@@ -14,4 +14,4 @@ val NO_RESULTS_TEXT: MutableText = Text.translatable("tms_gui.search.no_results"
         setStyle(this.style.withColor(Formatting.GRAY))
     };
 
- val SUGGESTION_TEXT: String = I18n.translate("tms_gui.search.placeholder");
+val SUGGESTION_TEXT: String = I18n.translate("tms_gui.search.placeholder");

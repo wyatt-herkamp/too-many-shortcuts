@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
-object TmsShortcuts: ClientModInitializer {
+object TmsShortcuts : ClientModInitializer {
     const val MOD_ID = "tms_shortcuts"
     const val SKIN_LAYER_CATEGORY: String = "${MOD_ID}.key.categories.skin_layers"
 
@@ -21,15 +21,19 @@ object TmsShortcuts: ClientModInitializer {
     override fun onInitializeClient() {
 
     }
+
     fun setEscapeKeyBinding(keyBinding: KeyBinding) {
         ESCAPE_KEYBINDING = keyBinding
     }
+
     fun getEscapeKeyBinding(): KeyBinding {
         return ESCAPE_KEYBINDING
     }
+
     fun log(level: Level?, message: String) {
         LOGGER.log(level, "[$MOD_ID]$message")
     }
+
     fun sendToggleMessage(playerEntity: PlayerEntity, value: Boolean, option: Text?) {
         playerEntity.sendMessage(
             Text.translatable(

@@ -31,11 +31,9 @@
     "fabric-language-kotlin": ">=${fabric_kotlin_version}",
     "minecraft": "${minecraft_range}"
   },
-
   "<% if (project.hasProperty('mixin')) { %>mixins": [
     "${mixin}.mixins.json"
   ],
-
   "<% } %>custom": {
     "modmenu:clientsideOnly": true,
     "modmenu": {

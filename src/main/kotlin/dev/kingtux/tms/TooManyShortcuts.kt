@@ -16,7 +16,6 @@ object TooManyShortcuts : ClientModInitializer {
     val LOGGER: Logger = LogManager.getLogger(TooManyShortcuts.javaClass)
 
 
-
     override fun onInitializeClient() {
 
     }
@@ -25,7 +24,6 @@ object TooManyShortcuts : ClientModInitializer {
     fun log(level: Level?, message: String) {
         LOGGER.log(level, "[$MOD_ID]$message")
     }
-
 
 
     fun makeKeyID(keyName: String): String {

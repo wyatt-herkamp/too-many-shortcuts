@@ -19,7 +19,6 @@ package de.siphalor.amecs.api;
 import dev.kingtux.tms.api.TMSKeyBindingUtils;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.mlayout.IKeyBinding;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.option.KeyBinding;
@@ -35,6 +34,7 @@ import net.minecraft.client.option.KeyBinding;
 public class KeyBindingUtils {
     private KeyBindingUtils() {
     }
+
     /**
      * Gets the key modifiers that are bound to the given key binding
      *

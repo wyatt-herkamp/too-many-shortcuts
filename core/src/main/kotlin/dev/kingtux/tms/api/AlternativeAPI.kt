@@ -4,7 +4,6 @@ import com.google.common.collect.Multimap
 import com.google.common.collect.Multimaps
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.minecraft.client.option.KeyBinding
-import java.util.HashMap
 
 object AlternativeAPI {
     val defaultAlternatives: Multimap<KeyBinding, KeyBinding> = Multimaps.newSetMultimap(HashMap()) { hashSetOf() };

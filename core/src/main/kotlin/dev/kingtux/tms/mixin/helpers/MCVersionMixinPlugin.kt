@@ -5,7 +5,7 @@ import org.objectweb.asm.tree.ClassNode
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo
 
-class MCVersionMixinPlugin: IMixinConfigPlugin {
+class MCVersionMixinPlugin : IMixinConfigPlugin {
     override fun onLoad(p0: String?) {
     }
 
@@ -19,14 +19,14 @@ class MCVersionMixinPlugin: IMixinConfigPlugin {
         }
         val mixinClass: Class<*>?;
         try {
-            mixinClass =         Thread.currentThread().contextClassLoader.loadClass(mixinTarget);
+            mixinClass = Thread.currentThread().contextClassLoader.loadClass(mixinTarget);
 
         } catch (e: ClassNotFoundException) {
 
             return true;
         }
         val supportedMinecraftVersions = mutableListOf<MinecraftVersionSupportRange>()
-        for (annotation in mixinClass.annotations){
+        for (annotation in mixinClass.annotations) {
             if (annotation is MinecraftVersion) {
                 annotation.minecraftVersions.forEach {
                     supportedMinecraftVersions.add(
@@ -38,8 +38,10 @@ class MCVersionMixinPlugin: IMixinConfigPlugin {
         if (supportedMinecraftVersions.isEmpty()) {
             return true;
         }
-        val minecraftVersion = MinecraftVersionType.parse(FabricLoader.getInstance().getModContainer("minecraft")
-            .get().metadata.version.friendlyString)
+        val minecraftVersion = MinecraftVersionType.parse(
+            FabricLoader.getInstance().getModContainer("minecraft")
+                .get().metadata.version.friendlyString
+        )
 
         for (supportedVersion in supportedMinecraftVersions) {
             if (supportedVersion.supports(minecraftVersion)) {

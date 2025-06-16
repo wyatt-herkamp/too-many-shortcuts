@@ -1,13 +1,13 @@
 package dev.kingtux.tms.mixin;
 
 import de.siphalor.amecs.KeyBindingManager;
+import de.siphalor.amecs.NOPMap;
 import dev.kingtux.tms.TooManyShortcutsCore;
 import dev.kingtux.tms.api.ModifierPrefixTextProvider;
-import de.siphalor.amecs.NOPMap;
 import dev.kingtux.tms.api.config.ConfigBindings;
-import dev.kingtux.tms.mlayout.IKeyBinding;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.api.modifiers.KeyModifier;
+import dev.kingtux.tms.mlayout.IKeyBinding;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -21,7 +21,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import static dev.kingtux.tms.api.UtilsKt.isDefaultBinding;
 
@@ -29,6 +31,21 @@ import static dev.kingtux.tms.api.UtilsKt.isDefaultBinding;
 @Mixin(KeyBinding.class)
 @Debug(export = true)
 public abstract class MixinKeyBinding implements IKeyBinding {
+    // set it to a NOPMap meaning everything done with this map is ignored. Because setting it to null would cause problems
+    // ... even if we remove the put in the KeyBinding constructor. Because maybe in the future this map is used elsewhere or a other mod uses it
+    @Shadow
+    @Final
+    @Mutable
+    private static Map<InputUtil.Key, KeyBinding> KEY_TO_BINDINGS = NOPMap.nopMap();
+    @Unique
+    private final BindingModifiers keyModifiers = new BindingModifiers();
+    @Shadow
+    public InputUtil.Key boundKey;
+    @Shadow
+    @Final
+    public InputUtil.Key defaultKey;
+    @Unique
+    short nextChildId = 0;
     @Shadow
     private boolean pressed;
     @Shadow
@@ -40,29 +57,43 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     @Unique
     private List<KeyBinding> children = null;
     @Unique
-    short nextChildId = 0;
-    @Unique
     private KeyBinding parent = null;
     @Shadow
     private int timesPressed;
-    // set it to a NOPMap meaning everything done with this map is ignored. Because setting it to null would cause problems
-    // ... even if we remove the put in the KeyBinding constructor. Because maybe in the future this map is used elsewhere or a other mod uses it
-    @Shadow
-    @Final
-    @Mutable
-    private static Map<InputUtil.Key, KeyBinding> KEY_TO_BINDINGS = NOPMap.nopMap();
+
+    @Inject(method = "onKeyPressed", at = @At("HEAD"), cancellable = true)
+    private static void onKeyPressed(InputUtil.Key keyCode, CallbackInfo callbackInfo) {
+        KeyBindingManager.onKeyPressed(keyCode);
+        callbackInfo.cancel();
+    }
+
+    @Inject(method = "setKeyPressed", at = @At("HEAD"), cancellable = true)
+    private static void setKeyPressed(InputUtil.Key keyCode, boolean pressed, CallbackInfo callbackInfo) {
+        KeyBindingManager.setKeyPressed(keyCode, pressed);
+
+        callbackInfo.cancel();
+    }
+
+    @Inject(method = "updatePressedStates", at = @At("HEAD"), cancellable = true)
+    private static void updatePressedStates(CallbackInfo callbackInfo) {
+        KeyBindingManager.updatePressedStates();
+        callbackInfo.cancel();
+    }
+
+    @Inject(method = "updateKeysByCode", at = @At("HEAD"), cancellable = true)
+    private static void updateKeysByCode(CallbackInfo callbackInfo) {
+        KeyBindingManager.updateKeysByCode();
+        callbackInfo.cancel();
+    }
+
+    @Inject(method = "unpressAll", at = @At("HEAD"), cancellable = true)
+    private static void unpressAll(CallbackInfo callbackInfo) {
+        KeyBindingManager.unpressAll();
+        callbackInfo.cancel();
+    }
 
     @Shadow
-    public InputUtil.Key boundKey;
-    @Shadow
-    @Final
-    public InputUtil.Key defaultKey;
-
-    @Shadow protected abstract void reset();
-
-    @Unique
-    private final BindingModifiers keyModifiers = new BindingModifiers();
-
+    protected abstract void reset();
 
     @Inject(method = "<init>(Ljava/lang/String;Lnet/minecraft/client/util/InputUtil$Type;ILjava/lang/String;)V", at = @At("RETURN"))
     private void onConstructed(String id, InputUtil.Type type, int defaultCode, String category, CallbackInfo callbackInfo) {
@@ -91,7 +122,6 @@ public abstract class MixinKeyBinding implements IKeyBinding {
         callbackInfoReturnable.setReturnValue(fullName);
     }
 
-
     @Inject(
             method = "matchesKey",
             at = @At("HEAD"),
@@ -109,7 +139,6 @@ public abstract class MixinKeyBinding implements IKeyBinding {
             callbackInfoReturnable.setReturnValue(false);
         }
     }
-
 
     @Inject(
             method = "matchesMouse",
@@ -136,39 +165,6 @@ public abstract class MixinKeyBinding implements IKeyBinding {
             callbackInfoReturnable.setReturnValue(false);
         }
     }
-
-    @Inject(method = "onKeyPressed", at = @At("HEAD"), cancellable = true)
-    private static void onKeyPressed(InputUtil.Key keyCode, CallbackInfo callbackInfo) {
-        KeyBindingManager.onKeyPressed(keyCode);
-        callbackInfo.cancel();
-    }
-
-
-    @Inject(method = "setKeyPressed", at = @At("HEAD"), cancellable = true)
-    private static void setKeyPressed(InputUtil.Key keyCode, boolean pressed, CallbackInfo callbackInfo) {
-        KeyBindingManager.setKeyPressed(keyCode, pressed);
-
-        callbackInfo.cancel();
-    }
-
-    @Inject(method = "updatePressedStates", at = @At("HEAD"), cancellable = true)
-    private static void updatePressedStates(CallbackInfo callbackInfo) {
-        KeyBindingManager.updatePressedStates();
-        callbackInfo.cancel();
-    }
-
-    @Inject(method = "updateKeysByCode", at = @At("HEAD"), cancellable = true)
-    private static void updateKeysByCode(CallbackInfo callbackInfo) {
-        KeyBindingManager.updateKeysByCode();
-        callbackInfo.cancel();
-    }
-
-    @Inject(method = "unpressAll", at = @At("HEAD"), cancellable = true)
-    private static void unpressAll(CallbackInfo callbackInfo) {
-        KeyBindingManager.unpressAll();
-        callbackInfo.cancel();
-    }
-
 
     @Inject(method = "isDefault", at = @At("HEAD"), cancellable = true)
     public void isDefault(CallbackInfoReturnable<Boolean> cir) {
@@ -202,7 +198,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
             }
         }
     }
-    
+
     @Override
     public void tms$setKeyModifiers(BindingModifiers modifiers) {
         this.keyModifiers.set(modifiers);
@@ -335,29 +331,31 @@ public abstract class MixinKeyBinding implements IKeyBinding {
             }
         }
     }
+
     @Override
     public String tms$debugString() {
         String parent;
-        if (this.parent == null){
+        if (this.parent == null) {
             parent = "null";
-        }else if (this.parent instanceof IKeyBinding){
-            parent =  ((IKeyBinding) this.parent).tms$debugString();
+        } else if (this.parent instanceof IKeyBinding) {
+            parent = ((IKeyBinding) this.parent).tms$debugString();
         } else {
             parent = this.parent.getTranslationKey();
         }
-     return "KeyBinding{" +
-            "pressed=" + pressed +
-            ", category='" + category + '\'' +
-            ", translationKey='" + translationKey + '\'' +
-            ", children=" + children +
-            ", nextChildId=" + nextChildId +
-            ", parent=" + parent +
-            ", timesPressed=" + timesPressed +
-            ", keyModifiers=" + keyModifiers +
-            ", boundKey=" + boundKey +
-            ", defaultKey=" + defaultKey +
-            '}';
+        return "KeyBinding{" +
+                "pressed=" + pressed +
+                ", category='" + category + '\'' +
+                ", translationKey='" + translationKey + '\'' +
+                ", children=" + children +
+                ", nextChildId=" + nextChildId +
+                ", parent=" + parent +
+                ", timesPressed=" + timesPressed +
+                ", keyModifiers=" + keyModifiers +
+                ", boundKey=" + boundKey +
+                ", defaultKey=" + defaultKey +
+                '}';
     }
+
     /**
      * Support for mods who don't want to use the keybinding API for Fabric.
      *
@@ -382,6 +380,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     public InputUtil.Key tms$getDefaultKey() {
         return defaultKey;
     }
+
     @Override
     public void tms$reset() {
         this.reset();

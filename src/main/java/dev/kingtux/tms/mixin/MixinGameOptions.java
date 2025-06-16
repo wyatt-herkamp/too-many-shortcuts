@@ -27,7 +27,6 @@ public class MixinGameOptions implements IGameOptions {
     public KeyBinding[] allKeys;
 
 
-
     @Inject(method = "write", at = @At("RETURN"))
     public void write(CallbackInfo callbackInfo) {
         ConfigManager config = ConfigManager.Companion.instance();
@@ -54,11 +53,11 @@ public class MixinGameOptions implements IGameOptions {
 
     @Override
     public void registerKeyBinding(KeyBinding binding) {
-            KeyBinding[] keysAll = allKeys;
-            KeyBinding[] newKeysAll = new KeyBinding[keysAll.length + 1];
-            System.arraycopy(keysAll, 0, newKeysAll, 0, keysAll.length);
-            newKeysAll[keysAll.length] = binding;
-            allKeys = newKeysAll;
+        KeyBinding[] keysAll = allKeys;
+        KeyBinding[] newKeysAll = new KeyBinding[keysAll.length + 1];
+        System.arraycopy(keysAll, 0, newKeysAll, 0, keysAll.length);
+        newKeysAll[keysAll.length] = binding;
+        allKeys = newKeysAll;
 
         KeyBinding.updateKeysByCode();
     }

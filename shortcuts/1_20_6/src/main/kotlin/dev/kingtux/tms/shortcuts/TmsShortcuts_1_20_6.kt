@@ -10,23 +10,23 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.render.entity.PlayerModelPart
 import net.minecraft.client.util.InputUtil
-
 import net.minecraft.util.Identifier
+import java.util.*
 
-import java.util.Arrays
-
-object TmsShortcuts_1_20_6: ClientModInitializer {
+object TmsShortcuts_1_20_6 : ClientModInitializer {
 
     override fun onInitializeClient() {
-        TmsShortcuts.setEscapeKeyBinding(KeyBindingHelper.registerKeyBinding(
-            TMSKeyBinding(
-                Identifier(TmsShortcuts.MOD_ID, "alternative_escape"),
-                InputUtil.Type.KEYSYM,
-                -1,
-                "key.categories.ui",
-                BindingModifiers()
+        TmsShortcuts.setEscapeKeyBinding(
+            KeyBindingHelper.registerKeyBinding(
+                TMSKeyBinding(
+                    Identifier(TmsShortcuts.MOD_ID, "alternative_escape"),
+                    InputUtil.Type.KEYSYM,
+                    -1,
+                    "key.categories.ui",
+                    BindingModifiers()
+                )
             )
-        ))
+        )
         KeyBindingHelper.registerKeyBinding(
             ToggleAutoJumpKeyBinding(
                 Identifier(TmsShortcuts.MOD_ID, "toggle_auto_jump"),

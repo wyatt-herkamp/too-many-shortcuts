@@ -5,6 +5,7 @@ import dev.kingtux.tms.api.modifiers.BindingModifiers
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.InputUtil
 import net.minecraft.util.Identifier
+
 enum class HotBarDirection {
     LEFT, RIGHT;
 
@@ -15,6 +16,7 @@ enum class HotBarDirection {
         }
     }
 }
+
 class ScrollHotBar(
     id: Identifier?,
     type: InputUtil.Type?,

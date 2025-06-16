@@ -2,10 +2,7 @@ package dev.kingtux.tms.gui
 
 import com.google.common.collect.ImmutableList
 import dev.kingtux.tms.alternatives.AlternativeKeyBinding
-import dev.kingtux.tms.api.modifiers.KeyModifier
-import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKey
 import dev.kingtux.tms.api.resetBinding
-
 import dev.kingtux.tms.mlayout.IGameOptions
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.fabricmc.api.EnvType
@@ -19,12 +16,10 @@ import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.resource.language.I18n
-import net.minecraft.client.util.InputUtil
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Colors
 import net.minecraft.util.Formatting
-import net.minecraft.util.Util
 import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.Level
 import org.jetbrains.annotations.ApiStatus
@@ -32,25 +27,14 @@ import java.util.function.Supplier
 
 @ApiStatus.Internal
 abstract class TMSKeyBindingEntry(
-    val binding: KeyBinding,
+    override val binding: KeyBinding,
     parent: TMSControlsListWidget,
-) : TMSControlListEntry(parent) {
-    companion object {
-        fun newEntry(
-            binding: KeyBinding,
-            parent: TMSControlsListWidget
-        ): TMSKeyBindingEntry {
-            return if (binding is IKeyBinding && binding.`tms$isAlternative`()) {
-                TMSAlternativeKeyBindingEntry(binding, parent)
-            } else {
-                TMSKeyBindingParentEntry(binding, parent)
-            }
-        }
-    }
-    private var setModifierLast = false
+) : TMSControlListEntry(parent), KeyBindingEntry<TMSControlsListWidget> {
+
+    override var setModifierLast = false
     abstract val bindingName: Text;
     abstract val alternativesButton: ButtonWidget
-    private var duplicate = false
+    override var duplicate = false
     private val description: MutableList<Text> = mutableListOf()
     private val editButton: ButtonWidget =
         ButtonWidget.builder(Text.translatable(binding.translationKey)) {
@@ -68,79 +52,6 @@ abstract class TMSKeyBindingEntry(
             Text.translatable("narrator.controls.unbound", bindingName)
         } else {
             Text.translatable("narrator.controls.bound", bindingName, textSupplier.get())
-        }
-    }
-
-
-    fun updateMouseClick(button: Int) {
-        if (binding !is IKeyBinding) {
-            return
-        }
-
-        val keyCode = InputUtil.Type.MOUSE.createFromCode(button)
-        val key = binding.boundKey
-        val keyAsModifier = fromKey(key)
-        if (key != InputUtil.UNKNOWN_KEY && keyAsModifier != null) {
-            val keyModifiers = binding.`tms$getKeyModifiers`()
-            keyModifiers.set(keyAsModifier, true)
-        }
-        binding.setBoundKey(keyCode)
-
-        TmsGUI.log(Level.INFO, "Mouse Click $button with ${binding.`tms$getKeyModifiers`()}")
-        parent.parent.selectedKeyBinding = null
-
-    }
-
-    fun updateKeyboardInput(keyCode: Int, scanCode: Int, modifiers: Int) {
-        val newInput = InputUtil.fromKeyCode(keyCode, scanCode);
-        if (binding.isUnbound) {
-            binding.setBoundKey(newInput)
-        }
-        if (binding !is IKeyBinding) {
-            TmsGUI.log(Level.ERROR, "Binding is not a IKeyBinding")
-            return;
-        }
-        // Gets the current bindings modifiers
-        val keyModifiers = binding.`tms$getKeyModifiers`()
-        // Get the active modifiers being pressed
-        val activeModifiers = KeyModifier.fromModifiers(modifiers)
-        TmsGUI.log(
-            Level.INFO,
-            "Key Code $keyCode Scan Code $scanCode Modifiers $activeModifiers from $modifiers"
-        )
-
-        // Remove all the modifiers then add the active ones
-        keyModifiers.unset()
-         if (activeModifiers.isNotEmpty()) {
-
-            for (keyModifier in activeModifiers) {
-                if (keyModifier.matches(keyCode)){
-                    TmsGUI.log(Level.TRACE, "Ignoring Modifier $keyModifier due to matching key")
-                    continue
-                }
-                TmsGUI.log(Level.TRACE, "Adding Modifier $keyModifier")
-                keyModifiers.set(keyModifier, true)
-            }
-        }
-        binding.setBoundKey(newInput)
-        TmsGUI.log(
-            Level.INFO,
-            "KeyBoard Click ${binding.boundKey} with ${binding.`tms$getKeyModifiers`()}"
-        )
-        if (!KeyModifier.Companion.isKeyModifier(newInput)) {
-            parent.parent.selectedKeyBinding = null
-            setModifierLast = false
-        } else {
-            // The task will wait a 500ms before clearing the selected key binding. This is allow the user to treat the selected key as modifier
-            setModifierLast = true
-            Util.getMainWorkerExecutor().execute {
-                Thread.sleep(500)
-                if (setModifierLast && parent.parent.selectedKeyBinding === this) {
-                    parent.parent.selectedKeyBinding = null
-                    setModifierLast = false
-                    update()
-                }
-            }
         }
     }
 
@@ -175,27 +86,7 @@ abstract class TMSKeyBindingEntry(
         editButton.message = binding.boundKeyLocalizedText
         resetButton.active = !binding.isUnbound && !binding.isDefault
         this.duplicate = false
-        val mutableText = Text.empty()
-        if (!binding.isUnbound) {
-            for (keyBinding in parent.client.options.allKeys) {
-                if (keyBinding !== this.binding && binding.equals(keyBinding)) {
-                    if (this.duplicate) {
-                        mutableText.append(", ")
-                    }
-                    this.duplicate = true
-                    val text = if (keyBinding is IKeyBinding && keyBinding.`tms$isAlternative`()) {
-                        Text.translatable(
-                            "too_many_shortcuts.options.controls.alternatives",
-                            I18n.translate(keyBinding.`tms$getParent`()!!.translationKey),
-                            keyBinding.`tms$getIndexInParent`()
-                        )
-                    } else {
-                        Text.translatable(keyBinding.translationKey)
-                    }
-                    mutableText.append(text)
-                }
-            }
-        }
+        val mutableText = this.updateDuplicates()
 
         if (this.duplicate) {
             editButton.message =
@@ -229,7 +120,7 @@ abstract class TMSKeyBindingEntry(
         hovered: Boolean,
         tickDelta: Float
     ) {
-        val resetX: Int = parent.scrollbarX- resetButton.width - 40
+        val resetX: Int = parent.scrollbarX - resetButton.width - 40
         val yPos = y - 2
         resetButton.setPosition(resetX, yPos)
         resetButton.render(context, mouseX, mouseY, tickDelta)
@@ -273,9 +164,10 @@ abstract class TMSKeyBindingEntry(
         return binding.translationKey
     }
 
-    fun getWidth(textRenderer: TextRenderer): Int {
-        return textRenderer.getWidth(bindingName)
+    override fun getWidth(renderer: TextRenderer): Int {
+        return renderer.getWidth(bindingName)
     }
+
 
     fun entryKeyMatches(keyFilter: String?): Boolean {
         if (keyFilter == null) {

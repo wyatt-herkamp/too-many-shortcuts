@@ -1,4 +1,5 @@
 package dev.kingtux.tms.mlayout;
+
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 

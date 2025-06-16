@@ -1,12 +1,8 @@
 {
-    
-    "too_many_shortcuts.toggled.on": "Habilitado %s",
-    "too_many_shortcuts.toggled.off": "Desabilitado %s",
-    "too_many_shortcuts.toggled.auto_jump": "Pulo Automático",
-    
-    "too_many_shortcuts.search.placeholder": "Pesquisar... (= para pesquisar por tecla, =%% para conflitos)",
-    "too_many_shortcuts.search.no_results": "Nenhum resultado encontrado",
-
-
-    "too_many_shortcuts.options.controls.reset.tooltip": "Segure Shift para redefinir todas as opções alternativas também"
+  "too_many_shortcuts.toggled.on": "Habilitado %s",
+  "too_many_shortcuts.toggled.off": "Desabilitado %s",
+  "too_many_shortcuts.toggled.auto_jump": "Pulo Automático",
+  "too_many_shortcuts.search.placeholder": "Pesquisar... (= para pesquisar por tecla, =%% para conflitos)",
+  "too_many_shortcuts.search.no_results": "Nenhum resultado encontrado",
+  "too_many_shortcuts.options.controls.reset.tooltip": "Segure Shift para redefinir todas as opções alternativas também"
 }

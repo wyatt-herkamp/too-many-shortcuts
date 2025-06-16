@@ -1,9 +1,19 @@
 package dev.kingtux.tms.gui
 
-import net.minecraft.client.option.KeyBinding
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.option.GameOptions
 
-interface KeyBindingScreenType {
+interface KeyBindingScreenType<Self : KeyBindingScreenType<Self, T, W>, T : KeyBindingEntry<W>, W : ControlsListWidget<W, T, Self>> {
+    var selectedKeyBinding: T?
     var lastKeyCodeUpdateTime: Long
+    var isShiftEnabled: Boolean
+    var show: ShowOptions
+    var screenMode: ScreenModes
+    fun setSelectedKeyBindingToNull() {
+        selectedKeyBinding = null
+    }
 
-    fun setSelectedKeyBindingToNull()
+    fun gameOptions(): GameOptions
+
+    fun client(): MinecraftClient
 }

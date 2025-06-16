@@ -1,8 +1,8 @@
 package dev.kingtux.tms.shortcuts.keybinding
 
-import dev.kingtux.tms.shortcuts.TmsShortcuts.sendToggleMessage
 import dev.kingtux.tms.api.TMSKeyBinding
 import dev.kingtux.tms.api.modifiers.BindingModifiers
+import dev.kingtux.tms.shortcuts.TmsShortcuts.sendToggleMessage
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.InputUtil
 import net.minecraft.entity.player.PlayerModelPart

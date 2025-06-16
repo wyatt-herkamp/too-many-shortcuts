@@ -1,4 +1,3 @@
-
 import dev.kingtux.tms.mixin.helpers.MinecraftVersionSupportRange
 import dev.kingtux.tms.mixin.helpers.MinecraftVersionType
 import dev.kingtux.tms.mixin.helpers.SupportMarker
@@ -25,10 +24,11 @@ class MinecraftVersionTesting {
             MinecraftVersionType.parse("1.21.0-beta.1")
         )
         assertEquals(
-            MinecraftVersionType(1, 21, 6,4),
+            MinecraftVersionType(1, 21, 6, 4),
             MinecraftVersionType.parse("1.21.6-beta.4")
         )
     }
+
     @Test
     fun parseMinecraftVersionRange() {
         assertEquals(
@@ -70,6 +70,7 @@ class MinecraftVersionTesting {
 
 
     }
+
     @Test
     fun testSupports() {
         val supportsAllOneTwentyOne = MinecraftVersionSupportRange(
@@ -81,8 +82,8 @@ class MinecraftVersionTesting {
             supportsAllOneTwentyOne.supports(MinecraftVersionType(1, 21, 4))
         )
         assertEquals(
-                true,
-        supportsAllOneTwentyOne.supports(MinecraftVersionType(1, 21, 5))
+            true,
+            supportsAllOneTwentyOne.supports(MinecraftVersionType(1, 21, 5))
         )
         assertEquals(
             false,

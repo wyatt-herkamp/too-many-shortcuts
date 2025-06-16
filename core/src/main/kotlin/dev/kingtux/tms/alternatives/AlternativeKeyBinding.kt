@@ -39,7 +39,7 @@ class AlternativeKeyBinding(
         alternativeKeyBindingTranslationKey(parent),
         InputUtil.UNKNOWN_KEY
     ) {
-        (this as IKeyBinding).`tms$setBoundKey`( InputUtil.fromTranslationKey(config.key))
+        (this as IKeyBinding).`tms$setBoundKey`(InputUtil.fromTranslationKey(config.key))
         (this as IKeyBinding).`tms$setKeyModifiers`(config.modifiers)
     }
 
@@ -52,6 +52,7 @@ class AlternativeKeyBinding(
         super.setPressed(pressed)
         (this as IKeyBinding).`tms$getParent`()?.isPressed = pressed
     }
+
     override fun toString(): String {
         return "AlternativeKeyBinding{parent=${this.translationKey}, key=${(this as IKeyBinding).`tms$getBoundKey`()}, modifiers=${(this as IKeyBinding).`tms$getKeyModifiers`()}}"
     }

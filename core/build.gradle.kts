@@ -4,7 +4,7 @@ plugins {
     kotlin("plugin.serialization")
 
 }
-loom{
+loom {
     accessWidenerPath.set(file("src/main/resources/tms_core.accesswidener"))
 }
 repositories {
