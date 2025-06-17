@@ -3,3 +3,4 @@
 build/
 .kotlin/
 run/
+.devcontainer/devcontainer.json
