@@ -30,7 +30,7 @@ dependencies {
     include(project(":gui"))
     include(project(":gui:1_20_6"))
     include(project(":gui:1_21_0_and_1_21_1"))
-    include(project(":gui:1_21_3"))
+    include(project(":gui:1_21_2_and_1_21_3"))
     include(project(":gui:1_21_4_and_1_21_5"))
     include(project(":gui:1_21_6"))
     include(project(":shortcuts"))
@@ -105,6 +105,7 @@ tasks {
             create<MavenPublication>("mavenJava") {
                 version = mavenVersion
                 pom {
+                    name.set("Too Many Shortcuts")
                     url.set(property("source_url")!! as String);
                     developers {
                         developer {

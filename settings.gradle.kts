@@ -28,7 +28,7 @@ include(":core")
 include(":gui")
 include(":gui:1_20_6")
 include(":gui:1_21_0_and_1_21_1")
-include(":gui:1_21_3")
+include(":gui:1_21_2_and_1_21_3")
 include(":gui:1_21_4_and_1_21_5")
 include(":gui:1_21_6")
 

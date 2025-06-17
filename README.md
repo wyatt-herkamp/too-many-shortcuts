@@ -21,9 +21,11 @@ and [Nmuk](https://github.com/Siphalor/nmuk)
 
 ## Supported Minecraft Versions
 
-- 1.21.6.rc.1
-- 1.21.5/1.21.4 Had zero changes between them.
-- 1.21.3
+- 1.21.6
+- 1.21.5/1.21.4 (Had zero changes between them.)
+- 1.21.2/1.21.3 (Had zero changes between them.)
+- 1.21.0/1.21.1 (Had zero changes between them.)
+- 1.20.6 
 
 ### Version Policy
 
