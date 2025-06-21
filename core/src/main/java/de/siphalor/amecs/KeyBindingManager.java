@@ -107,9 +107,23 @@ public class KeyBindingManager {
         List<KeyBinding> keyBindingList = (priority ? priorityKeysById : keysById).get(keyCode);
         if (keyBindingList == null)
             return Stream.empty();
+
+        // If the current clicked key is a modifier and we are going to make a second copy of the current modifiers.
+        // Treating the modifier as unpressed and as a normal key.
+        // We have to check against both sets otherwise if we have a key binding that requires it to be modifier it won't be triggered.
+        // See issue #33 for more information.
+        BindingModifiers boundModifiers = TooManyShortcutsCore.INSTANCE.getCurrentModifiers().clone();
+        KeyModifier modifier = KeyModifier.Companion.fromKeyCode(keyCode.getCode());
+        if (modifier != null && TooManyShortcutsCore.INSTANCE.getCurrentModifiers().isSet(modifier)) {
+            boundModifiers.set(modifier, false);
+        }
+
         // If there are two key bindings, alt + y and shift + alt + y, and you press shift + alt + y, both will be triggered.
         // This is intentional.
-        Stream<KeyBinding> result = keyBindingList.stream().filter(KeyBindingManager::areExactModifiersPressed);
+        Stream<KeyBinding> result = keyBindingList.stream().filter(keyBinding ->{
+            BindingModifiers keyBindingModifiers = TMSKeyBindingUtils.getBoundModifiersOrEmpty(keyBinding);
+            return keyBindingModifiers.equals(boundModifiers) || (TooManyShortcutsCore.INSTANCE.getCurrentModifiers().equals(keyBindingModifiers));
+        });
         List<KeyBinding> keyBindings = result.toList();
         if (keyBindings.isEmpty())
             return keyBindingList.stream().filter(keyBinding -> ((IKeyBinding) keyBinding).tms$getKeyModifiers().isUnset());
@@ -123,11 +137,7 @@ public class KeyBindingManager {
     public static void onKeyPressed(InputUtil.Key keyCode) {
         getMatchingKeyBindings(keyCode, false).forEach(keyBinding ->
                 {
-                    //TMSKeyBindingUtils.debugKeyBinding("Key pressed", keyBinding);
                     ((IKeyBinding) keyBinding).tms$incrementTimesPressed();
-                    //if (keyBinding instanceof TMSKeyBinding){
-                    //    ((TMSKeyBinding) keyBinding).onPressed();
-                    //}
                 }
         );
     }
