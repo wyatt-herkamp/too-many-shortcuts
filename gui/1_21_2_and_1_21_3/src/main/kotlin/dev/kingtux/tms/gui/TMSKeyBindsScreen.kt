@@ -162,7 +162,7 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
         if (isShiftKey(keyCode)) isShiftEnabled = false
 
         if (this.selectedKeyBinding == null) {
-            return super.keyPressed(keyCode, scanCode, modifiers)
+            return super.keyReleased(keyCode, scanCode, modifiers)
         }
 
         this.selectedKeyBinding = null

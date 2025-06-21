@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
+## [0.0.12] (Unreleased)
+- Fixed [#29](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/29)
 ## [0.0.11] (06-17-2025)
 - Added Support for Minecraft 1.20.6, 1.21.1, 1.21.2, 1.21.3, 1.21.6
 - Extracted a lot of API into a separate module.
