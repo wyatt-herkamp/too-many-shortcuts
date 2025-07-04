@@ -95,6 +95,10 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     @Shadow
     protected abstract void reset();
 
+    @Shadow public abstract boolean isUnbound();
+
+    @Shadow public abstract boolean isDefault();
+
     @Inject(method = "<init>(Ljava/lang/String;Lnet/minecraft/client/util/InputUtil$Type;ILjava/lang/String;)V", at = @At("RETURN"))
     private void onConstructed(String id, InputUtil.Type type, int defaultCode, String category, CallbackInfo callbackInfo) {
         KeyBindingManager.register((KeyBinding) (Object) this);
@@ -384,5 +388,9 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     @Override
     public void tms$reset() {
         this.reset();
+    }
+    @Override
+    public boolean tms$canBeReset() {
+        return !this.isDefault();
     }
 }

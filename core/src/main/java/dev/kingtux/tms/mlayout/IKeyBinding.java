@@ -76,4 +76,6 @@ public interface IKeyBinding {
     InputUtil.Key tms$getDefaultKey();
 
     void tms$reset();
+
+    boolean tms$canBeReset();
 }

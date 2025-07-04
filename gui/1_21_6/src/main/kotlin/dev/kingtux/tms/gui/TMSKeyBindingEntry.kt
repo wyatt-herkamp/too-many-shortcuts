@@ -83,7 +83,7 @@ abstract class TMSKeyBindingEntry(
 
     override fun update() {
         editButton.message = binding.boundKeyLocalizedText
-        resetButton.active = !binding.isUnbound && !binding.isDefault
+        resetButton.active = (binding as IKeyBinding).`tms$canBeReset`()
         val mutableText = this.updateDuplicates();
         if (this.duplicate) {
             editButton.message =

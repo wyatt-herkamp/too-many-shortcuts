@@ -4,9 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [0.0.12] (Unreleased)
+## [0.0.12] (07-04-2025)
 - Fixed [#29](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/29)
 - Possibly Fixed [#33](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/33) this might be a change that gets reverted. I am curious to see if this breaks something
+- Fixed [#38](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/38) Not being able to reset unbound keybindings
+- Updated to loom 1.11
 ## [0.0.11] (06-17-2025)
 - Added Support for Minecraft 1.20.6, 1.21.1, 1.21.2, 1.21.3, 1.21.6
 - Extracted a lot of API into a separate module.
@@ -89,3 +91,5 @@ Initial release.
 [0.0.8]:https://github.com/wyatt-herkamp/too-many-shortcuts/releases/tag/0.0.8
 
 [0.0.8]:https://github.com/wyatt-herkamp/too-many-shortcuts/releases/tag/0.0.9
+[0.0.10]:https://github.com/wyatt-herkamp/too-many-shortcuts/releases/tag/0.0.10
+[0.0.11]:https://github.com/wyatt-herkamp/too-many-shortcuts/releases/tag/0.0.11

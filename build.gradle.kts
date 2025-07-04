@@ -7,6 +7,9 @@ plugins {
     id("com.modrinth.minotaur") version "2.+"
 
 }
+tasks.wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}
 group = property("maven_group")!!
 version = "${property("mod_version")}+mc.${property("minecraft_version")}"
 var mavenVersion = "${property("mod_version")}"

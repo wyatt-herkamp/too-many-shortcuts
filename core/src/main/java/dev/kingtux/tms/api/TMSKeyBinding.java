@@ -92,13 +92,6 @@ public class TMSKeyBinding extends KeyBinding {
         return defaultModifiers;
     }
 
-    @Override
-    public boolean isDefault() {
-        if (getDefaultKey() == InputUtil.UNKNOWN_KEY) {
-            return true;
-        }
-        return super.isDefault();
-    }
 
 
 }

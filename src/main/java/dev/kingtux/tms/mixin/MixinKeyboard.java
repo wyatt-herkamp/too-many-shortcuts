@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(Keyboard.class)
 @Debug(export = true)
-
 public class MixinKeyboard {
     @ModifyVariable(
             method = "onKey",

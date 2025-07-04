@@ -20,7 +20,7 @@ object TmsShortcuts_1_21 : ClientModInitializer {
                 TMSKeyBinding(
                     Identifier.of(TmsShortcuts.MOD_ID, "alternative_escape"),
                     InputUtil.Type.KEYSYM,
-                    -1,
+                    InputUtil.UNKNOWN_KEY.code,
                     "key.categories.ui",
                     BindingModifiers()
                 )
@@ -57,7 +57,7 @@ object TmsShortcuts_1_21 : ClientModInitializer {
                 SkinLayerKeyBinding(
                     Identifier.of(TmsShortcuts.MOD_ID, "toggle_" + playerModelPart.name.lowercase()),
                     InputUtil.Type.KEYSYM,
-                    -1,
+                    InputUtil.UNKNOWN_KEY.code,
                     TmsShortcuts.SKIN_LAYER_CATEGORY,
                     playerModelPart
                 )
