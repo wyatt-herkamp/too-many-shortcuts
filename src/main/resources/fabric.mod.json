@@ -17,7 +17,7 @@
     "sources": "${source_url}"
   },
   "license": "Apache-2.0",
-  "icon": "assets/amecs/logo.png",
+  "icon": "assets/too_many_shortcuts/logo.png",
   "environment": "client",
   "entrypoints": {
     "main": [],
