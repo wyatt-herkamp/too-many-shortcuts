@@ -2,6 +2,7 @@ package dev.kingtux.tms.gui
 
 import com.google.common.collect.ImmutableList
 import dev.kingtux.tms.alternatives.AlternativeKeyBinding
+import dev.kingtux.tms.api.modifiers.KeyModifier
 import dev.kingtux.tms.api.resetBinding
 import dev.kingtux.tms.mlayout.IGameOptions
 import dev.kingtux.tms.mlayout.IKeyBinding
@@ -16,10 +17,12 @@ import net.minecraft.client.gui.tooltip.Tooltip
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.resource.language.I18n
+import net.minecraft.client.util.InputUtil
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Colors
 import net.minecraft.util.Formatting
+import net.minecraft.util.Util
 import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.Level
 import org.jetbrains.annotations.ApiStatus
@@ -81,7 +84,60 @@ abstract class TMSKeyBindingEntry(
         }
         this.update()
     }
+    override fun updateKeyboardInput(keyCode: Int, scanCode: Int, modifiers: Int) {
+        val newInput = InputUtil.fromKeyCode(keyCode, scanCode);
+        if (binding.isUnbound) {
+            binding.setBoundKey(newInput)
+        }
+        if (binding !is IKeyBinding) {
+            TmsGUI.log(Level.ERROR, "Binding is not a IKeyBinding")
+            return;
+        }
+        val iBinding = binding as IKeyBinding
 
+        // Gets the current bindings modifiers
+        val keyModifiers = iBinding.`tms$getKeyModifiers`()
+        // Get the active modifiers being pressed
+        val activeModifiers = KeyModifier.fromModifiers(modifiers)
+        TmsGUI.log(
+            Level.INFO,
+            "Key Code $keyCode Scan Code $scanCode Modifiers $activeModifiers from $modifiers"
+        )
+
+        // Remove all the modifiers then add the active ones
+        keyModifiers.unset()
+        if (activeModifiers.isNotEmpty()) {
+
+            for (keyModifier in activeModifiers) {
+                if (keyModifier.matches(keyCode)) {
+                    TmsGUI.log(Level.TRACE, "Ignoring Modifier $keyModifier due to matching key")
+                    continue
+                }
+                TmsGUI.log(Level.TRACE, "Adding Modifier $keyModifier")
+                keyModifiers.set(keyModifier, true)
+            }
+        }
+        binding.setBoundKey(newInput)
+        TmsGUI.log(
+            Level.INFO,
+            "KeyBoard Click ${iBinding.`tms$getBoundKey`()} with ${iBinding.`tms$getKeyModifiers`()}"
+        )
+        if (!KeyModifier.Companion.isKeyModifier(newInput)) {
+            parent.parent.selectedKeyBinding = null
+            setModifierLast = false
+        } else {
+            // The task will wait a 500ms before clearing the selected key binding. This is allow the user to treat the selected key as modifier
+            setModifierLast = true
+            Util.getMainWorkerExecutor().execute {
+                Thread.sleep(500)
+                if (setModifierLast) {
+                    parent.parent.selectedKeyBinding = null
+                    setModifierLast = false
+                    update()
+                }
+            }
+        }
+    }
     override fun update() {
         editButton.message = binding.boundKeyLocalizedText
         resetButton.active = (binding as IKeyBinding).`tms$canBeReset`()
