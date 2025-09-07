@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [0.0.14] (Unreleased)
+## [0.0.14] (09-07-2025)
 - Fixed Crash On 1.21.1 [#42](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/42)
-- Upgrade Github Actions 
+- Upgrade GitHub Actions 
 - New Icon
 
 ## [0.0.13] (07-18-2025)
@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed selectedKeyBinding not being returned to null after being set [#27](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/27)
 - Broke Most of the Translations, will be fixed in the next release.
 - Abstracted Part of the Keybinding Screen so that I can support more versions
-- 
+
 ## [0.0.10] (06-14-2025)
 
 - Updated to Minecraft 1.21.5
