@@ -5,6 +5,7 @@ import net.fabricmc.api.ClientModInitializer
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import org.apache.logging.log4j.Level
 
 import org.apache.logging.log4j.LogManager
@@ -12,7 +13,7 @@ import org.apache.logging.log4j.Logger
 
 object TmsShortcuts : ClientModInitializer {
     const val MOD_ID = "tms_shortcuts"
-    const val SKIN_LAYER_CATEGORY: String = "${MOD_ID}.key.categories.skin_layers"
+     val SKIN_LAYER_CATEGORY: KeyBinding.Category = KeyBinding.Category.create(Identifier.of("${MOD_ID}.key.categories.skin_layers"))
 
     const val MOD_NAME = "Too Many Shortcuts Shortcuts"
     val LOGGER: Logger = LogManager.getLogger(TmsShortcuts.javaClass)

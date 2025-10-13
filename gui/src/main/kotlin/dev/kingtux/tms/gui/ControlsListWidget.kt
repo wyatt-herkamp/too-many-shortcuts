@@ -34,7 +34,7 @@ interface ControlsListWidget<Self : ControlsListWidget<Self, E, T>, E : KeyBindi
             }
             if (!searchValue.isNullOrEmpty()) {
                 shouldAdd =
-                    if (StringUtils.containsIgnoreCase(Text.translatable(keyBinding.category).string, searchValue)) {
+                    if (StringUtils.containsIgnoreCase(Text.translatable(keyBinding.category.id.toTranslationKey("key.category")).string, searchValue)) {
                         true
                     } else {
                         keyBinding.translatedTextEqualsIgnoreCase(searchValue)

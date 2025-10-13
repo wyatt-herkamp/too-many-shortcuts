@@ -54,6 +54,6 @@ class AlternativeKeyBinding(
     }
 
     override fun toString(): String {
-        return "AlternativeKeyBinding{parent=${this.translationKey}, key=${(this as IKeyBinding).`tms$getBoundKey`()}, modifiers=${(this as IKeyBinding).`tms$getKeyModifiers`()}}"
+        return "AlternativeKeyBinding{parent=${this.id}, key=${(this as IKeyBinding).`tms$getBoundKey`()}, modifiers=${(this as IKeyBinding).`tms$getKeyModifiers`()}}"
     }
 }

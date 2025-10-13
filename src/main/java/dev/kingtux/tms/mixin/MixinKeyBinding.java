@@ -12,6 +12,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Click;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
@@ -36,7 +38,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     @Shadow
     @Final
     @Mutable
-    private static Map<InputUtil.Key, KeyBinding> KEY_TO_BINDINGS = NOPMap.nopMap();
+    private static Map<InputUtil.Key, List<KeyBinding>> KEY_TO_BINDINGS = NOPMap.nopMap();
     @Unique
     private final BindingModifiers keyModifiers = new BindingModifiers();
     @Shadow
@@ -50,10 +52,7 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     private boolean pressed;
     @Shadow
     @Final
-    private String category;
-    @Shadow
-    @Final
-    private String translationKey;
+    private KeyBinding.Category category;
     @Unique
     private List<KeyBinding> children = null;
     @Unique
@@ -99,9 +98,26 @@ public abstract class MixinKeyBinding implements IKeyBinding {
 
     @Shadow public abstract boolean isDefault();
 
-    @Inject(method = "<init>(Ljava/lang/String;Lnet/minecraft/client/util/InputUtil$Type;ILjava/lang/String;)V", at = @At("RETURN"))
-    private void onConstructed(String id, InputUtil.Type type, int defaultCode, String category, CallbackInfo callbackInfo) {
+    @Shadow
+    @Final
+    private String id;
+
+/*
+    @Inject(method = "<init>(Ljava/lang/String;Lnet/minecraft/client/util/InputUtil$Type;ILnet/minecraft/client/option/KeyBinding$Category;)V", at = @At("RETURN"))
+    private void onConstructed(String id, InputUtil.Type type, int defaultCode, KeyBinding.Category category, CallbackInfo callbackInfo) {
         KeyBindingManager.register((KeyBinding) (Object) this);
+    }
+*/
+
+    /**
+     * @author Wyatt J Herkamp
+     * @reason This mod takes control of keybinding execution.
+     */
+    @Overwrite
+    private void registerBinding(
+            InputUtil.Key key
+    ) {
+        KeyBindingManager.register((KeyBinding) (Object) this, key);
     }
 
     @Inject(method = "getBoundKeyLocalizedText", at = @At("TAIL"), cancellable = true)
@@ -131,10 +147,10 @@ public abstract class MixinKeyBinding implements IKeyBinding {
             at = @At("HEAD"),
             cancellable = true
     )
-    public void matchesKey(int keyCode, int scanCode, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
+    public void matchesKey(KeyInput key, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
         if (tms$hasAlternatives()) {
             for (KeyBinding child : children) {
-                if (child.matchesKey(keyCode, scanCode)) {
+                if (child.matchesKey(key)) {
                     callbackInfoReturnable.setReturnValue(true);
                 }
             }
@@ -149,10 +165,10 @@ public abstract class MixinKeyBinding implements IKeyBinding {
             at = @At("HEAD"),
             cancellable = true
     )
-    public void matchesMouse(int code, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
+    public void matchesMouse(Click click, CallbackInfoReturnable<Boolean> callbackInfoReturnable) {
         if (children != null && !children.isEmpty()) {
             for (KeyBinding child : children) {
-                if (child.matchesMouse(code)) {
+                if (child.matchesMouse(click)) {
                     callbackInfoReturnable.setReturnValue(true);
                 }
             }
@@ -344,12 +360,12 @@ public abstract class MixinKeyBinding implements IKeyBinding {
         } else if (this.parent instanceof IKeyBinding) {
             parent = ((IKeyBinding) this.parent).tms$debugString();
         } else {
-            parent = this.parent.getTranslationKey();
+            parent = this.parent.getId();
         }
         return "KeyBinding{" +
                 "pressed=" + pressed +
                 ", category='" + category + '\'' +
-                ", translationKey='" + translationKey + '\'' +
+                ", translationKey='" + id + '\'' +
                 ", children=" + children +
                 ", nextChildId=" + nextChildId +
                 ", parent=" + parent +

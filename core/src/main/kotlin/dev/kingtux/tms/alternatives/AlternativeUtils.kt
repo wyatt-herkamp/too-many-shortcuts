@@ -15,5 +15,5 @@ fun alternativeKeyBindingTranslationKey(base: KeyBinding): String {
     if (base !is IKeyBinding) {
         throw IllegalArgumentException("Parent keybinding must implement IKeyBinding")
     }
-    return base.translationKey + "%" + base.`tms$getNextChildId`()
+    return base.id + "%" + base.`tms$getNextChildId`()
 }

@@ -4,6 +4,7 @@ import dev.kingtux.tms.api.modifiers.KeyModifier
 import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKey
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.minecraft.client.font.TextRenderer
+import net.minecraft.client.input.KeyInput
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.client.util.InputUtil
@@ -40,8 +41,8 @@ interface KeyBindingEntry<T : ControlsListWidget<*, *, *>> {
 
     }
 
-    fun updateKeyboardInput(keyCode: Int, scanCode: Int, modifiers: Int) {
-        val newInput = InputUtil.fromKeyCode(keyCode, scanCode);
+    fun updateKeyboardInput(input: KeyInput) {
+        val newInput = InputUtil.fromKeyCode(input);
         if (binding.isUnbound) {
             binding.setBoundKey(newInput)
         }
@@ -54,10 +55,10 @@ interface KeyBindingEntry<T : ControlsListWidget<*, *, *>> {
         // Gets the current bindings modifiers
         val keyModifiers = iBinding.`tms$getKeyModifiers`()
         // Get the active modifiers being pressed
-        val activeModifiers = KeyModifier.fromModifiers(modifiers)
+        val activeModifiers = KeyModifier.fromModifiers(input.modifiers)
         TmsGUI.log(
             Level.INFO,
-            "Key Code $keyCode Scan Code $scanCode Modifiers $activeModifiers from $modifiers"
+            "Key Code $input.key Scan Code ${input.scancode} Modifiers $activeModifiers from ${input.modifiers}"
         )
 
         // Remove all the modifiers then add the active ones
@@ -65,7 +66,7 @@ interface KeyBindingEntry<T : ControlsListWidget<*, *, *>> {
         if (activeModifiers.isNotEmpty()) {
 
             for (keyModifier in activeModifiers) {
-                if (keyModifier.matches(keyCode)) {
+                if (keyModifier.matches(input.key)) {
                     TmsGUI.log(Level.TRACE, "Ignoring Modifier $keyModifier due to matching key")
                     continue
                 }
@@ -110,11 +111,11 @@ interface KeyBindingEntry<T : ControlsListWidget<*, *, *>> {
                     val text = if (keyBinding is IKeyBinding && keyBinding.`tms$isAlternative`()) {
                         Text.translatable(
                             "too_many_shortcuts.options.controls.alternatives",
-                            I18n.translate(keyBinding.`tms$getParent`()!!.translationKey),
+                            I18n.translate(keyBinding.`tms$getParent`()!!.id),
                             keyBinding.`tms$getIndexInParent`()
                         )
                     } else {
-                        Text.translatable(keyBinding.translationKey)
+                        Text.translatable(keyBinding.id)
                     }
                     mutableText.append(text)
                 }

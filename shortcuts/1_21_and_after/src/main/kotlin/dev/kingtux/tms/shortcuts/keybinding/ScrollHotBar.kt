@@ -21,7 +21,7 @@ class ScrollHotBar(
     id: Identifier?,
     type: InputUtil.Type?,
     code: Int,
-    category: String?,
+    category: Category?,
     defaultModifiers: BindingModifiers?,
 
     private val direction: HotBarDirection
