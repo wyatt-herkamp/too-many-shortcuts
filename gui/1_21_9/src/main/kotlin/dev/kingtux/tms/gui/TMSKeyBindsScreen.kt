@@ -266,15 +266,19 @@ class TMSControlsListWidget(override val parent: TMSKeyBindsScreen, client: Mine
     }
 
     fun addAlternativeEntry(parent: TMSKeyBindingParentEntry, entry: KeyBinding) {
-        val entries = children() as MutableList<TMSControlListEntry?>
+        val entries = children();
         for (i in 0..<entries.size) {
             if (entries[i] === parent) {
                 val parentKeyBinding = parent.binding as IKeyBinding
                 val index = i + parentKeyBinding.`tms$getAlternativesCount`();
                 TmsGUI.log(Level.DEBUG, "Adding alternative at $index for ${parent.binding.id}")
-                entries.add(index, TMSAlternativeKeyBindingEntry(entry, this))
+                val element  = TMSAlternativeKeyBindingEntry(entry, this);
+                val d = this.maxScrollY.toDouble() - this.scrollY.toDouble()
+                element.height = d.toInt();
+                this.children.add(index, TMSAlternativeKeyBindingEntry(entry, this))
             }
         }
+        recalculateAllChildrenPositions()
     }
 
 

@@ -102,21 +102,18 @@ public abstract class MixinKeyBinding implements IKeyBinding {
     @Final
     private String id;
 
-/*
+
     @Inject(method = "<init>(Ljava/lang/String;Lnet/minecraft/client/util/InputUtil$Type;ILnet/minecraft/client/option/KeyBinding$Category;)V", at = @At("RETURN"))
     private void onConstructed(String id, InputUtil.Type type, int defaultCode, KeyBinding.Category category, CallbackInfo callbackInfo) {
         KeyBindingManager.register((KeyBinding) (Object) this);
     }
-*/
 
     /**
      * @author Wyatt J Herkamp
      * @reason This mod takes control of keybinding execution.
      */
     @Overwrite
-    private void registerBinding(
-            InputUtil.Key key
-    ) {
+    private void registerBinding(InputUtil.Key key) {
         KeyBindingManager.register((KeyBinding) (Object) this, key);
     }
 

@@ -16,8 +16,10 @@
 
 package de.siphalor.amecs;
 
+import dev.kingtux.tms.TooManyShortcutsCore;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serial;
@@ -140,8 +142,9 @@ public class NOPMap<K, V> implements Map<K, V>, Serializable {
 
     @Override
     public V computeIfAbsent(K key, @NotNull Function<? super K, ? extends V> mappingFunction) {
+        TooManyShortcutsCore.INSTANCE.log(Level.WARN, "Attempt to access NO-OP Map" + key);
         // nop
-        return null;
+        return mappingFunction.apply(key);
     }
 
     @Override
