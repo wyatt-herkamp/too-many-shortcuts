@@ -8,6 +8,7 @@ import dev.kingtux.tms.shortcuts.keybinding.SkinLayerKeyBinding
 import dev.kingtux.tms.shortcuts.keybinding.ToggleAutoJumpKeyBinding
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
 import net.minecraft.entity.player.PlayerModelPart
 import net.minecraft.util.Identifier
@@ -21,7 +22,7 @@ object TmsShortcuts_1_21 : ClientModInitializer {
                     Identifier.of(TmsShortcuts.MOD_ID, "alternative_escape"),
                     InputUtil.Type.KEYSYM,
                     InputUtil.UNKNOWN_KEY.code,
-                    "key.categories.ui",
+                    KeyBinding.Category.MISC,
                     BindingModifiers()
                 )
             )
@@ -31,7 +32,7 @@ object TmsShortcuts_1_21 : ClientModInitializer {
                 Identifier.of(TmsShortcuts.MOD_ID, "toggle_auto_jump"),
                 InputUtil.Type.KEYSYM,
                 66,
-                "key.categories.movement",
+                KeyBinding.Category.MISC,
                 BindingModifiers()
             )
         )
@@ -42,7 +43,7 @@ object TmsShortcuts_1_21 : ClientModInitializer {
                 Identifier.of(TmsShortcuts.MOD_ID, it.bindingKey()),
                 InputUtil.Type.KEYSYM,
                 InputUtil.UNKNOWN_KEY.code,
-                "key.categories.inventory",
+                KeyBinding.Category.INVENTORY,
                 BindingModifiers(),
                 it
             )

@@ -68,7 +68,7 @@ fun KeyBinding.translatedTextEqualsIgnoreCase(searchText: String): Boolean {
 
     return StringUtils.containsIgnoreCase(
         I18n.translate(
-            this.translationKey
+            this.id
         ), searchText
     )
 }

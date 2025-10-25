@@ -78,7 +78,7 @@ class ConfigManager(private val configPath: Path) {
                     trueAlternatives
                 )
                 // LOGGER.debug("Keybinding {}", keyBinding)
-                config.keybindings[keyBinding.translationKey] = bindings
+                config.keybindings[keyBinding.id] = bindings
             }
         }
         saveConfig()
@@ -89,7 +89,7 @@ class ConfigManager(private val configPath: Path) {
         for ((key, configBindings) in config.keybindings.entries) {
             //LOGGER.info("Loading Keybinding: {}",key)
             val keyBinding = newKeys.find {
-                it.translationKey == key
+                it.id == key
             } as IKeyBinding?
 
             if (keyBinding == null) {

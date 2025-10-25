@@ -12,7 +12,7 @@ class SkinLayerKeyBinding(
     id: Identifier?,
     type: InputUtil.Type?,
     code: Int,
-    category: String?,
+    category: Category?,
     private val playerModelPart: PlayerModelPart
 ) : TMSKeyBinding(id, type, code, category, BindingModifiers()) {
     override fun onPressed() {

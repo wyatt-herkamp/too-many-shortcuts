@@ -5,6 +5,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
+import net.minecraft.client.gui.Click;
+import net.minecraft.client.input.KeyInput;
+import net.minecraft.client.input.MouseInput;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,15 +24,17 @@ public class MixinMouse {
             cancellable = true,
             at = @At(value = "HEAD")
     )
-    public void modifyMouseButton(long window, int button, int action, int mods, CallbackInfo ci) {
+    public void modifyMouseButton(long window, MouseInput button, int action, CallbackInfo ci) {
         // If the alternative keybinding is pressed. Then we need to cancel the event and call either the screen or the open menu
-        if (TmsShortcuts.INSTANCE.getEscapeKeyBinding().matchesMouse(button) && (action == GLFW.GLFW_PRESS || action == GLFW.GLFW_REPEAT)) {
+        if (TmsShortcuts.INSTANCE.getEscapeKeyBinding().matchesMouse(new Click(
+                0, 0, button
+        )) && (action == GLFW.GLFW_PRESS || action == GLFW.GLFW_REPEAT)) {
             MinecraftClient client = MinecraftClient.getInstance();
             if (client.currentScreen != null) {
                 client.currentScreen.keyPressed(
-                        GLFW.GLFW_KEY_ESCAPE,
-                        button,
-                        0
+                    new KeyInput(                        GLFW.GLFW_KEY_ESCAPE,
+                            button.button(),
+                            0)
                 );
             } else {
                 client.openGameMenu(false);

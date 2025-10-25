@@ -27,6 +27,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.util.Window;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -81,6 +82,18 @@ public class KeyBindingManager {
         IKeyBinding iKeyBinding = (IKeyBinding) keyBinding;
         InputUtil.Key keyCode = iKeyBinding.tms$getBoundKey();
         List<KeyBinding> keyBindings = targetMap.computeIfAbsent(keyCode, k -> new ArrayList<>());
+        if (keyBindings == null){
+            TooManyShortcutsCore.INSTANCE.log(Level.WARN, "KeyBinding not found for key code " + keyCode);
+        }
+        if (keyBindings.contains(keyBinding)) {
+            //TMSKeyBindingUtils.debugKeyBinding("Key binding already registered", keyBinding);
+            return false;
+        }
+        keyBindings.add(keyBinding);
+        return true;
+    }
+    private static boolean addKeyBindingToListFromMap(Map<InputUtil.Key, List<KeyBinding>> targetMap, KeyBinding keyBinding, InputUtil.Key keyCode) {
+        List<KeyBinding> keyBindings = targetMap.computeIfAbsent(keyCode, k -> new ArrayList<>());
         if (keyBindings.contains(keyBinding)) {
             //TMSKeyBindingUtils.debugKeyBinding("Key binding already registered", keyBinding);
             return false;
@@ -100,6 +113,14 @@ public class KeyBindingManager {
             return addKeyBindingToListFromMap(priorityKeysById, keyBinding);
         } else {
             return addKeyBindingToListFromMap(keysById, keyBinding);
+        }
+    }
+
+    public static boolean register(KeyBinding keyBinding, InputUtil.Key key) {
+        if (keyBinding instanceof PriorityKeyBinding) {
+            return addKeyBindingToListFromMap(priorityKeysById, keyBinding, key);
+        } else {
+            return addKeyBindingToListFromMap(keysById, keyBinding, key);
         }
     }
 
@@ -158,7 +179,7 @@ public class KeyBindingManager {
     }
 
     public static void updatePressedStates() {
-        long windowHandle = MinecraftClient.getInstance().getWindow().getHandle();
+        Window windowHandle = MinecraftClient.getInstance().getWindow();
         forEachKeyBinding(keyBinding -> {
             IKeyBinding iKeyBinding = (IKeyBinding) keyBinding;
             InputUtil.Key key = iKeyBinding.tms$getBoundKey();
@@ -252,7 +273,7 @@ public class KeyBindingManager {
                 return false;
             }
             if (!TooManyShortcutsCore.INSTANCE.getCurrentModifiers().contains(boundModifiers)) {
-                TooManyShortcutsCore.INSTANCE.log(Level.DEBUG, "Undressing keybinding due to released modifier: " + pressedKeyBinding.getTranslationKey());
+                TooManyShortcutsCore.INSTANCE.log(Level.DEBUG, "Undressing keybinding due to released modifier: " + pressedKeyBinding.getId());
                 pressedKeyBinding.setPressed(false);
                 return true;
             }

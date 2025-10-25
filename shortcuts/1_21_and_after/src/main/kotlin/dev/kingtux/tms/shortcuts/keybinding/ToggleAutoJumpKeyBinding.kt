@@ -12,7 +12,7 @@ class ToggleAutoJumpKeyBinding(
     id: Identifier?,
     type: InputUtil.Type?,
     code: Int,
-    category: String?,
+    category: Category?,
     defaultModifiers: BindingModifiers?
 ) : TMSKeyBinding(id, type, code, category, defaultModifiers) {
     override fun onPressed() {

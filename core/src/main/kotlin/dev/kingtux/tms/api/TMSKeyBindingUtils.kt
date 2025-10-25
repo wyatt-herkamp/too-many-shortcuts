@@ -34,7 +34,7 @@ object TMSKeyBindingUtils {
      */
     @JvmStatic
     fun unregisterKeyBinding(keyBinding: KeyBinding): Boolean {
-        return unregisterKeyBinding(keyBinding.translationKey)
+        return unregisterKeyBinding(keyBinding.id)
     }
 
     /**
@@ -117,7 +117,7 @@ object TMSKeyBindingUtils {
             TooManyShortcutsCore.LOGGER.debug(
                 "Debugging Key Binding (Not TMS Keybinding) {}, {}",
                 message,
-                keyBinding.translationKey
+                keyBinding.id
             )
         }
     }

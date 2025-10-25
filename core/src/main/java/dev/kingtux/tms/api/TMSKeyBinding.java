@@ -14,7 +14,7 @@ public class TMSKeyBinding extends KeyBinding {
      * Constructs a new amecs keybinding. And because how the vanilla key binding works. It is automatically registered.
      * <br>
      * See {@link TMSKeyBindingUtils#unregisterKeyBinding(KeyBinding)} for how to unregister it
-     * If you want to set the key's translationKey directly use {@link #TMSKeyBinding(String, net.minecraft.client.util.InputUtil.Type, int, String, BindingModifiers)} instead
+     * If you want to set the key's translationKey directly use {@link #TMSKeyBinding(String, net.minecraft.client.util.InputUtil.Type, int, Category, BindingModifiers)} instead
      *
      * @param id               the id to use
      * @param type             the input type which triggers this keybinding
@@ -22,7 +22,7 @@ public class TMSKeyBinding extends KeyBinding {
      * @param category         the id of the category which should include this keybinding
      * @param defaultModifiers the default modifiers
      */
-    public TMSKeyBinding(Identifier id, InputUtil.Type type, int code, String category, BindingModifiers defaultModifiers) {
+    public TMSKeyBinding(Identifier id, InputUtil.Type type, int code, Category category, BindingModifiers defaultModifiers) {
         this("key." + id.getNamespace() + "." + id.getPath(), type, code, category, defaultModifiers);
     }
 
@@ -37,7 +37,7 @@ public class TMSKeyBinding extends KeyBinding {
      * @param category         the id of the category which should include this keybinding
      * @param defaultModifiers the default modifiers
      */
-    public TMSKeyBinding(String id, InputUtil.Type type, int code, String category, BindingModifiers defaultModifiers) {
+    public TMSKeyBinding(String id, InputUtil.Type type, int code, Category category, BindingModifiers defaultModifiers) {
         super(id, type, code, category);
         if (defaultModifiers == null) {
             defaultModifiers = new BindingModifiers(); // the modifiable version of: KeyModifiers.NO_MODIFIERS
@@ -46,13 +46,13 @@ public class TMSKeyBinding extends KeyBinding {
         ((IKeyBinding) this).tms$getKeyModifiers().set(this.defaultModifiers);
     }
 
-    public TMSKeyBinding(KeyBinding parent, String translationKey, int code, String category, BindingModifiers defaultModifiers) {
+    public TMSKeyBinding(KeyBinding parent, String translationKey, int code, Category category, BindingModifiers defaultModifiers) {
         super(translationKey, code, category);
         this.defaultModifiers = defaultModifiers;
         ((IKeyBinding) this).tms$setParent(parent);
     }
 
-    public TMSKeyBinding(KeyBinding parent, String translationKey, InputUtil.Type type, int code, String category, BindingModifiers defaultModifiers) {
+    public TMSKeyBinding(KeyBinding parent, String translationKey, InputUtil.Type type, int code, Category category, BindingModifiers defaultModifiers) {
         super(translationKey, type, code, category);
         this.defaultModifiers = defaultModifiers;
         ((IKeyBinding) this).tms$setParent(parent);
