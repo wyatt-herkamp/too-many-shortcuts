@@ -178,7 +178,7 @@ class TMSKeyBindingParentEntry constructor(
         (MinecraftClient.getInstance().options as IGameOptions).registerKeyBinding(
             altBinding
         )
-        parent.addAlternativeEntry(this, altBinding)
+        parent.rebuildEntries(null)
     }.size(20, 20).build()
 
     override fun equals(other: Any?): Boolean {

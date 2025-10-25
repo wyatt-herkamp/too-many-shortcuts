@@ -19,4 +19,3 @@ accessible field net/minecraft/client/gui/screen/option/GameOptionsScreen parent
 accessible field net/minecraft/entity/player/PlayerInventory selectedSlot I
 accessible field net/minecraft/client/gui/widget/EntryListWidget client Lnet/minecraft/client/MinecraftClient;
 
-accessible method net/minecraft/client/gui/widget/EntryListWidget recalculateAllChildrenPositions ()V

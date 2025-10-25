@@ -40,9 +40,7 @@ class TMSCategoryEntry(
     }
 
     override fun children(): List<Element> {
-        return listOf(
-            this.text as Element,
-        )
+        return listOf()
     }
 
     override fun selectableChildren(): List<Selectable?> {

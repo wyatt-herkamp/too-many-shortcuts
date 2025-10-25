@@ -10,7 +10,6 @@ import net.minecraft.util.Colors
 class KeyFreeListEntry(
     val key: InputUtil.Key, parent: TMSControlsListWidget,
 ) : TMSControlListEntry(parent) {
-    var internalFocused: Boolean = false;
     val translationKey: Text = Text.translatable(key.translationKey);
     val keyText: Text = Text.of(key.toString());
     override fun update() {
@@ -37,15 +36,7 @@ class KeyFreeListEntry(
         )
     }
     override fun children(): List<Element> {
-        return emptyList()
-    }
-
-    override fun setFocused(focused: Boolean) {
-        internalFocused = focused
-    }
-
-    override fun isFocused(): Boolean {
-        return internalFocused
+        return listOf()
     }
 
     override fun selectableChildren(): MutableList<out Selectable> {
