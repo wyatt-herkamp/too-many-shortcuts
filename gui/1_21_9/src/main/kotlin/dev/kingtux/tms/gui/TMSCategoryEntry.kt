@@ -47,12 +47,11 @@ class TMSCategoryEntry(
         }*/
     override fun render(context: DrawContext?, mouseX: Int, mouseY: Int, hovered: Boolean, deltaTicks: Float) {
         val textX = parent.width / 2 - this.textWidth / 2;
-        val textY = y + 0 - 9 - 1
         context?.drawText(
             parent.client.textRenderer,
             this.text,
             textX,
-            textY,
+            y,
             Colors.WHITE,
             false
         )
@@ -63,7 +62,9 @@ class TMSCategoryEntry(
     }
 
     override fun children(): List<Element> {
-        return emptyList()
+        return listOf(
+            this.text as Element,
+        )
     }
 
     override fun selectableChildren(): List<Selectable?> {

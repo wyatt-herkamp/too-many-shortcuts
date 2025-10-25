@@ -1,7 +1,7 @@
 {
   "key.tms_shortcuts.inventory.scroll_hotbar.left": "Scroll Hotbar Left",
   "key.tms_shortcuts.inventory.scroll_hotbar.right": "Scroll Hotbar Right",
-  "tms_shortcuts.key.categories.skin_layers": "Too Many Shortcuts Skin Layers",
+  "key.category.minecraft.tms_shortcuts.key.categories.skin_layers": "Too Many Shortcuts Skin Layers",
   "key.tms_shortcuts.toggle_auto_jump": "Toggle Auto Jump",
   "key.tms_shortcuts.toggle_cape": "Toggle Cape",
   "key.tms_shortcuts.toggle_hat": "Toggle Hat",

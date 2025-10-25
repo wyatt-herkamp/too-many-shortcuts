@@ -276,6 +276,7 @@ class TMSControlsListWidget(override val parent: TMSKeyBindsScreen, client: Mine
                 val d = this.maxScrollY.toDouble() - this.scrollY.toDouble()
                 element.height = d.toInt();
                 this.children.add(index, TMSAlternativeKeyBindingEntry(entry, this))
+                break;
             }
         }
         recalculateAllChildrenPositions()
