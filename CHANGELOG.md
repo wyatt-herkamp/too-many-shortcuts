@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.0.15.beta0] (10-25-2025)
+- Initial 1.21.9 and 1.21.10 support
+
+
+
 ## [0.0.14] (09-07-2025)
 - Fixed Crash On 1.21.1 [#42](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/42)
 - Upgrade GitHub Actions 
