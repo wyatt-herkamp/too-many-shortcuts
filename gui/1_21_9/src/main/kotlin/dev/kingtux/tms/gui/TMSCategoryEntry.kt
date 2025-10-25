@@ -22,30 +22,8 @@ class TMSCategoryEntry(
 ) : TMSControlListEntry(parent) {
     private val textWidth = parent.client.textRenderer.getWidth(this.text)
 
-    /*    override fun render(
-            context: DrawContext,
-            index: Int,
-            y: Int,
-            x: Int,
-            entryWidth: Int,
-            entryHeight: Int,
-            mouseX: Int,
-            mouseY: Int,
-            hovered: Boolean,
-            tickDelta: Float
-        ) {
-            val textX = parent.width / 2 - this.textWidth / 2;
-            val textY = y + entryHeight - 9 - 1
-            context.drawText(
-                parent.client.textRenderer,
-                this.text,
-                textX,
-                textY,
-                Colors.WHITE,
-                false
-            )
-        }*/
     override fun render(context: DrawContext?, mouseX: Int, mouseY: Int, hovered: Boolean, deltaTicks: Float) {
+        // textX is used to center the category
         val textX = parent.width / 2 - this.textWidth / 2;
         context?.drawText(
             parent.client.textRenderer,

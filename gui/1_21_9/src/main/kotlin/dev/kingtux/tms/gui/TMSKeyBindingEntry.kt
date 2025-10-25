@@ -1,6 +1,5 @@
 package dev.kingtux.tms.gui
 
-import com.google.common.collect.ImmutableList
 import dev.kingtux.tms.alternatives.AlternativeKeyBinding
 import dev.kingtux.tms.api.resetBinding
 import dev.kingtux.tms.mlayout.IGameOptions
@@ -88,12 +87,11 @@ abstract class TMSKeyBindingEntry(
         if (this.duplicate) {
             editButton.message =
                 Text.literal("[ ").append(editButton.message.copy().formatted(Formatting.WHITE)).append(" ]").formatted(
-                    Formatting.RED
+                    Formatting.YELLOW
                 )
             editButton.setTooltip(
                 Tooltip.of(Text.translatable("controls.keybinds.duplicateKeybinds", mutableText))
             )
-
         } else {
             editButton.setTooltip(null)
         }
@@ -107,7 +105,6 @@ abstract class TMSKeyBindingEntry(
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, hovered: Boolean, deltaTicks: Float) {
-        val entryHeight = 0
         val resetX: Int = parent.scrollbarX - resetButton.width - 40
         val yPos = y - 2
         resetButton.setPosition(resetX, yPos)
@@ -118,57 +115,23 @@ abstract class TMSKeyBindingEntry(
 
         context.drawTextWithShadow(
             parent.client.textRenderer,
-            this.bindingName, x, y + entryHeight / 2 - 9 / 2, Colors.WHITE
+            this.bindingName, x, y, Colors.WHITE
         )
+        // That yellow bar to the left of the edit button
         if (this.duplicate) {
-            val m = (editButton.x - 6)
-            context.fill(m, y - 1, m + 3, y + entryHeight, -65536)
+            // Copied from Minecraft KeyBindingEntry
+            val fillX = (editButton.x - 6)
+            context.fill(fillX, contentY - 1, fillX + 3, contentBottomEnd, Colors.YELLOW)
         }
-        if (description.isNotEmpty() && mouseY >= y && mouseY < y + entryHeight && mouseX < editButton.x) {
+        if (description.isNotEmpty() && mouseY >= y && mouseY < y && mouseX < editButton.x) {
             context.drawTooltip(MinecraftClient.getInstance().textRenderer, description, mouseX, mouseY)
         }
         alternativesButton.y = resetButton.y
         alternativesButton.x = resetButton.x + resetButton.width + 10
         alternativesButton.render(context, mouseX, mouseY, deltaTicks)
     }
-   /* override fun render(
-        context: DrawContext,
-        index: Int,
-        y: Int,
-        x: Int,
-        entryWidth: Int,
-        entryHeight: Int,
-        mouseX: Int,
-        mouseY: Int,
-        hovered: Boolean,
-        tickDelta: Float
-    ) {
-        val resetX: Int = parent.scrollbarX - resetButton.width - 40
-        val yPos = y - 2
-        resetButton.setPosition(resetX, yPos)
-        resetButton.render(context, mouseX, mouseY, tickDelta)
-        val editX = resetX - 5 - editButton.width
-        editButton.setPosition(editX, yPos)
-        editButton.render(context, mouseX, mouseY, tickDelta)
-
-        context.drawTextWithShadow(
-            parent.client.textRenderer,
-            this.bindingName, x, y + entryHeight / 2 - 9 / 2, Colors.WHITE
-        )
-        if (this.duplicate) {
-            val m = (editButton.x - 6)
-            context.fill(m, y - 1, m + 3, y + entryHeight, -65536)
-        }
-        if (description.isNotEmpty() && mouseY >= y && mouseY < y + entryHeight && mouseX < editButton.x) {
-            context.drawTooltip(MinecraftClient.getInstance().textRenderer, description, mouseX, mouseY)
-        }
-        alternativesButton.y = resetButton.y
-        alternativesButton.x = resetButton.x + resetButton.width + 10
-        alternativesButton.render(context, mouseX, mouseY, tickDelta)
-    }*/
-
     override fun children(): MutableList<out Element> {
-        return ImmutableList.of(
+        return mutableListOf(
             resetButton,
             editButton,
             alternativesButton
@@ -176,15 +139,11 @@ abstract class TMSKeyBindingEntry(
     }
 
     override fun selectableChildren(): MutableList<out Selectable> {
-        return ImmutableList.of(
+        return mutableListOf(
             resetButton,
             editButton,
             alternativesButton
         )
-    }
-
-    fun getTranslationKey(): String {
-        return binding.id
     }
 
     override fun getWidth(renderer: TextRenderer): Int {

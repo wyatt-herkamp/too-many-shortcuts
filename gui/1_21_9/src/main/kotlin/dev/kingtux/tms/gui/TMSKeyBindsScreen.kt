@@ -279,6 +279,8 @@ class TMSControlsListWidget(override val parent: TMSKeyBindsScreen, client: Mine
                 break;
             }
         }
+        // TODO: The adding alternative entry should rerender everything.
+        // Currently it causes the alternative to be rendered below the following entry. This function should fix the math but it doesnt?
         recalculateAllChildrenPositions()
     }
 

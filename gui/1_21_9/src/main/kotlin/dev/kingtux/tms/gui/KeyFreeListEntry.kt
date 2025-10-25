@@ -17,30 +17,6 @@ class KeyFreeListEntry(
 
     }
 
-/*    override fun render(
-        context: DrawContext,
-        index: Int,
-        y: Int,
-        x: Int,
-        entryWidth: Int,
-        entryHeight: Int,
-        mouseX: Int,
-        mouseY: Int,
-        hovered: Boolean,
-        tickDelta: Float
-    ) {
-        context.drawTextWithShadow(
-            parent.client.textRenderer,
-            this.translationKey,
-            x + entryWidth - parent.client.textRenderer.getWidth(this.keyText) - 5,
-            y + entryHeight / 2 - 9 / 2,
-            Colors.WHITE
-        )
-        context.drawTextWithShadow(
-            parent.client.textRenderer,
-            this.keyText, x, y + entryHeight / 2 - 9 / 2, Colors.WHITE
-        )
-    }*/
     override fun render(
         context: DrawContext?,
         mouseX: Int,
