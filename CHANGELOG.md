@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.15.beta1] (UNRELEASED)
 - Fix Broken Add Entry
+- Ensure that the keybinding is unbound and remove from the maps before removing it.
 
 ## [0.0.15.beta0] (10-25-2025)
 - Initial 1.21.9 and 1.21.10 support

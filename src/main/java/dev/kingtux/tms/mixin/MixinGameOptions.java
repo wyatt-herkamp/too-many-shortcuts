@@ -1,12 +1,14 @@
 package dev.kingtux.tms.mixin;
 
 
+import de.siphalor.amecs.KeyBindingManager;
 import dev.kingtux.tms.config.ConfigManager;
 import dev.kingtux.tms.mlayout.IGameOptions;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.util.InputUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,6 +44,8 @@ public class MixinGameOptions implements IGameOptions {
 
     @Override
     public void removeKeyBinding(KeyBinding binding) {
+        binding.setBoundKey(InputUtil.UNKNOWN_KEY);
+        KeyBindingManager.unregister(binding);
         KeyBinding[] keysAll = allKeys;
         int index = ArrayUtils.indexOf(keysAll, binding);
         KeyBinding[] newKeysAll = new KeyBinding[keysAll.length - 1];
