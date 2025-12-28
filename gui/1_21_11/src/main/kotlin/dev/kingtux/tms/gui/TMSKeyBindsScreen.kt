@@ -64,7 +64,7 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: GameOptions) :
         Text.translatable(show.fullTranslationKey()),
     ) {
         show = show.next()
-        it.message = show.text
+        it.message = show.text()
         TmsGUI.log(Level.DEBUG, "Show: $show")
         controlsList.rebuildEntries(searchField.text);
     }.build()

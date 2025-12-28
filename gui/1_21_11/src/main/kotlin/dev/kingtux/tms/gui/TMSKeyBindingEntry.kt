@@ -20,6 +20,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.Colors
 import net.minecraft.util.Formatting
 import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.Strings
 import org.apache.logging.log4j.Level
 import org.jetbrains.annotations.ApiStatus
 import java.util.function.Supplier
@@ -156,7 +157,7 @@ abstract class TMSKeyBindingEntry(
         }
         return when (keyFilter) {
             "" -> this.binding.isUnbound
-            else -> StringUtils.containsIgnoreCase(
+            else -> Strings.CI.contains(
                 binding.boundKeyLocalizedText.string,
                 keyFilter
             )

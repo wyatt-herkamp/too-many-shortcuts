@@ -63,7 +63,7 @@ object TmsShortcuts_1_21 : ClientModInitializer {
                     playerModelPart
                 )
             }
-            .forEach { keyBinding: SkinLayerKeyBinding? ->
+            .forEach { keyBinding: SkinLayerKeyBinding ->
                 KeyBindingHelper.registerKeyBinding(
                     keyBinding
                 )

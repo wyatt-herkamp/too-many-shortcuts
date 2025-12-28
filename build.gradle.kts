@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.1.21"
+    kotlin("jvm") version "2.3.0"
     id("fabric-loom")
     `maven-publish`
     java
@@ -31,13 +31,13 @@ dependencies {
     include(project(":core"))
 
     include(project(":gui"))
-    include(project(":gui:1_21_9"))
+    include(project(":gui:1_21_11"))
     include(project(":shortcuts"))
     include(project(":shortcuts:shortcuts-1_21_and_after"))
 
     // So, you cant do a clean build with these options. However, you can only run the mod in development mode with these options.
     runtimeOnly(project(":gui", configuration = "namedElements"))
-    runtimeOnly(project(":gui:1_21_9", configuration = "namedElements"))
+    runtimeOnly(project(":gui:1_21_11", configuration = "namedElements"))
     runtimeOnly(project(":shortcuts", configuration = "namedElements"))
     runtimeOnly(project(":shortcuts:shortcuts-1_21_and_after", configuration = "namedElements"))
 

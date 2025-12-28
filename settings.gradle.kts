@@ -26,7 +26,7 @@ plugins {
 
 include(":core")
 include(":gui")
-include(":gui:1_21_9")
+include(":gui:1_21_11")
 
 
 include("shortcuts")

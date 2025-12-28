@@ -6,20 +6,21 @@ import net.minecraft.client.option.GameOptions
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.text.Text
-import net.minecraft.util.TranslatableOption
 
 val SCREEN_MODE = "${TmsGUI.MOD_ID}.options.controls.screen-mode"
 
-enum class ShowOptions(val translationKeyExtension: String) : TranslatableOption {
+enum class ShowOptions(val translationKeyExtension: String)  {
     SHOW_UNBOUND("unbound"),
     SHOW_CONFLICTS("conflicts"),
     SHOW_ALL("all");
 
-    override fun getId(): Int {
+     fun getId(): Int {
         return ordinal
     }
-
-    override fun getTranslationKey(): String {
+    fun text(): Text{
+       return Text.translatable(translationKeyExtension)
+    }
+    fun getTranslationKey(): String {
         return fullTranslationKey();
     }
 
