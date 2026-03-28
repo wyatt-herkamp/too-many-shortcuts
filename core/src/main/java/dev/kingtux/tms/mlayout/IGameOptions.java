@@ -1,15 +1,14 @@
 package dev.kingtux.tms.mlayout;
 
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.KeyBinding;
-
 import java.util.List;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Options;
 
 public interface IGameOptions {
 
-    void removeKeyBinding(KeyBinding binding);
+    void removeKeyBinding(KeyMapping binding);
 
-    void registerKeyBinding(KeyBinding binding);
+    void registerKeyBinding(KeyMapping binding);
 
-    void registerKeyBindings(GameOptions gameOptions, List<KeyBinding> bindings);
+    void registerKeyBindings(Options gameOptions, List<KeyMapping> bindings);
 }

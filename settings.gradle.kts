@@ -14,7 +14,7 @@ pluginManagement {
     val loom_version: String by settings
     val kotlin_version: String by settings
     plugins {
-        id("fabric-loom") version loom_version
+        id("net.fabricmc.fabric-loom") version loom_version
         kotlin("jvm") version kotlin_version
         kotlin("plugin.serialization") version kotlin_version
     }
@@ -26,9 +26,9 @@ plugins {
 
 include(":core")
 include(":gui")
-include(":gui:1_21_11")
+include(":gui:26_1")
 
 
 include("shortcuts")
-include("shortcuts:1_21_and_after")
-project(":shortcuts:1_21_and_after").name = "shortcuts-1_21_and_after"
+include("shortcuts:26_1_and_after")
+project(":shortcuts:26_1_and_after").name = "shortcuts-26_1_and_after"

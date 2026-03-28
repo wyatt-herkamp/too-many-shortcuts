@@ -16,6 +16,8 @@
 
 package de.siphalor.amecs;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Window;
 import de.siphalor.amecs.api.PriorityKeyBinding;
 import dev.kingtux.tms.TooManyShortcutsCore;
 import dev.kingtux.tms.api.TMSKeyBindingUtils;
@@ -24,10 +26,8 @@ import dev.kingtux.tms.api.modifiers.KeyModifier;
 import dev.kingtux.tms.mlayout.IKeyBinding;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.Window;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -40,9 +40,9 @@ import java.util.stream.Stream;
 public class KeyBindingManager {
     // split it in two maps because it is ways faster to only stream the map with the objects we need
     // rather than streaming all and throwing out a bunch every time
-    public static final Map<InputUtil.Key, List<KeyBinding>> keysById = new HashMap<>();
-    public static final Map<InputUtil.Key, List<KeyBinding>> priorityKeysById = new HashMap<>();
-    private static final List<KeyBinding> pressedKeyBindings = new ArrayList<>(10);
+    public static final Map<InputConstants.Key, List<KeyMapping>> keysById = new HashMap<>();
+    public static final Map<InputConstants.Key, List<KeyMapping>> priorityKeysById = new HashMap<>();
+    private static final List<KeyMapping> pressedKeyBindings = new ArrayList<>(10);
 
     private KeyBindingManager() {
     }
@@ -54,12 +54,12 @@ public class KeyBindingManager {
      * @param keyBinding the key binding to remove
      * @return whether the keyBinding was removed. It is not removed if it was not contained
      */
-    private static boolean removeKeyBindingFromMap(Map<InputUtil.Key, List<KeyBinding>> targetMap, KeyBinding keyBinding) {
+    private static boolean removeKeyBindingFromMap(Map<InputConstants.Key, List<KeyMapping>> targetMap, KeyMapping keyBinding) {
         IKeyBinding iKeyBinding = (IKeyBinding) keyBinding;
 
         // we need to get the backing list to remove elements thus we can not use any of the other methods that return streams
-        InputUtil.Key keyCode = iKeyBinding.tms$getBoundKey();
-        List<KeyBinding> keyBindings = targetMap.get(keyCode);
+        InputConstants.Key keyCode = iKeyBinding.tms$getBoundKey();
+        List<KeyMapping> keyBindings = targetMap.get(keyCode);
         if (keyBindings == null) {
             return false;
         }
@@ -78,10 +78,10 @@ public class KeyBindingManager {
      * @param keyBinding the key binding to add
      * @return whether the keyBinding was added. It is not added if it is already contained
      */
-    private static boolean addKeyBindingToListFromMap(Map<InputUtil.Key, List<KeyBinding>> targetMap, KeyBinding keyBinding) {
+    private static boolean addKeyBindingToListFromMap(Map<InputConstants.Key, List<KeyMapping>> targetMap, KeyMapping keyBinding) {
         IKeyBinding iKeyBinding = (IKeyBinding) keyBinding;
-        InputUtil.Key keyCode = iKeyBinding.tms$getBoundKey();
-        List<KeyBinding> keyBindings = targetMap.computeIfAbsent(keyCode, k -> new ArrayList<>());
+        InputConstants.Key keyCode = iKeyBinding.tms$getBoundKey();
+        List<KeyMapping> keyBindings = targetMap.computeIfAbsent(keyCode, k -> new ArrayList<>());
         if (keyBindings == null){
             TooManyShortcutsCore.INSTANCE.log(Level.WARN, "KeyBinding not found for key code " + keyCode);
         }
@@ -92,8 +92,8 @@ public class KeyBindingManager {
         keyBindings.add(keyBinding);
         return true;
     }
-    private static boolean addKeyBindingToListFromMap(Map<InputUtil.Key, List<KeyBinding>> targetMap, KeyBinding keyBinding, InputUtil.Key keyCode) {
-        List<KeyBinding> keyBindings = targetMap.computeIfAbsent(keyCode, k -> new ArrayList<>());
+    private static boolean addKeyBindingToListFromMap(Map<InputConstants.Key, List<KeyMapping>> targetMap, KeyMapping keyBinding, InputConstants.Key keyCode) {
+        List<KeyMapping> keyBindings = targetMap.computeIfAbsent(keyCode, k -> new ArrayList<>());
         if (keyBindings.contains(keyBinding)) {
             //TMSKeyBindingUtils.debugKeyBinding("Key binding already registered", keyBinding);
             return false;
@@ -108,7 +108,7 @@ public class KeyBindingManager {
      * @param keyBinding the key binding to register
      * @return whether the keyBinding was added. It is not added if it is already contained
      */
-    public static boolean register(KeyBinding keyBinding) {
+    public static boolean register(KeyMapping keyBinding) {
         if (keyBinding instanceof PriorityKeyBinding) {
             return addKeyBindingToListFromMap(priorityKeysById, keyBinding);
         } else {
@@ -116,7 +116,7 @@ public class KeyBindingManager {
         }
     }
 
-    public static boolean register(KeyBinding keyBinding, InputUtil.Key key) {
+    public static boolean register(KeyMapping keyBinding, InputConstants.Key key) {
         if (keyBinding instanceof PriorityKeyBinding) {
             return addKeyBindingToListFromMap(priorityKeysById, keyBinding, key);
         } else {
@@ -124,8 +124,8 @@ public class KeyBindingManager {
         }
     }
 
-    public static Stream<KeyBinding> getMatchingKeyBindings(InputUtil.Key keyCode, boolean priority) {
-        List<KeyBinding> keyBindingList = (priority ? priorityKeysById : keysById).get(keyCode);
+    public static Stream<KeyMapping> getMatchingKeyBindings(InputConstants.Key keyCode, boolean priority) {
+        List<KeyMapping> keyBindingList = (priority ? priorityKeysById : keysById).get(keyCode);
         if (keyBindingList == null)
             return Stream.empty();
 
@@ -134,28 +134,28 @@ public class KeyBindingManager {
         // We have to check against both sets otherwise if we have a key binding that requires it to be modifier it won't be triggered.
         // See issue #33 for more information.
         BindingModifiers boundModifiers = TooManyShortcutsCore.INSTANCE.getCurrentModifiers().clone();
-        KeyModifier modifier = KeyModifier.Companion.fromKeyCode(keyCode.getCode());
+        KeyModifier modifier = KeyModifier.Companion.fromKeyCode(keyCode.getValue());
         if (modifier != null && TooManyShortcutsCore.INSTANCE.getCurrentModifiers().isSet(modifier)) {
             boundModifiers.set(modifier, false);
         }
 
         // If there are two key bindings, alt + y and shift + alt + y, and you press shift + alt + y, both will be triggered.
         // This is intentional.
-        Stream<KeyBinding> result = keyBindingList.stream().filter(keyBinding ->{
+        Stream<KeyMapping> result = keyBindingList.stream().filter(keyBinding ->{
             BindingModifiers keyBindingModifiers = TMSKeyBindingUtils.getBoundModifiersOrEmpty(keyBinding);
             return keyBindingModifiers.equals(boundModifiers) || (TooManyShortcutsCore.INSTANCE.getCurrentModifiers().equals(keyBindingModifiers));
         });
-        List<KeyBinding> keyBindings = result.toList();
+        List<KeyMapping> keyBindings = result.toList();
         if (keyBindings.isEmpty())
             return keyBindingList.stream().filter(keyBinding -> ((IKeyBinding) keyBinding).tms$getKeyModifiers().isUnset());
         return keyBindings.stream();
     }
 
-    private static boolean areExactModifiersPressed(KeyBinding keyBinding) {
+    private static boolean areExactModifiersPressed(KeyMapping keyBinding) {
         return TooManyShortcutsCore.INSTANCE.getCurrentModifiers().equals(TMSKeyBindingUtils.getBoundModifiersOrEmpty(keyBinding));
     }
 
-    public static void onKeyPressed(InputUtil.Key keyCode) {
+    public static void onKeyPressed(InputConstants.Key keyCode) {
         getMatchingKeyBindings(keyCode, false).forEach(keyBinding ->
                 {
                     ((IKeyBinding) keyBinding).tms$incrementTimesPressed();
@@ -164,29 +164,29 @@ public class KeyBindingManager {
     }
 
 
-    private static Stream<KeyBinding> getKeyBindingsFromMap(Map<InputUtil.Key, List<KeyBinding>> keysById_map) {
+    private static Stream<KeyMapping> getKeyBindingsFromMap(Map<InputConstants.Key, List<KeyMapping>> keysById_map) {
         return keysById_map.values().stream().flatMap(Collection::stream);
     }
 
-    private static void forEachKeyBinding(Consumer<KeyBinding> consumer) {
+    private static void forEachKeyBinding(Consumer<KeyMapping> consumer) {
         getKeyBindingsFromMap(priorityKeysById).forEach(consumer);
         getKeyBindingsFromMap(keysById).forEach(consumer);
     }
 
-    private static void forEachKeyBindingWithKey(InputUtil.Key key, Consumer<KeyBinding> consumer) {
+    private static void forEachKeyBindingWithKey(InputConstants.Key key, Consumer<KeyMapping> consumer) {
         getMatchingKeyBindings(key, true).forEach(consumer);
         getMatchingKeyBindings(key, false).forEach(consumer);
     }
 
     public static void updatePressedStates() {
-        Window windowHandle = MinecraftClient.getInstance().getWindow();
+        Window windowHandle = Minecraft.getInstance().getWindow();
         forEachKeyBinding(keyBinding -> {
             IKeyBinding iKeyBinding = (IKeyBinding) keyBinding;
-            InputUtil.Key key = iKeyBinding.tms$getBoundKey();
+            InputConstants.Key key = iKeyBinding.tms$getBoundKey();
             if (keyBinding.isUnbound()) {
                 return;
             }
-            boolean pressed = key.getCategory() == InputUtil.Type.KEYSYM && InputUtil.isKeyPressed(windowHandle, key.getCode());
+            boolean pressed = key.getType() == InputConstants.Type.KEYSYM && InputConstants.isKeyDown(windowHandle, key.getValue());
             setKeyBindingPressed(keyBinding, pressed);
         });
     }
@@ -197,7 +197,7 @@ public class KeyBindingManager {
      * @param keyBinding the key binding to unregister
      * @return whether the keyBinding was removed. It is not removed if it was not contained
      */
-    public static boolean unregister(KeyBinding keyBinding) {
+    public static boolean unregister(KeyMapping keyBinding) {
         if (keyBinding == null) {
             return false;
         }
@@ -214,15 +214,15 @@ public class KeyBindingManager {
         TMSKeyBindingUtils.getIdToKeyBindingMap().values().forEach(KeyBindingManager::register);
     }
 
-    public static void setKeyBindingPressed(KeyBinding keyBinding, boolean pressed) {
-        if (pressed != keyBinding.isPressed()) {
+    public static void setKeyBindingPressed(KeyMapping keyBinding, boolean pressed) {
+        if (pressed != keyBinding.isDown()) {
             if (pressed) {
                 pressedKeyBindings.add(keyBinding);
             } else {
                 pressedKeyBindings.remove(keyBinding);
             }
         }
-        keyBinding.setPressed(pressed);
+        keyBinding.setDown(pressed);
     }
 
     public static void unpressAll() {
@@ -233,9 +233,9 @@ public class KeyBindingManager {
         });
     }
 
-    public static boolean onKeyPressedPriority(InputUtil.Key keyCode) {
+    public static boolean onKeyPressedPriority(InputConstants.Key keyCode) {
         // because streams are lazily evaluated, this code only calls onPressedPriority so often until one returns true
-        Optional<KeyBinding> keyBindings = getMatchingKeyBindings(keyCode, true).filter(keyBinding -> {
+        Optional<KeyMapping> keyBindings = getMatchingKeyBindings(keyCode, true).filter(keyBinding -> {
             if (keyBinding instanceof PriorityKeyBinding) {
                 return ((PriorityKeyBinding) keyBinding).onPressedPriority();
             }
@@ -244,14 +244,14 @@ public class KeyBindingManager {
         return keyBindings.isPresent();
     }
 
-    public static boolean onKeyReleasedPriority(InputUtil.Key keyCode) {
+    public static boolean onKeyReleasedPriority(InputConstants.Key keyCode) {
         // because streams are lazily evaluated, this code only calls onPressedPriority so often until one returns true
-        Optional<KeyBinding> keyBindings = getMatchingKeyBindings(keyCode, true).filter(keyBinding -> ((PriorityKeyBinding) keyBinding).onReleasedPriority()).findFirst();
+        Optional<KeyMapping> keyBindings = getMatchingKeyBindings(keyCode, true).filter(keyBinding -> ((PriorityKeyBinding) keyBinding).onReleasedPriority()).findFirst();
         return keyBindings.isPresent();
     }
 
-    public static void setKeyPressed(InputUtil.Key keyCode, boolean pressed) {
-        KeyModifier modifier = KeyModifier.Companion.fromKeyCode(keyCode.getCode());
+    public static void setKeyPressed(InputConstants.Key keyCode, boolean pressed) {
+        KeyModifier modifier = KeyModifier.Companion.fromKeyCode(keyCode.getValue());
         if (modifier != null) {
             TooManyShortcutsCore.INSTANCE.getCurrentModifiers().set(modifier, pressed);
         }
@@ -273,8 +273,8 @@ public class KeyBindingManager {
                 return false;
             }
             if (!TooManyShortcutsCore.INSTANCE.getCurrentModifiers().contains(boundModifiers)) {
-                TooManyShortcutsCore.INSTANCE.log(Level.DEBUG, "Undressing keybinding due to released modifier: " + pressedKeyBinding.getId());
-                pressedKeyBinding.setPressed(false);
+                TooManyShortcutsCore.INSTANCE.log(Level.DEBUG, "Undressing keybinding due to released modifier: " + pressedKeyBinding.getName());
+                pressedKeyBinding.setDown(false);
                 return true;
             }
             return false;

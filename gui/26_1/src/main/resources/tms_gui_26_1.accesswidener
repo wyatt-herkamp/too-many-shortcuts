@@ -1,0 +1,20 @@
+accessWidener v2 official
+accessible class net/minecraft/client/gui/components/AbstractSelectionList$Entry
+extendable method net/minecraft/client/gui/screens/options/controls/KeyBindsList$Entry refreshEntry ()V
+
+accessible	method	com/mojang/blaze3d/platform/InputConstants$Type	addKey	(Lcom/mojang/blaze3d/platform/InputConstants$Type;Ljava/lang/String;I)V
+accessible	field	com/mojang/blaze3d/platform/InputConstants$Key	NAME_MAP	Ljava/util/Map;
+
+accessible method net/minecraft/client/KeyMapping release ()V
+
+accessible method net/minecraft/client/gui/components/AbstractSelectionList scrollBarX ()I
+accessible field net/minecraft/client/gui/components/AbstractSelectionList children Ljava/util/List;
+accessible field net/minecraft/client/gui/screens/options/OptionsSubScreen list Lnet/minecraft/client/gui/components/OptionsList;
+# Open the Keybinding. File
+accessible field net/minecraft/client/KeyMapping key Lcom/mojang/blaze3d/platform/InputConstants$Key;
+accessible field net/minecraft/client/KeyMapping defaultKey Lcom/mojang/blaze3d/platform/InputConstants$Key;
+accessible field net/minecraft/client/KeyMapping ALL Ljava/util/Map;
+# Access parent screen
+accessible field net/minecraft/client/gui/screens/options/OptionsSubScreen lastScreen Lnet/minecraft/client/gui/screens/Screen;
+accessible field net/minecraft/world/entity/player/Inventory selected I
+accessible field net/minecraft/client/gui/components/AbstractSelectionList minecraft Lnet/minecraft/client/Minecraft;

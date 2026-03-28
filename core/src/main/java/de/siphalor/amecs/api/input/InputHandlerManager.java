@@ -18,7 +18,7 @@ package de.siphalor.amecs.api.input;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.LinkedHashSet;
@@ -26,7 +26,7 @@ import java.util.LinkedHashSet;
 /**
  * This class allows you to (un-)register {@link InputEventHandler}s
  *
- * @see InputEventHandler#handleInput(MinecraftClient)
+ * @see InputEventHandler#handleInput(Minecraft)
  * @see #handleInputEvents
  */
 @Environment(EnvType.CLIENT)
@@ -43,7 +43,7 @@ public class InputHandlerManager {
      * @param client
      */
     @ApiStatus.Internal
-    public static void handleInputEvents(MinecraftClient client) {
+    public static void handleInputEvents(Minecraft client) {
         for (InputEventHandler handler : INPUT_HANDLERS) {
             handler.handleInput(client);
         }

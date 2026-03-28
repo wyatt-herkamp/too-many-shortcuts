@@ -1,9 +1,9 @@
-accessWidener v2 named
-accessible	method	net/minecraft/client/util/InputUtil$Type	mapKey	(Lnet/minecraft/client/util/InputUtil$Type;Ljava/lang/String;I)V
-accessible	field	net/minecraft/client/util/InputUtil$Key	KEYS	Ljava/util/Map;
-accessible method net/minecraft/client/option/KeyBinding reset ()V
+accessWidener v2 official
+accessible	method	com/mojang/blaze3d/platform/InputConstants$Type	addKey	(Lcom/mojang/blaze3d/platform/InputConstants$Type;Ljava/lang/String;I)V
+accessible	field	com/mojang/blaze3d/platform/InputConstants$Key	NAME_MAP	Ljava/util/Map;
+accessible method net/minecraft/client/KeyMapping release ()V
 
 # Open the Keybinding. File
-accessible field net/minecraft/client/option/KeyBinding boundKey Lnet/minecraft/client/util/InputUtil$Key;
-accessible field net/minecraft/client/option/KeyBinding defaultKey Lnet/minecraft/client/util/InputUtil$Key;
-accessible field net/minecraft/client/option/KeyBinding KEYS_BY_ID Ljava/util/Map;
+accessible field net/minecraft/client/KeyMapping key Lcom/mojang/blaze3d/platform/InputConstants$Key;
+accessible field net/minecraft/client/KeyMapping defaultKey Lcom/mojang/blaze3d/platform/InputConstants$Key;
+accessible field net/minecraft/client/KeyMapping ALL Ljava/util/Map;

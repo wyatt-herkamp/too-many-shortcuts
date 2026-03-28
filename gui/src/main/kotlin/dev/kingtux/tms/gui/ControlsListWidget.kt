@@ -2,8 +2,8 @@ package dev.kingtux.tms.gui
 
 import dev.kingtux.tms.api.translatedTextEqualsIgnoreCase
 import dev.kingtux.tms.mlayout.IKeyBinding
-import net.minecraft.client.option.KeyBinding
-import net.minecraft.text.Text
+import net.minecraft.client.KeyMapping
+import net.minecraft.network.chat.Component
 import org.apache.commons.lang3.ArrayUtils
 import org.apache.commons.lang3.StringUtils
 import java.util.*
@@ -13,13 +13,13 @@ interface ControlsListWidget<Self : ControlsListWidget<Self, E, T>, E : KeyBindi
 
     val parent: T
     fun createEntry(
-        binding: KeyBinding,
+        binding: KeyMapping,
         alternative: Boolean
     ): E
 
     fun createAllEntries(searchValue: String?): Pair<List<E>, Int> {
         val entries = mutableListOf<E>()
-        val keyBindings = ArrayUtils.clone(parent.gameOptions().allKeys as Array<KeyBinding>)
+        val keyBindings = ArrayUtils.clone(parent.gameOptions().keyMappings as Array<KeyMapping>)
         var maxKeyNameLength = 0;
         Arrays.sort(keyBindings)
         for (keyBinding in keyBindings) {
@@ -34,7 +34,7 @@ interface ControlsListWidget<Self : ControlsListWidget<Self, E, T>, E : KeyBindi
             }
             if (!searchValue.isNullOrEmpty()) {
                 shouldAdd =
-                    if (StringUtils.containsIgnoreCase(Text.translatable(keyBinding.category.id.toTranslationKey("key.category")).string, searchValue)) {
+                    if (StringUtils.containsIgnoreCase(keyBinding.category.label().getString(), searchValue)) {
                         true
                     } else {
                         keyBinding.translatedTextEqualsIgnoreCase(searchValue)
@@ -45,7 +45,7 @@ interface ControlsListWidget<Self : ControlsListWidget<Self, E, T>, E : KeyBindi
             }
             val entry = createEntry(keyBinding, false)
 
-            val textWidth = entry.getWidth(parent.client().textRenderer)
+            val textWidth = entry.getWidth(parent.client().font)
             if (textWidth > maxKeyNameLength) {
                 maxKeyNameLength = textWidth
             }

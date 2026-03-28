@@ -18,20 +18,20 @@ package dev.kingtux.tms.api
 import dev.kingtux.tms.api.modifiers.KeyModifier
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.text.MutableText
-import net.minecraft.text.Text
-import net.minecraft.text.TranslatableTextContent
+import net.minecraft.network.chat.MutableComponent
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.contents.TranslatableContents
 
 
 @Environment(EnvType.CLIENT)
 class ModifierPrefixTextProvider(private val translationKey: String) {
     constructor(modifiers: KeyModifier) : this(modifiers.translationKey)
 
-    fun getBaseText(variation: Variation): MutableText {
-        return MutableText.of(variation.getTranslatableText(translationKey))
+    fun getBaseText(variation: Variation): MutableComponent {
+        return MutableComponent.create(variation.getTranslatableText(translationKey))
     }
 
-    fun getText(variation: Variation): MutableText {
+    fun getText(variation: Variation): MutableComponent {
         val text = getBaseText(variation)
         if (variation == Variation.COMPRESSED) {
             text.append(COMPRESSED_SUFFIX)
@@ -47,8 +47,8 @@ class ModifierPrefixTextProvider(private val translationKey: String) {
         SHORT(".short"),
         NORMAL("");
 
-        fun getTranslatableText(translationKey: String): TranslatableTextContent {
-            return TranslatableTextContent(translationKey + translateKeySuffix, null, arrayOfNulls(0))
+        fun getTranslatableText(translationKey: String): TranslatableContents {
+            return TranslatableContents(translationKey + translateKeySuffix, null, emptyArray())
         }
 
         fun getNextVariation(amount: Int): Variation? {
@@ -73,7 +73,7 @@ class ModifierPrefixTextProvider(private val translationKey: String) {
     }
 
     companion object {
-        private val SUFFIX: Text = Text.literal(" + ")
-        private val COMPRESSED_SUFFIX: Text = Text.literal("+")
+        private val SUFFIX: Component = Component.literal(" + ")
+        private val COMPRESSED_SUFFIX: Component = Component.literal("+")
     }
 }

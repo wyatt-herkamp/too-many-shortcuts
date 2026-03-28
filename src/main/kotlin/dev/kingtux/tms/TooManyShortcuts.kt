@@ -2,7 +2,7 @@ package dev.kingtux.tms
 
 
 import net.fabricmc.api.ClientModInitializer
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper
 
 
 import org.apache.logging.log4j.Level

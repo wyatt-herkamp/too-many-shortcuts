@@ -3,10 +3,10 @@ package dev.kingtux.tms.api
 import com.google.common.collect.Multimap
 import com.google.common.collect.Multimaps
 import dev.kingtux.tms.mlayout.IKeyBinding
-import net.minecraft.client.option.KeyBinding
+import net.minecraft.client.KeyMapping
 
 object AlternativeAPI {
-    val defaultAlternatives: Multimap<KeyBinding, KeyBinding> = Multimaps.newSetMultimap(HashMap()) { hashSetOf() };
+    val defaultAlternatives: Multimap<KeyMapping, KeyMapping> = Multimaps.newSetMultimap(HashMap()) { hashSetOf() };
 
 
     /**
@@ -15,7 +15,7 @@ object AlternativeAPI {
      * @param binding A keybinding
      * @return Whether the given keybinding is an alternative
      */
-    fun isAlternative(binding: KeyBinding): Boolean {
+    fun isAlternative(binding: KeyMapping): Boolean {
         return (binding as IKeyBinding).`tms$isAlternative`()
     }
 
@@ -25,7 +25,7 @@ object AlternativeAPI {
      * @param binding A keyinding
      * @return A list of alternatives or `null`
      */
-    fun getAlternatives(binding: KeyBinding): List<KeyBinding>? {
+    fun getAlternatives(binding: KeyMapping): List<KeyMapping>? {
         return (binding as IKeyBinding).`tms$getAlternatives`()
     }
 
@@ -35,7 +35,7 @@ object AlternativeAPI {
      * @param binding An alternative keybinding
      * @return The base keyinding or `null` if the given keybinding is no alternative
      */
-    fun getBase(binding: KeyBinding): KeyBinding? {
+    fun getBase(binding: KeyMapping): KeyMapping? {
         return (binding as IKeyBinding).`tms$getParent`()
     }
 }

@@ -3,7 +3,7 @@ package dev.kingtux.tms.api.modifiers
 import dev.kingtux.tms.api.ModifierPrefixTextProvider
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.util.InputUtil
+import com.mojang.blaze3d.platform.InputConstants
 import org.apache.commons.lang3.ArrayUtils
 /**
 * the order of the enums makes a difference when generating the shown name in the gui
@@ -12,7 +12,7 @@ import org.apache.commons.lang3.ArrayUtils
 */
 @Environment(EnvType.CLIENT)
 enum class KeyModifier(
-    val id: Int, val bit: Int, // these keyCodes are all from Type: InputUtil.Type.KEYSYM
+    val id: Int, val bit: Int, // these keyCodes are all from Type: InputConstants.Type.KEYSYM
     vararg val keyCodes: Int
 ) {
     /**
@@ -83,16 +83,16 @@ enum class KeyModifier(
         /**
          * Checks if the given key is a key modifier (ALT, SHIFT, CONTROL).
          *
-         * @param key The InputUtil.Key to check.
+         * @param key The InputConstants.Key to check.
          *
          * @return True if the key is a key modifier, false otherwise.
          */
-        fun isKeyModifier(key: InputUtil.Key?): Boolean {
-            if (key == null || key.category != InputUtil.Type.KEYSYM) {
+        fun isKeyModifier(key: InputConstants.Key?): Boolean {
+            if (key == null || key.type != InputConstants.Type.KEYSYM) {
                 return false
             }
             for (keyModifier in entries) {
-                if (keyModifier.matches(key.code)) {
+                if (keyModifier.matches(key.value)) {
                     return true
                 }
             }
@@ -100,18 +100,18 @@ enum class KeyModifier(
         }
 
         /**
-         * Returns the KeyModifier for a given InputUtil.Key.
+         * Returns the KeyModifier for a given InputConstants.Key.
          *
          * If the key is null or not a key symbol, returns null.
          *
-         * @param key The InputUtil.Key to check.
+         * @param key The InputConstants.Key to check.
          * @return The KeyModifier that matches the key, or null if none match.
          */
-        fun fromKey(key: InputUtil.Key?): KeyModifier? {
-            if (key == null || key.category != InputUtil.Type.KEYSYM) {
+        fun fromKey(key: InputConstants.Key?): KeyModifier? {
+            if (key == null || key.type != InputConstants.Type.KEYSYM) {
                 return null
             }
-            return fromKeyCode(key.code)
+            return fromKeyCode(key.value)
         }
 
         val modifierCount: Int

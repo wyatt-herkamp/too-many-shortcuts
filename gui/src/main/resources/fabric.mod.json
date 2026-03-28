@@ -17,7 +17,7 @@
   "<% if (project.hasProperty('access_widener')) { %>accessWidener": "${access_widener}.accesswidener",
   "<% } %>depends": {
     "fabricloader": "${fabric_loader_range}",
-    "fabric": "*",
+    "fabric-api": "*",
     "fabric-language-kotlin": ">=${fabric_kotlin_version}",
     "minecraft": "${minecraft_range}"
   },

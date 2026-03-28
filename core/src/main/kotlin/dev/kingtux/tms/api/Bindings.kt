@@ -1,19 +1,19 @@
 package dev.kingtux.tms.api
 
 import dev.kingtux.tms.api.modifiers.BindingModifiers
-import net.minecraft.client.util.InputUtil
+import com.mojang.blaze3d.platform.InputConstants
 
 data class DefaultBindings(
     val primary: Binding,
     val alternatives: List<Binding>
 ) {
     constructor(primary: Binding) : this(primary, emptyList())
-    constructor(key: InputUtil.Key) : this(Binding(key, BindingModifiers()))
+    constructor(key: InputConstants.Key) : this(Binding(key, BindingModifiers()))
 }
 
 data class Binding(
-    val key: InputUtil.Key,
+    val key: InputConstants.Key,
     val modifiers: BindingModifiers
 ) {
-    constructor(key: InputUtil.Key) : this(key, BindingModifiers())
+    constructor(key: InputConstants.Key) : this(key, BindingModifiers())
 }

@@ -1,7 +1,7 @@
 package dev.kingtux.tms.gui
 
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.option.GameOptions
+import net.minecraft.client.Minecraft
+import net.minecraft.client.Options
 
 interface KeyBindingScreenType<Self : KeyBindingScreenType<Self, T, W>, T : KeyBindingEntry<W>, W : ControlsListWidget<W, T, Self>> {
     var selectedKeyBinding: T?
@@ -13,9 +13,9 @@ interface KeyBindingScreenType<Self : KeyBindingScreenType<Self, T, W>, T : KeyB
         selectedKeyBinding = null
     }
 
-    fun gameOptions(): GameOptions
+    fun gameOptions(): Options
 
-    fun client(): MinecraftClient
+    fun client(): Minecraft
 
     fun isSelected(entry: T): Boolean{
         return selectedKeyBinding == entry

@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "2.3.0"
-    id("fabric-loom")
+    kotlin("jvm") version "2.3.20"
+    id("net.fabricmc.fabric-loom")
     `maven-publish`
     java
     kotlin("plugin.serialization")
@@ -21,59 +21,76 @@ repositories {}
 loom {
     accessWidenerPath.set(file("src/main/resources/too_many_shortcuts.accesswidener"))
     log4jConfigs.from("log4j-dev.xml")
+    mods {
+        register("too_many_shortcuts") {
+            sourceSet(sourceSets.main.get())
+        }
+        register("tms_core") {
+            sourceSet(project(":core").sourceSets.main.get())
+        }
+        register("tms_gui") {
+            sourceSet(project(":gui").sourceSets.main.get())
+        }
+        register("tms-gui-26_1") {
+            sourceSet(project(":gui:26_1").sourceSets.main.get())
+        }
+        register("tms_shortcuts") {
+            sourceSet(project(":shortcuts").sourceSets.main.get())
+        }
+        register("tms_shortcuts-26_1_and_after") {
+            sourceSet(project(":shortcuts:shortcuts-26_1_and_after").sourceSets.main.get())
+        }
+    }
 }
 dependencies {
     // Testing
     testImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
     testImplementation(kotlin("test"))
 
-    //modImplementation(project(":gui", configuration = "namedElements"))
     include(project(":core"))
 
     include(project(":gui"))
-    include(project(":gui:1_21_11"))
+    include(project(":gui:26_1"))
     include(project(":shortcuts"))
-    include(project(":shortcuts:shortcuts-1_21_and_after"))
+    include(project(":shortcuts:shortcuts-26_1_and_after"))
 
     // So, you cant do a clean build with these options. However, you can only run the mod in development mode with these options.
-    runtimeOnly(project(":gui", configuration = "namedElements"))
-    runtimeOnly(project(":gui:1_21_11", configuration = "namedElements"))
-    runtimeOnly(project(":shortcuts", configuration = "namedElements"))
-    runtimeOnly(project(":shortcuts:shortcuts-1_21_and_after", configuration = "namedElements"))
+    runtimeOnly(project(":gui"))
+    runtimeOnly(project(":gui:26_1"))
+    runtimeOnly(project(":shortcuts"))
+    runtimeOnly(project(":shortcuts:shortcuts-26_1_and_after"))
 
-    implementation(project(":shortcuts", configuration = "namedElements"))
-    implementation(project(":gui", configuration = "namedElements"))
+    implementation(project(":shortcuts"))
+    implementation(project(":gui"))
 
 }
 
 allprojects {
-    val yarnMappingVersion = "${property("minecraft_version")}+build.${property("yarn_mappings")}"
-    apply(plugin = "fabric-loom")
+    apply(plugin = "net.fabricmc.fabric-loom")
     apply(plugin = "java")
     apply(plugin = "kotlin")
     version = property("mod_version") as String
     group = property("maven_group") as String
     dependencies {
         minecraft("com.mojang:minecraft:${property("minecraft_version")}")
-        mappings("net.fabricmc:yarn:$yarnMappingVersion:v2")
-        modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
+        implementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
-        modImplementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
-        modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
+        implementation("net.fabricmc:fabric-language-kotlin:${property("fabric_kotlin_version")}")
+        implementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
         testImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
         testImplementation(kotlin("test"))
         if (project.path == ":core") {
             return@dependencies
         }
-        annotationProcessor(implementation(project(":core", configuration = "namedElements")) as Dependency)
+        annotationProcessor(implementation(project(":core")) as Dependency)
     }
     kotlin {
-        jvmToolchain(21)
+        jvmToolchain(25)
     }
 
     java {
-        targetCompatibility = JavaVersion.VERSION_21
-        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_25
+        sourceCompatibility = JavaVersion.VERSION_25
         withSourcesJar()
         withJavadocJar()
     }
@@ -112,11 +129,11 @@ tasks {
                         }
                     }
                 }
-                artifact(remapJar) {
-                    builtBy(remapJar)
+                artifact(jar) {
+                    builtBy(jar)
                 }
                 artifact(kotlinSourcesJar) {
-                    builtBy(remapSourcesJar)
+                    builtBy(kotlinSourcesJar)
                 }
             }
         }
@@ -143,7 +160,7 @@ modrinth {
     projectId.set("too-many-shortcuts")
     versionNumber.set(version.toString())
     versionType.set(property("release_type").toString())
-    uploadFile.set(tasks.remapJar)
+    uploadFile.set(tasks.jar)
     val supportedMinecraftVersions = property("supported_minecraft_versions").toString().split(",");
     gameVersions.addAll(supportedMinecraftVersions)
     loaders.add("fabric")

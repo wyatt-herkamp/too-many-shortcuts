@@ -17,13 +17,13 @@
 package de.siphalor.amecs.api;
 
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.kingtux.tms.TooManyShortcutsCore;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.mlayout.IKeyBinding;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.KeyMapping;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -240,9 +240,9 @@ public class KeyModifiers {
      *
      * @param keyBinding the key binding from where to extract the key code
      */
-    public void cleanup(KeyBinding keyBinding) {
+    public void cleanup(KeyMapping keyBinding) {
         IKeyBinding iKeyBinding = (IKeyBinding) keyBinding;
-        InputUtil.Key key = iKeyBinding.tms$getBoundKey();
+        InputConstants.Key key = iKeyBinding.tms$getBoundKey();
         set(KeyModifier.fromKey(key), false);
     }
 
