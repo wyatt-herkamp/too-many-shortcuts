@@ -1,0 +1,15 @@
+{
+  "key.category.minecraft.tms_shortcuts.key.categories.skin_layers": "Camadas de skins do too_many_shortcuts",
+  "key.tms_shortcuts.toggle_auto_jump": "Ativar/Desativar pulo automático",
+  "key.tms_shortcuts.toggle_cape": "Ativar/Desativar capa",
+  "key.tms_shortcuts.toggle_hat": "Ativar/Desativar chapéu",
+  "key.tms_shortcuts.toggle_jacket": "Ativar/Desativar casaco",
+  "key.tms_shortcuts.toggle_left_pants_leg": "Ativar/Desativar calça da perna esquerda",
+  "key.tms_shortcuts.toggle_left_sleeve": "Ativar/Desativar manga esquerda",
+  "key.tms_shortcuts.toggle_right_pants_leg": "Ativar/Desativar calça da perna direita",
+  "key.tms_shortcuts.toggle_right_sleeve": "Ativar/Desativar manga direita",
+  "key.tms_shortcuts.alternative_escape": "Escape (Tecla alternativa)",
+  "tms_shortcuts.toggled.on": "Você ativou: %s",
+  "tms_shortcuts.toggled.off": "Você desativou %s",
+  "tms_shortcuts.toggled.auto_jump": "Pulo automático"
+}

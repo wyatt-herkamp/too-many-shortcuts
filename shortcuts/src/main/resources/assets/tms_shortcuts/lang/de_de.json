@@ -1,0 +1,14 @@
+{
+  "key.tms_shortcuts.toggle_auto_jump": "Automatisches Springen umschalten",
+  "key.tms_shortcuts.toggle_cape": "Cape umschalten",
+  "key.tms_shortcuts.toggle_hat": "Hut umschalten",
+  "key.tms_shortcuts.toggle_jacket": "Jacke Umschalten",
+  "key.tms_shortcuts.toggle_left_pants_leg": "Linkes Hosenbein umschalten",
+  "key.tms_shortcuts.toggle_left_sleeve": "Linken Ärmel umschalten",
+  "key.tms_shortcuts.toggle_right_pants_leg": "Rechtes Hosenbein umschalten",
+  "key.tms_shortcuts.toggle_right_sleeve": "Rechten Ärmel umschalten",
+  "key.tms_shortcuts.alternative_escape": "Escape (alternative Taste)",
+  "tms_shortcuts.toggled.on": "Aktiviert",
+  "tms_shortcuts.toggled.off": "Deaktiviert",
+  "tms_shortcuts.toggled.auto_jump": "Automatisches Springen"
+}

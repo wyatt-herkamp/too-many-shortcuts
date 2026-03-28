@@ -1,0 +1,5 @@
+{
+  "tms_gui.search.placeholder": "Etsi... (= haku avaimen mukaan, =%% ristiriitoja varten)",
+  "tms_gui.search.no_results": "Tuloksia ei löytynyt",
+  "tms_gui.options.controls.reset.tooltip": "Pidä Shift-näppäintä painettuna nollataksesi myös kaikki vaihtoehdot"
+}

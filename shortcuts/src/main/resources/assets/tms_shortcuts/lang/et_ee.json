@@ -1,0 +1,14 @@
+{
+  "key.category.minecraft.tms_shortcuts.key.categories.skin_layers": "too_many_shortcutsi välimusekihid",
+  "key.tms_shortcuts.toggle_auto_jump": "Lülita automaatset hüpet",
+  "key.tms_shortcuts.toggle_cape": "Lülita keepi",
+  "key.tms_shortcuts.toggle_hat": "Lülita mütsi",
+  "key.tms_shortcuts.toggle_jacket": "Lülita jopet",
+  "key.tms_shortcuts.toggle_left_pants_leg": "Lülita vasakut püksisäärt",
+  "key.tms_shortcuts.toggle_left_sleeve": "Lülita vasakut varrukat",
+  "key.tms_shortcuts.toggle_right_pants_leg": "Lülita paremat püksisäärt",
+  "key.tms_shortcuts.toggle_right_sleeve": "Lülita paremat varrukat",
+  "tms_shortcuts.toggled.on": "%s lubatud",
+  "tms_shortcuts.toggled.off": "%s keelatud",
+  "tms_shortcuts.toggled.auto_jump": "Automaatne hüpe"
+}

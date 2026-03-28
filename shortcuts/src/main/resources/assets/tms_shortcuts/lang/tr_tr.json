@@ -1,0 +1,14 @@
+{
+  "key.category.minecraft.tms_shortcuts.key.categories.skin_layers": "too_many_shortcuts Cilt Katmanları",
+  "key.tms_shortcuts.toggle_auto_jump": "Otomatik Zıplamayı Aç/Kapa",
+  "key.tms_shortcuts.toggle_cape": "Pelerini Aç/Kapa",
+  "key.tms_shortcuts.toggle_hat": "Şapkayı Aç/Kapa",
+  "key.tms_shortcuts.toggle_jacket": "Ceketi Aç/Kapa",
+  "key.tms_shortcuts.toggle_left_pants_leg": "Sol Ayak Katmanını Aç/Kapa",
+  "key.tms_shortcuts.toggle_left_sleeve": "Sol Kol Katmanını Aç/Kapa",
+  "key.tms_shortcuts.toggle_right_pants_leg": "Sağ Ayak Katmanını Aç/Kapa",
+  "key.tms_shortcuts.toggle_right_sleeve": "Sağ Kol Katmanını Aç/Kapa",
+  "tms_shortcuts.toggled.on": "%s Etkin",
+  "tms_shortcuts.toggled.off": "%s Devre Dışı",
+  "tms_shortcuts.toggled.auto_jump": "Otomatik Zıplama"
+}

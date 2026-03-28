@@ -10,5 +10,8 @@
   "key.tms_shortcuts.toggle_left_sleeve": "Ligar/Desligar Manga Esquerda",
   "key.tms_shortcuts.toggle_right_pants_leg": "Ligar/Desligar Calças da Perna Direita",
   "key.tms_shortcuts.toggle_right_sleeve": "Ligar/Desligar Manga Direita",
-  "key.tms_shortcuts.alternative_escape": "Escape (Tecla Alternativa)"
+  "key.tms_shortcuts.alternative_escape": "Escape (Tecla Alternativa)",
+  "tms_shortcuts.toggled.on": "Habilitado %s",
+  "tms_shortcuts.toggled.off": "Desabilitado %s",
+  "tms_shortcuts.toggled.auto_jump": "Pulo Automático"
 }

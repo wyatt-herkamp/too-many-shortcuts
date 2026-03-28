@@ -1,0 +1,5 @@
+{
+  "tms_gui.search.placeholder": "Cerca... (= per parola chiave, =%% per conflitti)",
+  "tms_gui.search.no_results": "Nessun risultato trovato",
+  "tms_gui.options.controls.reset.tooltip": "Tieni premuto maiusc per resettare tutte le alternative"
+}

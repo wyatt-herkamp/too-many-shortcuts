@@ -1,0 +1,5 @@
+{
+  "tms_gui.search.placeholder": "Buscar... (= para buscar por palavra, =%% por conflitos)",
+  "tms_gui.search.no_results": "Nenhum resultado encontrado",
+  "tms_gui.options.controls.reset.tooltip": "Segure Shift para redefinir todas as alternativas também"
+}

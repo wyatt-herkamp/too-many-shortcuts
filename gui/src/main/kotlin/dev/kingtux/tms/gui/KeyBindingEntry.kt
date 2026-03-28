@@ -109,7 +109,7 @@ interface KeyBindingEntry<T : ControlsListWidget<*, *, *>> {
                     this.duplicate = true
                     val text = if (keyBinding is IKeyBinding && keyBinding.`tms$isAlternative`()) {
                         Component.translatable(
-                            "too_many_shortcuts.options.controls.alternatives",
+                            "tms_gui.options.controls.alternatives",
                             I18n.get(keyBinding.`tms$getParent`()!!.name),
                             keyBinding.`tms$getIndexInParent`()
                         )

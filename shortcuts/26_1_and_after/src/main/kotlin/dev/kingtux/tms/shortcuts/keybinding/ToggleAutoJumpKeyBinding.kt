@@ -22,7 +22,7 @@ class ToggleAutoJumpKeyBinding(
         sendToggleMessage(
             minecraftClient.player!!,
             autoJump,
-            Component.translatable("too_many_shortcuts.toggled.auto_jump")
+            Component.translatable("tms_shortcuts.toggled.auto_jump")
         )
     }
 }
