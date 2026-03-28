@@ -21,6 +21,26 @@ repositories {}
 loom {
     accessWidenerPath.set(file("src/main/resources/too_many_shortcuts.accesswidener"))
     log4jConfigs.from("log4j-dev.xml")
+    mods {
+        register("too_many_shortcuts") {
+            sourceSet(sourceSets.main.get())
+        }
+        register("tms_core") {
+            sourceSet(project(":core").sourceSets.main.get())
+        }
+        register("tms_gui") {
+            sourceSet(project(":gui").sourceSets.main.get())
+        }
+        register("tms-gui-26_1") {
+            sourceSet(project(":gui:26_1").sourceSets.main.get())
+        }
+        register("tms_shortcuts") {
+            sourceSet(project(":shortcuts").sourceSets.main.get())
+        }
+        register("tms_shortcuts-26_1_and_after") {
+            sourceSet(project(":shortcuts:shortcuts-26_1_and_after").sourceSets.main.get())
+        }
+    }
 }
 dependencies {
     // Testing
