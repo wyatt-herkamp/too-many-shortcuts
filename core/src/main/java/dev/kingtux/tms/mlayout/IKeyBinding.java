@@ -1,12 +1,12 @@
 package dev.kingtux.tms.mlayout;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.kingtux.tms.api.config.ConfigBindings;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.client.KeyMapping;
 
 public interface IKeyBinding {
 
@@ -51,17 +51,17 @@ public interface IKeyBinding {
     }
 
     @Nullable
-    KeyBinding tms$getParent();
+    KeyMapping tms$getParent();
 
-    void tms$setParent(KeyBinding binding);
+    void tms$setParent(KeyMapping binding);
 
-    List<KeyBinding> tms$getAlternatives();
+    List<KeyMapping> tms$getAlternatives();
 
     int tms$getAlternativesCount();
 
-    void tms$removeAlternative(KeyBinding binding);
+    void tms$removeAlternative(KeyMapping binding);
 
-    void tms$addAlternative(KeyBinding binding);
+    void tms$addAlternative(KeyMapping binding);
 
     int tms$getIndexInParent();
 
@@ -69,11 +69,11 @@ public interface IKeyBinding {
     String tms$debugString();
 
 
-    InputUtil.Key tms$getBoundKey();
+    InputConstants.Key tms$getBoundKey();
 
-    void tms$setBoundKey(InputUtil.Key key);
+    void tms$setBoundKey(InputConstants.Key key);
 
-    InputUtil.Key tms$getDefaultKey();
+    InputConstants.Key tms$getDefaultKey();
 
     void tms$reset();
 

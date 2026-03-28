@@ -17,7 +17,7 @@ package dev.kingtux.tms.api.input
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 
 /**
  * This interface is used for input event handling and is (un-)registered in [InputHandlerManager]
@@ -34,5 +34,5 @@ interface InputEventHandler {
      * @see InputHandlerManager.handleInputEvents
      * @param client
      */
-    fun handleInput(client: MinecraftClient?)
+    fun handleInput(client: Minecraft?)
 }

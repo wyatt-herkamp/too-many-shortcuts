@@ -8,8 +8,8 @@ import dev.kingtux.tms.api.config.ConfigKeyBinding
 import dev.kingtux.tms.api.config.TmsConfig
 import dev.kingtux.tms.mlayout.IKeyBinding
 import kotlinx.serialization.json.Json
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.option.KeyBinding
+import net.minecraft.client.Minecraft
+import net.minecraft.client.KeyMapping
 import java.nio.file.Path
 
 class ConfigManager(private val configPath: Path) {
@@ -26,7 +26,7 @@ class ConfigManager(private val configPath: Path) {
         }
 
         private fun configPath(): Path {
-            return MinecraftClient.getInstance().runDirectory.toPath().resolve("${MOD_ID}.json")
+            return Minecraft.getInstance().gameDirectory.toPath().resolve("${MOD_ID}.json")
         }
 
         private fun load() {
@@ -57,7 +57,7 @@ class ConfigManager(private val configPath: Path) {
         configPath.toFile().writeText(json)
     }
 
-    fun saveBindings(allKeys: Array<KeyBinding>) {
+    fun saveBindings(allKeys: Array<KeyMapping>) {
         for (keyBinding in allKeys) {
             if (keyBinding is IKeyBinding) {
                 if (keyBinding.`tms$isAlternative`()) {
@@ -78,18 +78,18 @@ class ConfigManager(private val configPath: Path) {
                     trueAlternatives
                 )
                 // LOGGER.debug("Keybinding {}", keyBinding)
-                config.keybindings[keyBinding.id] = bindings
+                config.keybindings[keyBinding.name] = bindings
             }
         }
         saveConfig()
     }
 
-    fun loadBindings(allKeys: Array<KeyBinding>): Array<KeyBinding> {
+    fun loadBindings(allKeys: Array<KeyMapping>): Array<KeyMapping> {
         val newKeys = allKeys.toMutableList()
         for ((key, configBindings) in config.keybindings.entries) {
             //LOGGER.info("Loading Keybinding: {}",key)
             val keyBinding = newKeys.find {
-                it.id == key
+                it.name == key
             } as IKeyBinding?
 
             if (keyBinding == null) {
@@ -101,7 +101,7 @@ class ConfigManager(private val configPath: Path) {
             if (configBindings.hasAlternatives()) {
                 // LOGGER.info("Loading Alternatives for: {}",key)
                 for (alternative in configBindings.alternatives) {
-                    newKeys.add(AlternativeKeyBinding(keyBinding as KeyBinding, alternative))
+                    newKeys.add(AlternativeKeyBinding(keyBinding as KeyMapping, alternative))
                 }
             }
         }

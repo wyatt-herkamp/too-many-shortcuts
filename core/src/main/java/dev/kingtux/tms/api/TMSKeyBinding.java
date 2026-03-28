@@ -1,13 +1,13 @@
 package dev.kingtux.tms.api;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.mlayout.IKeyBinding;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.Identifier;
 
 
-public class TMSKeyBinding extends KeyBinding {
+public class TMSKeyBinding extends KeyMapping {
     private final BindingModifiers defaultModifiers;
 
     /**
@@ -22,7 +22,7 @@ public class TMSKeyBinding extends KeyBinding {
      * @param category         the id of the category which should include this keybinding
      * @param defaultModifiers the default modifiers
      */
-    public TMSKeyBinding(Identifier id, InputUtil.Type type, int code, Category category, BindingModifiers defaultModifiers) {
+    public TMSKeyBinding(Identifier id, InputConstants.Type type, int code, Category category, BindingModifiers defaultModifiers) {
         this("key." + id.getNamespace() + "." + id.getPath(), type, code, category, defaultModifiers);
     }
 
@@ -37,7 +37,7 @@ public class TMSKeyBinding extends KeyBinding {
      * @param category         the id of the category which should include this keybinding
      * @param defaultModifiers the default modifiers
      */
-    public TMSKeyBinding(String id, InputUtil.Type type, int code, Category category, BindingModifiers defaultModifiers) {
+    public TMSKeyBinding(String id, InputConstants.Type type, int code, Category category, BindingModifiers defaultModifiers) {
         super(id, type, code, category);
         if (defaultModifiers == null) {
             defaultModifiers = new BindingModifiers(); // the modifiable version of: KeyModifiers.NO_MODIFIERS
@@ -46,21 +46,21 @@ public class TMSKeyBinding extends KeyBinding {
         ((IKeyBinding) this).tms$getKeyModifiers().set(this.defaultModifiers);
     }
 
-    public TMSKeyBinding(KeyBinding parent, String translationKey, int code, Category category, BindingModifiers defaultModifiers) {
+    public TMSKeyBinding(KeyMapping parent, String translationKey, int code, Category category, BindingModifiers defaultModifiers) {
         super(translationKey, code, category);
         this.defaultModifiers = defaultModifiers;
         ((IKeyBinding) this).tms$setParent(parent);
     }
 
-    public TMSKeyBinding(KeyBinding parent, String translationKey, InputUtil.Type type, int code, Category category, BindingModifiers defaultModifiers) {
+    public TMSKeyBinding(KeyMapping parent, String translationKey, InputConstants.Type type, int code, Category category, BindingModifiers defaultModifiers) {
         super(translationKey, type, code, category);
         this.defaultModifiers = defaultModifiers;
         ((IKeyBinding) this).tms$setParent(parent);
     }
 
     @Override
-    public void setPressed(boolean pressed) {
-        super.setPressed(pressed);
+    public void setDown(boolean pressed) {
+        super.setDown(pressed);
         if (pressed) {
             onPressed();
         } else {

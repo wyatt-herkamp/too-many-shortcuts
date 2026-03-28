@@ -21,7 +21,7 @@ import dev.kingtux.tms.api.modifiers.BindingModifiers;
 import dev.kingtux.tms.mlayout.IKeyBinding;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.KeyMapping;
 
 /**
  * Utility methods and constants for Amecs and vanilla key bindings
@@ -41,7 +41,7 @@ public class KeyBindingUtils {
      * @param keyBinding the key binding
      * @return the key modifiers
      */
-    public static KeyModifiers getBoundModifiers(KeyBinding keyBinding) {
+    public static KeyModifiers getBoundModifiers(KeyMapping keyBinding) {
         return ((IKeyBinding) keyBinding).tms$getKeyModifiers().toAmecs();
     }
 
@@ -52,7 +52,7 @@ public class KeyBindingUtils {
      * @param keyBinding the key binding
      * @return a reference to the default modifiers
      */
-    public static KeyModifiers getDefaultModifiers(KeyBinding keyBinding) {
+    public static KeyModifiers getDefaultModifiers(KeyMapping keyBinding) {
         BindingModifiers bindingModifiers = TMSKeyBindingUtils.INSTANCE.getDefaultModifiers(keyBinding);
         if (bindingModifiers == null) {
             return KeyModifiers.NO_MODIFIERS;
@@ -60,7 +60,7 @@ public class KeyBindingUtils {
         return bindingModifiers.toAmecs();
     }
 
-    public static void resetBoundModifiers(KeyBinding keyBinding) {
+    public static void resetBoundModifiers(KeyMapping keyBinding) {
         TMSKeyBindingUtils.INSTANCE.resetBoundModifiers(keyBinding);
     }
 }

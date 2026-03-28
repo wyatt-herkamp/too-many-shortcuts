@@ -2,16 +2,16 @@ package dev.kingtux.tms.api
 
 import dev.kingtux.tms.TooManyShortcutsCore
 import dev.kingtux.tms.mlayout.IKeyBinding
-import net.minecraft.client.option.GameOptions
-import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.resource.language.I18n
-import net.minecraft.client.util.InputUtil
-import net.minecraft.text.Text
+import net.minecraft.client.Options
+import net.minecraft.client.KeyMapping
+import net.minecraft.client.resources.language.I18n
+import com.mojang.blaze3d.platform.InputConstants
+import net.minecraft.network.chat.Component
 import org.apache.commons.lang3.StringUtils
 import org.apache.logging.log4j.Level
 
-fun isDefaultBinding(keybinding: KeyBinding): Boolean {
-    // If for some weird reason KeyBinding is not the Mixin type just use the default
+fun isDefaultBinding(keybinding: KeyMapping): Boolean {
+    // If for some weird reason KeyMapping is not the Mixin type just use the default
     if (keybinding !is IKeyBinding) {
         keybinding.logInvalid()
         return false
@@ -32,15 +32,15 @@ fun isDefaultBinding(keybinding: KeyBinding): Boolean {
     return keybinding.defaultKey == boundKey
 }
 
-fun KeyBinding.isAlternative(): Boolean {
+fun KeyMapping.isAlternative(): Boolean {
     if (this is IKeyBinding) {
         return this.`tms$hasAlternatives`()
     }
     return false
 }
 
-fun KeyBinding.hasConflicts(gameOptions: GameOptions): Boolean {
-    for (keyBinding in gameOptions.allKeys) {
+fun KeyMapping.hasConflicts(gameOptions: Options): Boolean {
+    for (keyBinding in gameOptions.keyMappings) {
         if (keyBinding === this) {
             continue
         }
@@ -51,61 +51,61 @@ fun KeyBinding.hasConflicts(gameOptions: GameOptions): Boolean {
     return false
 }
 
-fun KeyBinding.entryKeyMatches(keyFilter: String?): Boolean {
+fun KeyMapping.entryKeyMatches(keyFilter: String?): Boolean {
     if (keyFilter == null) {
         return true
     }
     return when (keyFilter) {
         "" -> this.isUnbound
         else -> StringUtils.containsIgnoreCase(
-            this.boundKeyLocalizedText.string,
+            this.translatedKeyMessage.getString(),
             keyFilter
         )
     }
 }
 
-fun KeyBinding.translatedTextEqualsIgnoreCase(searchText: String): Boolean {
+fun KeyMapping.translatedTextEqualsIgnoreCase(searchText: String): Boolean {
 
     return StringUtils.containsIgnoreCase(
-        I18n.translate(
-            this.id
+        I18n.get(
+            this.name
         ), searchText
     )
 }
 
-fun Text.equalsIgnoreCase(searchText: String): Boolean {
-    return StringUtils.containsIgnoreCase(this.string, searchText)
+fun Component.equalsIgnoreCase(searchText: String): Boolean {
+    return StringUtils.containsIgnoreCase(this.getString(), searchText)
 }
 
-fun KeyBinding.resetBinding(resetChildren: Boolean) {
+fun KeyMapping.resetBinding(resetChildren: Boolean) {
     if (this !is IKeyBinding) {
         // THIS Should never happen. But if it does. Let's not crash the game.
-        this.setBoundKey(this.defaultKey)
+        this.setKey(this.defaultKey)
         this.logInvalid()
         return
     }
     this.`tms$resetBinding`(resetChildren)
 }
 
-fun KeyBinding.clearBinding(resetChildren: Boolean) {
+fun KeyMapping.clearBinding(resetChildren: Boolean) {
     if (this !is IKeyBinding) {
         // THIS Should never happen. But if it does. Let's not crash the game.
-        this.setBoundKey(InputUtil.UNKNOWN_KEY)
+        this.setKey(InputConstants.UNKNOWN)
         this.logInvalid()
         return
     }
     this.`tms$clearBinding`(resetChildren)
 }
 
-fun KeyBinding.logInvalid() {
+fun KeyMapping.logInvalid() {
     TooManyShortcutsCore.LOGGER.log(
         Level.ERROR,
-        "KeyBinding $this is not an IKeyBinding. This should never happen. Please report this to the mod author. Class Name: ${this.javaClass.name}"
+        "KeyMapping $this is not an IKeyBinding. This should never happen. Please report this to the mod author. Class Name: ${this.javaClass.name}"
     )
 }
 
-fun GameOptions.hasModifiedKeyBindings(): Boolean {
-    for (keyBinding in this.allKeys) {
+fun Options.hasModifiedKeyBindings(): Boolean {
+    for (keyBinding in this.keyMappings) {
         if (!keyBinding.isDefault) {
             return true
         }

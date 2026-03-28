@@ -17,7 +17,7 @@ package dev.kingtux.tms.api.input
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.MinecraftClient
+import net.minecraft.client.Minecraft
 import org.jetbrains.annotations.ApiStatus
 
 /**
@@ -32,7 +32,7 @@ object InputHandlerManager {
     private val INPUT_HANDLERS = LinkedHashSet<InputEventHandler>()
 
     /**
-     * This method is called from MinecraftClient.handleInputEvents()
+     * This method is called from Minecraft.handleInputEvents()
      * <br></br>
      * It calls all registered InputEventHandler
      *
@@ -40,7 +40,7 @@ object InputHandlerManager {
      */
     @JvmStatic
     @ApiStatus.Internal
-    fun handleInputEvents(client: MinecraftClient?) {
+    fun handleInputEvents(client: Minecraft?) {
         for (handler in INPUT_HANDLERS) {
             handler.handleInput(client)
         }

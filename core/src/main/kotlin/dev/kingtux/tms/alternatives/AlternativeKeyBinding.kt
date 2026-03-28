@@ -4,19 +4,19 @@ package dev.kingtux.tms.alternatives
 
 import dev.kingtux.tms.api.config.ConfigBindings
 import dev.kingtux.tms.mlayout.IKeyBinding
-import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.util.InputUtil
+import net.minecraft.client.KeyMapping
+import com.mojang.blaze3d.platform.InputConstants
 import org.jetbrains.annotations.ApiStatus
 
 @ApiStatus.Internal
 class AlternativeKeyBinding(
-    parent: KeyBinding,
+    parent: KeyMapping,
     translationKey: String,
-    code: InputUtil.Key,
-) : KeyBinding(
+    code: InputConstants.Key,
+) : KeyMapping(
     translationKey,
-    code.category,
-    code.code,
+    code.type,
+    code.value,
     parent.category
 ) {
     init {
@@ -27,19 +27,19 @@ class AlternativeKeyBinding(
         (this as IKeyBinding).`tms$setParent`(parent)
     }
 
-    constructor(parent: KeyBinding) : this(parent, alternativeKeyBindingTranslationKey(parent));
+    constructor(parent: KeyMapping) : this(parent, alternativeKeyBindingTranslationKey(parent));
 
     constructor(
-        parent: KeyBinding,
+        parent: KeyMapping,
         translationKey: String,
-    ) : this(parent, translationKey, InputUtil.UNKNOWN_KEY);
+    ) : this(parent, translationKey, InputConstants.UNKNOWN);
 
-    constructor(parent: KeyBinding, config: ConfigBindings) : this(
+    constructor(parent: KeyMapping, config: ConfigBindings) : this(
         parent,
         alternativeKeyBindingTranslationKey(parent),
-        InputUtil.UNKNOWN_KEY
+        InputConstants.UNKNOWN
     ) {
-        (this as IKeyBinding).`tms$setBoundKey`(InputUtil.fromTranslationKey(config.key))
+        (this as IKeyBinding).`tms$setBoundKey`(InputConstants.getKey(config.key))
         (this as IKeyBinding).`tms$setKeyModifiers`(config.modifiers)
     }
 
@@ -47,13 +47,13 @@ class AlternativeKeyBinding(
         return (this.defaultKey == (this as IKeyBinding).`tms$getBoundKey`())
     }
 
-    override fun setPressed(pressed: Boolean) {
+    override fun setDown(pressed: Boolean) {
         //println("Setting pressed state for AlternativeKeyBinding: $pressed")
-        super.setPressed(pressed)
-        (this as IKeyBinding).`tms$getParent`()?.isPressed = pressed
+        super.setDown(pressed)
+        (this as IKeyBinding).`tms$getParent`()?.isDown = pressed
     }
 
     override fun toString(): String {
-        return "AlternativeKeyBinding{parent=${this.id}, key=${(this as IKeyBinding).`tms$getBoundKey`()}, modifiers=${(this as IKeyBinding).`tms$getKeyModifiers`()}}"
+        return "AlternativeKeyBinding{parent=${this.name}, key=${(this as IKeyBinding).`tms$getBoundKey`()}, modifiers=${(this as IKeyBinding).`tms$getKeyModifiers`()}}"
     }
 }

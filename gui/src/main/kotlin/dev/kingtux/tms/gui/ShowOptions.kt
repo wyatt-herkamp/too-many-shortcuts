@@ -2,10 +2,10 @@ package dev.kingtux.tms.gui
 
 import dev.kingtux.tms.api.hasConflicts
 import dev.kingtux.tms.mlayout.IKeyBinding
-import net.minecraft.client.option.GameOptions
-import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.resource.language.I18n
-import net.minecraft.text.Text
+import net.minecraft.client.Options
+import net.minecraft.client.KeyMapping
+import net.minecraft.client.resources.language.I18n
+import net.minecraft.network.chat.Component
 
 val SCREEN_MODE = "${TmsGUI.MOD_ID}.options.controls.screen-mode"
 
@@ -17,8 +17,8 @@ enum class ShowOptions(val translationKeyExtension: String)  {
      fun getId(): Int {
         return ordinal
     }
-    fun text(): Text{
-       return Text.translatable(translationKeyExtension)
+    fun text(): Component {
+       return Component.translatable(translationKeyExtension)
     }
     fun getTranslationKey(): String {
         return fullTranslationKey();
@@ -28,7 +28,7 @@ enum class ShowOptions(val translationKeyExtension: String)  {
         return "${TmsGUI.MOD_ID}.options.controls.show.${translationKeyExtension}";
     }
 
-    fun doesKeyBindingMatchRequirements(keyBinding: KeyBinding, options: GameOptions): Boolean {
+    fun doesKeyBindingMatchRequirements(keyBinding: KeyMapping, options: Options): Boolean {
         if (keyBinding !is IKeyBinding) {
             return true;
         }
@@ -65,7 +65,7 @@ enum class ScreenModes(val title: String, val buttonTitle: String) {
         }
     }
 
-    fun buttonText(): Text {
-        return Text.translatable(SCREEN_MODE, I18n.translate(buttonTitle));
+    fun buttonText(): Component {
+        return Component.translatable(SCREEN_MODE, I18n.get(buttonTitle));
     }
 }

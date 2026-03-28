@@ -6,7 +6,7 @@ import dev.kingtux.tms.api.modifiers.BindingModifiers
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.option.KeyBinding
+import net.minecraft.client.KeyMapping
 
 @Environment(EnvType.CLIENT)
 object TMSKeyBindingUtils {
@@ -17,8 +17,8 @@ object TMSKeyBindingUtils {
      * @return the map (use with care)
      */
     @JvmStatic
-    fun getIdToKeyBindingMap(): MutableMap<String?, KeyBinding?> {
-        return KeyBinding.KEYS_BY_ID
+    fun getIdToKeyBindingMap(): Map<String, KeyMapping> {
+        return KeyMapping.ALL
     }
 
     /**
@@ -33,8 +33,8 @@ object TMSKeyBindingUtils {
      * @return whether the keyBinding was removed. It is not removed if it was not contained
      */
     @JvmStatic
-    fun unregisterKeyBinding(keyBinding: KeyBinding): Boolean {
-        return unregisterKeyBinding(keyBinding.id)
+    fun unregisterKeyBinding(keyBinding: KeyMapping): Boolean {
+        return unregisterKeyBinding(keyBinding.name)
     }
 
     /**
@@ -47,7 +47,8 @@ object TMSKeyBindingUtils {
      * @see .unregisterKeyBinding
      */
     fun unregisterKeyBinding(id: String?): Boolean {
-        val keyBinding = getIdToKeyBindingMap().remove(id)
+        val map = getIdToKeyBindingMap() as MutableMap
+        val keyBinding = map.remove(id)
         return KeyBindingManager.unregister(keyBinding)
     }
 
@@ -62,7 +63,7 @@ object TMSKeyBindingUtils {
      * @param keyBinding the keybinding
      * @return whether the keybinding was added. It is not added if it is already contained
      */
-    fun registerHiddenKeyBinding(keyBinding: KeyBinding?): Boolean {
+    fun registerHiddenKeyBinding(keyBinding: KeyMapping?): Boolean {
         return KeyBindingManager.register(keyBinding)
     }
 
@@ -73,7 +74,7 @@ object TMSKeyBindingUtils {
      * @return the key modifiers
      */
     @JvmStatic
-    fun getBoundModifiers(keyBinding: KeyBinding): BindingModifiers? {
+    fun getBoundModifiers(keyBinding: KeyMapping): BindingModifiers? {
         return (keyBinding as IKeyBinding).`tms$getKeyModifiers`()
     }
 
@@ -84,7 +85,7 @@ object TMSKeyBindingUtils {
      * @return the key modifiers
      */
     @JvmStatic
-    fun getBoundModifiersOrEmpty(keyBinding: KeyBinding): BindingModifiers {
+    fun getBoundModifiersOrEmpty(keyBinding: KeyMapping): BindingModifiers {
         return getBoundModifiers(keyBinding) ?: BindingModifiers()
     }
 
@@ -95,14 +96,14 @@ object TMSKeyBindingUtils {
      * @param keyBinding the key binding
      * @return a reference to the default modifiers
      */
-    fun getDefaultModifiers(keyBinding: KeyBinding?): BindingModifiers? {
+    fun getDefaultModifiers(keyBinding: KeyMapping?): BindingModifiers? {
         if (keyBinding is TMSKeyBinding) {
             return keyBinding.defaultModifiers
         }
         return BindingModifiers()
     }
 
-    fun resetBoundModifiers(keyBinding: KeyBinding) {
+    fun resetBoundModifiers(keyBinding: KeyMapping) {
         (keyBinding as IKeyBinding).`tms$getKeyModifiers`().unset()
         if (keyBinding is TMSKeyBinding) {
             (keyBinding as TMSKeyBinding).resetKeyBinding()
@@ -110,14 +111,14 @@ object TMSKeyBindingUtils {
     }
 
     @JvmStatic
-    fun debugKeyBinding(message: String, keyBinding: KeyBinding) {
+    fun debugKeyBinding(message: String, keyBinding: KeyMapping) {
         if (keyBinding is IKeyBinding) {
             TooManyShortcutsCore.LOGGER.debug("Debugging Key Binding {}, {}", message, keyBinding.`tms$debugString`())
         } else {
             TooManyShortcutsCore.LOGGER.debug(
                 "Debugging Key Binding (Not TMS Keybinding) {}, {}",
                 message,
-                keyBinding.id
+                keyBinding.name
             )
         }
     }

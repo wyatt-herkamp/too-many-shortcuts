@@ -3,23 +3,22 @@ package dev.kingtux.tms.gui
 import dev.kingtux.tms.api.modifiers.KeyModifier
 import dev.kingtux.tms.api.modifiers.KeyModifier.Companion.fromKey
 import dev.kingtux.tms.mlayout.IKeyBinding
-import net.minecraft.client.font.TextRenderer
-import net.minecraft.client.input.KeyInput
-import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.resource.language.I18n
-import net.minecraft.client.util.InputUtil
-import net.minecraft.text.Text
-import net.minecraft.util.Util
+import net.minecraft.client.gui.Font
+import net.minecraft.client.input.KeyEvent
+import net.minecraft.client.KeyMapping
+import net.minecraft.client.resources.language.I18n
+import com.mojang.blaze3d.platform.InputConstants
+import net.minecraft.network.chat.Component
 import org.apache.logging.log4j.Level
 
 interface KeyBindingEntry<T : ControlsListWidget<*, *, *>> {
     var setModifierLast: Boolean
-    val binding: KeyBinding
+    val binding: KeyMapping
     val parent: T
     var duplicate: Boolean
 
     fun getWidth(
-        renderer: TextRenderer
+        renderer: Font
     ): Int
 
     fun updateMouseClick(button: Int) {
@@ -27,24 +26,24 @@ interface KeyBindingEntry<T : ControlsListWidget<*, *, *>> {
             return
         }
         val iBinding = binding as IKeyBinding
-        val keyCode = InputUtil.Type.MOUSE.createFromCode(button)
+        val keyCode = InputConstants.Type.MOUSE.getOrCreate(button)
         val key = (binding as IKeyBinding).`tms$getBoundKey`()
         val keyAsModifier = fromKey(key)
-        if (key != InputUtil.UNKNOWN_KEY && keyAsModifier != null) {
+        if (key != InputConstants.UNKNOWN && keyAsModifier != null) {
             val keyModifiers = iBinding.`tms$getKeyModifiers`()
             keyModifiers.set(keyAsModifier, true)
         }
-        binding.setBoundKey(keyCode)
+        binding.setKey(keyCode)
 
         TmsGUI.log(Level.INFO, "Mouse Click $button with ${iBinding.`tms$getKeyModifiers`()}")
         parent.parent.selectedKeyBinding = null
 
     }
 
-    fun updateKeyboardInput(input: KeyInput) {
-        val newInput = InputUtil.fromKeyCode(input);
+    fun updateKeyboardInput(input: KeyEvent) {
+        val newInput = InputConstants.getKey(input);
         if (binding.isUnbound) {
-            binding.setBoundKey(newInput)
+            binding.setKey(newInput)
         }
         if (binding !is IKeyBinding) {
             TmsGUI.log(Level.ERROR, "Binding is not a IKeyBinding")
@@ -74,7 +73,7 @@ interface KeyBindingEntry<T : ControlsListWidget<*, *, *>> {
                 keyModifiers.set(keyModifier, true)
             }
         }
-        binding.setBoundKey(newInput)
+        binding.setKey(newInput)
         TmsGUI.log(
             Level.INFO,
             "KeyBoard Click ${iBinding.`tms$getBoundKey`()} with ${iBinding.`tms$getKeyModifiers`()}"
@@ -85,7 +84,7 @@ interface KeyBindingEntry<T : ControlsListWidget<*, *, *>> {
         } else {
             // The task will wait a 500ms before clearing the selected key binding. This is allow the user to treat the selected key as modifier
             setModifierLast = true
-            Util.getMainWorkerExecutor().execute {
+            net.minecraft.util.Util.backgroundExecutor().execute {
                 Thread.sleep(500)
                 if (setModifierLast) {
                     parent.parent.selectedKeyBinding = null
@@ -98,24 +97,24 @@ interface KeyBindingEntry<T : ControlsListWidget<*, *, *>> {
 
     fun update()
 
-    fun updateDuplicates(): Text? {
+    fun updateDuplicates(): Component? {
         this.duplicate = false
-        val mutableText = Text.empty()
+        val mutableText = Component.empty()
         if (!binding.isUnbound) {
-            for (keyBinding in parent.parent.gameOptions().allKeys) {
+            for (keyBinding in parent.parent.gameOptions().keyMappings) {
                 if (keyBinding !== this.binding && binding.equals(keyBinding)) {
                     if (this.duplicate) {
                         mutableText.append(", ")
                     }
                     this.duplicate = true
                     val text = if (keyBinding is IKeyBinding && keyBinding.`tms$isAlternative`()) {
-                        Text.translatable(
+                        Component.translatable(
                             "too_many_shortcuts.options.controls.alternatives",
-                            I18n.translate(keyBinding.`tms$getParent`()!!.id),
+                            I18n.get(keyBinding.`tms$getParent`()!!.name),
                             keyBinding.`tms$getIndexInParent`()
                         )
                     } else {
-                        Text.translatable(keyBinding.id)
+                        Component.translatable(keyBinding.name)
                     }
                     mutableText.append(text)
                 }

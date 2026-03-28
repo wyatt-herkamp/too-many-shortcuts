@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.3.0"
+    kotlin("jvm") version "2.3.20"
     id("java")
     kotlin("plugin.serialization")
     `maven-publish`
@@ -32,11 +32,11 @@ tasks {
                         }
                     }
                 }
-                artifact(remapJar) {
-                    builtBy(remapJar)
+                artifact(jar) {
+                    builtBy(jar)
                 }
                 artifact(kotlinSourcesJar) {
-                    builtBy(remapSourcesJar)
+                    builtBy(kotlinSourcesJar)
                 }
             }
         }
