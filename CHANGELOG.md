@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.0.18] (04-11-2026)
+- Fix scroll resetting when adding an alternative.
+
 ## [0.0.17] (04-05-2026)
 - Fix Lang Files [#36](https://github.com/wyatt-herkamp/too-many-shortcuts/issues/36)
 - 26.1.1 Update

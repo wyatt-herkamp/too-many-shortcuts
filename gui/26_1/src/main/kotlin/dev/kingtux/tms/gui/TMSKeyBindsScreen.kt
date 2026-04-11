@@ -45,7 +45,7 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: Options) :
     private lateinit var searchField: EditBox;
     override var lastKeyCodeUpdateTime: Long = 0L
     override fun client(): Minecraft {
-        return this.minecraft!!
+        return this.minecraft
     }
 
     override fun setSelectedKeyBindingToNull() {
@@ -73,7 +73,7 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: Options) :
 
     override fun addContents() {
         this.controlsList =
-            layout.addToContents(TMSControlsListWidget(this, this.minecraft!!))
+            layout.addToContents(TMSControlsListWidget(this, this.minecraft))
     }
 
     override fun gameOptions(): Options {
@@ -208,6 +208,7 @@ class TMSControlsListWidget(override val parent: TMSKeyBindsScreen, client: Mine
     }
 
     fun rebuildEntries(searchValue: String?) {
+        val currentScroll = this.scrollAmount();
         clearEntries()
         when (parent.screenMode) {
             ScreenModes.KeyBindings -> {
@@ -219,6 +220,7 @@ class TMSControlsListWidget(override val parent: TMSKeyBindsScreen, client: Mine
             }
         }
         update()
+        this.setScrollAmount(currentScroll)
     }
 
     private fun rebuildFreeListEntries(searchValue: String?) {
@@ -262,7 +264,7 @@ class TMSControlsListWidget(override val parent: TMSKeyBindsScreen, client: Mine
     fun update() {
         KeyMapping.resetMapping()
         children().forEach() {
-            it?.update()
+            it.update()
         }
     }
 
