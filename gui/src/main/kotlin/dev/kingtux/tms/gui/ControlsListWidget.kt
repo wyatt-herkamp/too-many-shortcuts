@@ -1,5 +1,6 @@
 package dev.kingtux.tms.gui
 
+import dev.kingtux.tms.api.entryKeyMatches
 import dev.kingtux.tms.api.translatedTextEqualsIgnoreCase
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.minecraft.client.KeyMapping
@@ -20,31 +21,35 @@ interface ControlsListWidget<Self : ControlsListWidget<Self, E, T>, E : KeyBindi
     fun createAllEntries(searchValue: String?): Pair<List<E>, Int> {
         val entries = mutableListOf<E>()
         val keyBindings = ArrayUtils.clone(parent.gameOptions().keyMappings as Array<KeyMapping>)
-        var maxKeyNameLength = 0;
+        var maxKeyNameLength = 0
         Arrays.sort(keyBindings)
+
+        val isKeySearch = searchValue != null && searchValue.startsWith("=")
+        val keySearchTerm = if (isKeySearch) searchValue!!.substring(1) else null
+
         for (keyBinding in keyBindings) {
             val bindingAsIKeyBinding = keyBinding as IKeyBinding
             if (bindingAsIKeyBinding.`tms$isAlternative`()) {
-                continue;
+                continue
             }
 
-            var shouldAdd = parent.show.doesKeyBindingMatchRequirements(keyBinding, parent.client().options);
-            if (!shouldAdd) {
-                continue;
+            if (!parent.show.doesKeyBindingMatchRequirements(keyBinding, parent.client().options)) {
+                continue
             }
-            if (!searchValue.isNullOrEmpty()) {
-                shouldAdd =
-                    if (StringUtils.containsIgnoreCase(keyBinding.category.label().getString(), searchValue)) {
-                        true
-                    } else {
-                        keyBinding.translatedTextEqualsIgnoreCase(searchValue)
-                    }
+
+            if (isKeySearch) {
+                val parentMatches = keyBinding.entryKeyMatches(keySearchTerm)
+                val anyAltMatches = if (bindingAsIKeyBinding.`tms$hasAlternatives`()) {
+                    bindingAsIKeyBinding.`tms$getAlternatives`().any { it.entryKeyMatches(keySearchTerm) }
+                } else false
+                if (!parentMatches && !anyAltMatches) continue
+            } else if (!searchValue.isNullOrEmpty()) {
+                val matchesCategory = StringUtils.containsIgnoreCase(keyBinding.category.label().getString(), searchValue)
+                val matchesName = keyBinding.translatedTextEqualsIgnoreCase(searchValue)
+                if (!matchesCategory && !matchesName) continue
             }
-            if (!shouldAdd) {
-                continue;
-            }
+
             val entry = createEntry(keyBinding, false)
-
             val textWidth = entry.getWidth(parent.client().font)
             if (textWidth > maxKeyNameLength) {
                 maxKeyNameLength = textWidth
@@ -56,7 +61,6 @@ interface ControlsListWidget<Self : ControlsListWidget<Self, E, T>, E : KeyBindi
                     entries.add(createEntry(alternative, true))
                 }
             }
-
         }
         return Pair(entries, maxKeyNameLength)
     }

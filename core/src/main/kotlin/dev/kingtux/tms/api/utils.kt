@@ -1,6 +1,7 @@
 package dev.kingtux.tms.api
 
 import dev.kingtux.tms.TooManyShortcutsCore
+import dev.kingtux.tms.api.modifiers.KeyModifier
 import dev.kingtux.tms.mlayout.IKeyBinding
 import net.minecraft.client.Options
 import net.minecraft.client.KeyMapping
@@ -51,6 +52,22 @@ fun KeyMapping.hasConflicts(gameOptions: Options): Boolean {
     return false
 }
 
+fun KeyMapping.fullKeyDisplayString(): String {
+    if (this !is IKeyBinding) {
+        return this.translatedKeyMessage.getString()
+    }
+    val modifiers = this.`tms$getKeyModifiers`()
+    val sb = StringBuilder()
+    for (modifier in KeyModifier.entries) {
+        if (modifiers.isSet(modifier)) {
+            sb.append(I18n.get(modifier.translationKey + ".short"))
+            sb.append(" + ")
+        }
+    }
+    sb.append(this.translatedKeyMessage.getString())
+    return sb.toString()
+}
+
 fun KeyMapping.entryKeyMatches(keyFilter: String?): Boolean {
     if (keyFilter == null) {
         return true
@@ -58,7 +75,7 @@ fun KeyMapping.entryKeyMatches(keyFilter: String?): Boolean {
     return when (keyFilter) {
         "" -> this.isUnbound
         else -> StringUtils.containsIgnoreCase(
-            this.translatedKeyMessage.getString(),
+            this.fullKeyDisplayString(),
             keyFilter
         )
     }

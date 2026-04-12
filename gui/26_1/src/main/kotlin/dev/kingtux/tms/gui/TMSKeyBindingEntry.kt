@@ -20,7 +20,6 @@ import net.minecraft.network.chat.Component
 import net.minecraft.util.CommonColors
 import net.minecraft.ChatFormatting
 import org.apache.commons.lang3.StringUtils
-import org.apache.commons.lang3.Strings
 import org.apache.logging.log4j.Level
 import org.jetbrains.annotations.ApiStatus
 import java.util.Optional
@@ -155,18 +154,6 @@ abstract class TMSKeyBindingEntry(
         return renderer.width(bindingName)
     }
 
-    fun entryKeyMatches(keyFilter: String?): Boolean {
-        if (keyFilter == null) {
-            return true
-        }
-        return when (keyFilter) {
-            "" -> this.binding.isUnbound
-            else -> Strings.CI.contains(
-                binding.translatedKeyMessage.string,
-                keyFilter
-            )
-        }
-    }
 }
 
 @ApiStatus.Internal
