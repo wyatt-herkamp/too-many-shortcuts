@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.19] (Unreleased)
 - Add search by key
+- Dependency Updates
 
 ## [0.0.18] (04-11-2026)
 - Fix scroll resetting when adding an alternative.
