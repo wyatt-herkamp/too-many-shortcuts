@@ -86,7 +86,7 @@ class TMSKeyBindsScreen(parent: Screen, gameOptions: Options) :
     override fun addTitle() {
         searchField = EditBox(
             this.font,
-            Minecraft.getInstance().screen!!.width / 2 - 125,
+            this.width / 2 - 125,
             0,
             250,
             20,

@@ -5,9 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.19] (Unreleased)
+## [0.0.19] (06-16-2026)
 - Add search by key
 - Dependency Updates
+- 26.2 Update
 
 ## [0.0.18] (04-11-2026)
 - Fix scroll resetting when adding an alternative.

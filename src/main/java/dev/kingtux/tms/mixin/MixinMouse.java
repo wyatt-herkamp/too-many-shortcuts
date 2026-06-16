@@ -1,7 +1,9 @@
 package dev.kingtux.tms.mixin;
 
+import dev.kingtux.tms.compat.ClientCompat;
 import dev.kingtux.tms.shortcuts.TmsShortcuts;
 import net.fabricmc.api.EnvType;
+import net.minecraft.client.gui.screens.Screen;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
@@ -30,8 +32,9 @@ public class MixinMouse {
                 0, 0, button
         )) && (action == GLFW.GLFW_PRESS || action == GLFW.GLFW_REPEAT)) {
             Minecraft client = Minecraft.getInstance();
-            if (client.screen != null) {
-                client.screen.keyPressed(
+            Screen currentScreen = ClientCompat.getScreen(client);
+            if (currentScreen != null) {
+                currentScreen.keyPressed(
                     new KeyEvent(                        GLFW.GLFW_KEY_ESCAPE,
                             button.button(),
                             0)

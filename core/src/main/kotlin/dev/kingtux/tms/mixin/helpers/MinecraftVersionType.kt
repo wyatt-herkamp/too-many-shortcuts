@@ -46,8 +46,11 @@ data class MinecraftVersionSupportRange(
 
     fun supports(minecraftVersion: MinecraftVersionType): Boolean {
         return when (marker) {
+            // GreaterThan is inclusive (">=") while LessThan is exclusive ("<").
+            // This lets a pair like ">26.2" / "<26.2" partition cleanly at 26.2:
+            // ">26.2" matches 26.2 and up, "<26.2" matches everything below 26.2.
             SupportMarker.GreaterThan -> minecraftVersion >= version
-            SupportMarker.LessThan -> minecraftVersion <= version
+            SupportMarker.LessThan -> minecraftVersion < version
             SupportMarker.NotEqual -> minecraftVersion != version
             SupportMarker.Equal -> minecraftVersion == version
         }

@@ -1,9 +1,8 @@
 package dev.kingtux.tms.mixin;
 
-import com.mojang.blaze3d.platform.InputConstants;
-import de.siphalor.amecs.KeyBindingManager;
 import dev.kingtux.tms.TooManyShortcutsCore;
 import dev.kingtux.tms.api.modifiers.KeyModifier;
+import dev.kingtux.tms.compat.ClientCompat;
 import dev.kingtux.tms.gui.KeyBindingScreenType;
 import dev.kingtux.tms.shortcuts.TmsShortcuts;
 import net.fabricmc.api.EnvType;
@@ -37,23 +36,15 @@ public class MixinKeyboard {
         return key;
     }*/
 
-    @Inject(method = "keyPress", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;screen:Lnet/minecraft/client/gui/screens/Screen;", ordinal = 0, shift = At.Shift.BEFORE), cancellable = true)
-    private void onKeyPriority(long window, int action, KeyEvent input, CallbackInfo ci) {
-        if (action == 1) {
-            if (KeyBindingManager.onKeyPressedPriority(InputConstants.getKey(input))) {
-                ci.cancel();
-            }
-        } else if (action == 0) {
-            if (KeyBindingManager.onKeyReleasedPriority(InputConstants.getKey(input))) {
-                ci.cancel();
-            }
-        }
-    }
+    // NOTE: The priority key handler that used to live here is now split into
+    // MixinKeyboardScreenLegacy / MixinKeyboardScreenModern, because its injection
+    // point anchors on the current-screen lookup, which moved from a Minecraft.screen
+    // field access (26.1) to a Minecraft.gui.screen() call (26.2).
 
     @Inject(method = "keyPress", at = @At(value = "FIELD", target = "Lnet/minecraft/client/KeyboardHandler;debugCrashKeyTime:J", ordinal = 0))
     private void onKey(long window, int action, KeyEvent input, CallbackInfo ci) {
         // Key released
-        if (action == 0 && Minecraft.getInstance().screen instanceof KeyBindingScreenType screen) {
+        if (action == 0 && ClientCompat.getScreen(Minecraft.getInstance()) instanceof KeyBindingScreenType screen) {
             screen.setSelectedKeyBindingToNull();
             screen.setLastKeyCodeUpdateTime(Util.getMillis());
         }

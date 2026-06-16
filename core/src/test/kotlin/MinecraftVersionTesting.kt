@@ -90,4 +90,28 @@ class MinecraftVersionTesting {
             supportsAllOneTwentyOne.supports(MinecraftVersionType(1, 21, 3))
         )
     }
+
+    @Test
+    fun testDualVersionGate() {
+        // The mixin gate partitions cleanly at 26.2: "<26.2" for the legacy (26.1.x)
+        // variant and ">26.2" for the modern (26.2+) variant. They must not overlap.
+        val legacy = MinecraftVersionSupportRange.parse("<26.2")
+        val modern = MinecraftVersionSupportRange.parse(">26.2")
+
+        // Versions are parsed the same way the plugin parses FabricLoader's reported
+        // Minecraft version at runtime, so the patch component matches (parse fills an
+        // absent patch with 0).
+
+        // 26.1 and its patch releases -> legacy only
+        for (v in listOf("26.1", "26.1.2").map { MinecraftVersionType.parse(it) }) {
+            assertEquals(true, legacy.supports(v))
+            assertEquals(false, modern.supports(v))
+        }
+
+        // 26.2 (and later) -> modern only, never legacy
+        for (v in listOf("26.2", "26.3").map { MinecraftVersionType.parse(it) }) {
+            assertEquals(false, legacy.supports(v))
+            assertEquals(true, modern.supports(v))
+        }
+    }
 }

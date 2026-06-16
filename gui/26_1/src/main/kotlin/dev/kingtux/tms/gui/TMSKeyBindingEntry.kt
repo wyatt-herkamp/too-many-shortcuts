@@ -15,6 +15,7 @@ import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.KeyMapping
 import net.minecraft.client.resources.language.I18n
+import net.minecraft.locale.Language
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.network.chat.Component
 import net.minecraft.util.CommonColors
@@ -72,7 +73,7 @@ abstract class TMSKeyBindingEntry(
 
     init {
         val descriptionKey = binding.name + DESCRIPTION_SUFFIX
-        if (I18n.exists(descriptionKey)) {
+        if (Language.getInstance().has(descriptionKey)) {
             val lines = StringUtils.split(I18n.get(descriptionKey), '\n')
             for (line in lines) {
                 description.add(Component.literal(line))
