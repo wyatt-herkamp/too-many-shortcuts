@@ -8,7 +8,7 @@
   "key.tms_shortcuts.toggle_right_pants_leg": "Rechtes Hosenbein umschalten",
   "key.tms_shortcuts.toggle_right_sleeve": "Rechten Ärmel umschalten",
   "key.tms_shortcuts.alternative_escape": "Escape (alternative Taste)",
-  "tms_shortcuts.toggled.on": "Aktiviert",
-  "tms_shortcuts.toggled.off": "Deaktiviert",
+  "tms_shortcuts.toggled.on": "Aktiviert: %s",
+  "tms_shortcuts.toggled.off": "Deaktiviert: %s",
   "tms_shortcuts.toggled.auto_jump": "Automatisches Springen"
 }

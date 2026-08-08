@@ -1,4 +1,5 @@
 {
   "tms_gui.search.placeholder": "搜索… （= 为按关键词搜索，=%% 为冲突搜索）",
-  "tms_gui.search.no_results": "未发现结果"
+  "tms_gui.search.no_results": "未发现结果",
+  "tms_gui.options.controls.reset.tooltip": "按住Shift键也可以重置所有的替代按键"
 }

@@ -10,5 +10,8 @@
   "key.tms_shortcuts.toggle_left_sleeve": "Toggle Left Sleeve",
   "key.tms_shortcuts.toggle_right_pants_leg": "Toggle Right Pants Leg",
   "key.tms_shortcuts.toggle_right_sleeve": "Toggle Right Sleeve",
-  "key.tms_shortcuts.alternative_escape": "Escape (Alternative Key)"
+  "key.tms_shortcuts.alternative_escape": "Escape (Alternative Key)",
+  "tms_shortcuts.toggled.on": "Enabled %s",
+  "tms_shortcuts.toggled.off": "Disabled %s",
+  "tms_shortcuts.toggled.auto_jump": "Auto Jump"
 }
